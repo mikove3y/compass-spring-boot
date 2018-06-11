@@ -35,9 +35,10 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
-		<dependency>
+		<!-- 暂时去掉sharding-jdbc模块 -->
+		<!-- <dependency>
 			<groupId>io.shardingsphere</groupId>
 			<artifactId>sharding-jdbc-orchestration-spring-boot-starter</artifactId>
-		</dependency>
+		</dependency> -->
 	</dependencies>
 </project>
