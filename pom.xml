@@ -41,14 +41,13 @@
 		<url>https://gitee.com/milkove/compass/issues</url>
 	</issueManagement>
 
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.5.13.RELEASE</version>
-		<relativePath />
-	</parent>
-
 	<properties>
+		<!-- spring boot -->
+		<spring-boot.version>1.5.13.RELEASE</spring-boot.version>
+		<!-- spring cloud -->
+		<spring-cloud.version>Edgware.SR3</spring-cloud.version>
+		<!-- apache camel -->
+		<apache-camel.version>2.21.1</apache-camel.version>
 		<!-- 编码格式 -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<!-- 编译版本 -->
@@ -88,6 +87,30 @@
 
 	<dependencyManagement>
 		<dependencies>
+			<!-- Spring Boot BOM -->
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-dependencies</artifactId>
+				<version>${spring-boot.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<!-- Spring Cloud BOM -->
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<!-- Camel BOM -->
+			<dependency>
+				<groupId>org.apache.camel</groupId>
+				<artifactId>camel-spring-boot-dependencies</artifactId>
+				<version>${apache-camel.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
 			<!-- jpa -->
 			<dependency>
 				<groupId>javax.persistence</groupId>
