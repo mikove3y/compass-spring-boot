@@ -14,7 +14,7 @@
 
 	<developers>
 		<developer>
-			<id>milkove3y</id>
+			<id>milkove</id>
 			<name>wanmk</name>
 			<email>524623302@qq.com</email>
 			<timezone>+8</timezone>
@@ -31,14 +31,14 @@
 	</licenses>
 
 	<scm>
-		<connection>scm:git:https://gitee.com/milkove/compass.git</connection>
-		<developerConnection>scm:git:git@gitee.com:milkove/compass.git</developerConnection>
+		<connection>scm:git:https://gitee.com/milkove/compass-spring-boot.git</connection>
+		<developerConnection>scm:git:git@gitee.com:milkove/compass-spring-boot.git</developerConnection>
 		<url>https://gitee.com/milkove/compass</url>
 	</scm>
 
 	<issueManagement>
 		<system>gitee</system>
-		<url>https://gitee.com/milkove/compass/issues</url>
+		<url>https://gitee.com/milkove/compass-spring-boot/issues</url>
 	</issueManagement>
 
 	<properties>
