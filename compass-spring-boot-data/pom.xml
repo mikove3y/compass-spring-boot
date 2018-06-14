@@ -5,7 +5,7 @@
   <parent>
     <groupId>cn.com.compass</groupId>
     <artifactId>compass-spring-boot</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>${compss-boot.version}</version>
   </parent>
   <artifactId>compass-spring-boot-data</artifactId>
   <name>compass-spring-boot-data</name>
@@ -35,10 +35,9 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
-		<!-- 暂时去掉sharding-jdbc模块 -->
-		<!-- <dependency>
+		<dependency>
 			<groupId>io.shardingsphere</groupId>
 			<artifactId>sharding-jdbc-orchestration-spring-boot-starter</artifactId>
-		</dependency> -->
+		</dependency>
 	</dependencies>
 </project>

@@ -5,7 +5,7 @@
   <parent>
     <groupId>cn.com.compass</groupId>
     <artifactId>compass-spring-boot</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>${compss-boot.version}</version>
   </parent>
   <artifactId>compass-spring-boot-autoconfig</artifactId>
   <name>compass-spring-boot-autoconfig</name>

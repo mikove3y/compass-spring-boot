@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>cn.com.compass</groupId>
 	<artifactId>compass-spring-boot</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>${compss-boot.version}</version>
 	<packaging>pom</packaging>
 	<name>compass-spring-boot</name>
 	<description>compass 基础boot架构</description>
@@ -42,6 +42,8 @@
 	</issueManagement>
 
 	<properties>
+		<!-- compass version -->
+		<compss-boot.version>1.0.1-SNAPSHOT</compss-boot.version>
 		<!-- spring boot -->
 		<spring-boot.version>1.5.13.RELEASE</spring-boot.version>
 		<!-- spring cloud -->
@@ -179,37 +181,64 @@
 			<dependency>
 				<groupId>cn.com.compass</groupId>
 				<artifactId>compass-spring-boot-base</artifactId>
-				<version>0.0.1-SNAPSHOT</version>
+				<version>${compss-boot.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>cn.com.compass</groupId>
 				<artifactId>compass-spring-boot-util</artifactId>
-				<version>0.0.1-SNAPSHOT</version>
+				<version>${compss-boot.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>cn.com.compass</groupId>
 				<artifactId>compass-spring-boot-autoconfig</artifactId>
-				<version>0.0.1-SNAPSHOT</version>
+				<version>${compss-boot.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>cn.com.compass</groupId>
 				<artifactId>compass-spring-boot-data</artifactId>
-				<version>0.0.1-SNAPSHOT</version>
+				<version>${compss-boot.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>cn.com.compass</groupId>
 				<artifactId>compass-spring-boot-web</artifactId>
-				<version>0.0.1-SNAPSHOT</version>
+				<version>${compss-boot.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>cn.com.compass</groupId>
 				<artifactId>compass-spring-boot-starter</artifactId>
-				<version>0.0.1-SNAPSHOT</version>
+				<version>${compss-boot.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
+
+
 	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-maven-plugin</artifactId>
+					<configuration>
+						<layout>ZIP</layout>
+						<!-- 有多个入口类的时候需要指定mainclass,也可以定义一个start-class属性 -->
+						<!-- <mainClass></mainClass> -->
+					</configuration>
+					<executions>
+						<execution>
+							<goals>
+								<goal>repackage</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.camel</groupId>
+					<artifactId>camel-maven-plugin</artifactId>
+					<version>${apache-camel.version}</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 		<plugins>
 			<!-- 指定项目编译版本 -->
 			<plugin>
