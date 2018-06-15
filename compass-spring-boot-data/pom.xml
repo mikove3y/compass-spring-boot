@@ -24,10 +24,6 @@
 			<artifactId>compass-spring-boot-base</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>cn.com.compass</groupId>
-			<artifactId>compass-spring-boot-util</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>druid-spring-boot-starter</artifactId>
 		</dependency>

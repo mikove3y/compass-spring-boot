@@ -16,6 +16,10 @@
 			<artifactId>javax.persistence-api</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>javax.validation</groupId>
+    		<artifactId>validation-api</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>cn.com.compass</groupId>
 		<artifactId>compass-spring-boot-util</artifactId>
 		</dependency>

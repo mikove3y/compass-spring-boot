@@ -24,10 +24,6 @@
 			<artifactId>compass-spring-boot-base</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>cn.com.compass</groupId>
-			<artifactId>compass-spring-boot-util</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjweaver</artifactId>
 		</dependency>
