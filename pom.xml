@@ -69,8 +69,6 @@
 		<!-- util工具集 -->
 		<common-lang3.version>3.7</common-lang3.version>
 		<common-beanutils.version>1.9.3</common-beanutils.version>
-		<!-- 提升javax-validation在spring boot 中维护的版本 -->
-		<javax-validation.version>2.0.1.Final</javax-validation.version>
 		<!-- jwt签名 -->
 		<jjwt.version>0.9.0</jjwt.version>
 		<!-- shiro -->
@@ -148,12 +146,6 @@
 				<groupId>commons-beanutils</groupId>
 				<artifactId>commons-beanutils</artifactId>
 				<version>${common-beanutils.version}</version>
-			</dependency>
-			<!-- validation -->
-			<dependency>
-    			<groupId>javax.validation</groupId>
-    			<artifactId>validation-api</artifactId>
-    			<version>${javax-validation.version}</version>
 			</dependency>
 			<!-- jwt -->
 			<dependency>
