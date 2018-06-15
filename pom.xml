@@ -43,7 +43,7 @@
 
 	<properties>
 		<!-- compass version -->
-		<compss-boot.version>1.0.1-SNAPSHOT</compss-boot.version>
+		<compss-boot.version>1.0.2-SNAPSHOT</compss-boot.version>
 		<!-- spring boot -->
 		<spring-boot.version>1.5.13.RELEASE</spring-boot.version>
 		<!-- spring cloud -->
@@ -262,7 +262,29 @@
 			</plugin>
 		</plugins>
 	</build>
-
+	
+	<!-- maven 仓库 -->
+	<repositories>
+		<!-- spring maven 仓库 -->
+		<repository>
+			<id>spring-milestones</id>
+			<name>Spring Milestones</name>
+			<url>https://repo.spring.io/libs-milestone</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<!-- 私服仓库 -->
+		<repository>
+			<id>compass-repositories</id>
+			<name>Compass Repositories</name>
+			<url>http://10.10.171.174:3000/nexus/content/groups/public/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+	
 	<!-- 发布到私服 -->
 	<distributionManagement>
 		<repository>
