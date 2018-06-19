@@ -2,7 +2,6 @@ package cn.com.compass.web.aop;
 
 import java.lang.reflect.Method;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.aspectj.lang.JoinPoint;
@@ -13,6 +12,8 @@ import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import cn.com.compass.base.constant.BaseConstant;
 import cn.com.compass.base.vo.BaseLogVo;
@@ -38,8 +39,8 @@ public class BaseControllerLogAspect {
 	
 	private ThreadLocal<BaseLogVo> logLocal = new ThreadLocal<>();
 	
-	@Resource
-	private HttpServletRequest request;
+//	@Resource
+//	private HttpServletRequest request;
 	
 	/**
 	 * 定义日志切入点
@@ -65,6 +66,7 @@ public class BaseControllerLogAspect {
 			logV.setLogCode(anno.code());
 			logV.setLogDes(anno.desc());
 			logV.setRequestParams(JacksonUtil.obj2json(joinPoint.getArgs()));
+			HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
 			logV.setRemoteAddress(request.getRemoteAddr());
 			Object subject = request.getAttribute(BaseConstant.REQUEST_SUBJECT_ATTRIBUTE_KEY);
 			if(subject!=null) {
