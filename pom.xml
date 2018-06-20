@@ -43,7 +43,7 @@
 
 	<properties>
 		<!-- compass version -->
-		<compss-boot.version>1.0.2-SNAPSHOT</compss-boot.version>
+		<compss-boot.version>1.0.3-SNAPSHOT</compss-boot.version>
 		<!-- spring boot -->
 		<spring-boot.version>1.5.13.RELEASE</spring-boot.version>
 		<!-- spring cloud -->
