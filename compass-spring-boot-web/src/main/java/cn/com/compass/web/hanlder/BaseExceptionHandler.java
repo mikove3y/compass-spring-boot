@@ -1,11 +1,10 @@
-package cn.com.compass.starter.hanlder;
+package cn.com.compass.web.hanlder;
 
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
@@ -20,6 +19,8 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import cn.com.compass.autoconfig.constant.ConstantUtil;
@@ -107,8 +108,8 @@ public class BaseExceptionHandler {
 		this.printResonpseJson(BaseConstant.REQUEST_PARAMS_VALID_ERRO, errorMp ,HttpStatus.BAD_REQUEST.value());
 	}
 	
-	@Resource
-	private HttpServletResponse response;
+//	@Resource
+//	private HttpServletResponse response;
 	
 	/**
 	 * json格式数据打印
@@ -121,6 +122,7 @@ public class BaseExceptionHandler {
 			ConstantUtil constantUtil = AppContext.getInstance().getBean(ConstantUtil.class);
 			String msg = constantUtil.getValue(code);
 			BaseResponseVo rsp = new BaseResponseVo(code, msg).setData(data);
+			HttpServletResponse response = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getResponse();
 			response.setContentType(MediaType.APPLICATION_JSON_UTF8.toString());
 			response.setHeader("Cache-Control", "no-cache");
 			response.setStatus(httpStatus!=null?httpStatus:HttpStatus.OK.value());
