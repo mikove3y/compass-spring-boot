@@ -4,8 +4,12 @@
 compass 基础boot架构
 
 #### 软件架构
-软件架构说明
-
+1.autoconfig 自动化配置模块
+2.base 集成业务模块
+3.data orm模块
+4.starter 集成data启动模块
+5.util 工具模块
+6.web 无data依赖启动模块
 
 #### 安装教程
 
