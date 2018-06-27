@@ -14,25 +14,11 @@ public interface BaseConstant {
 	/**
 	 * 放在request Attribute中传递参数用，用于记录日志操作人，用于处理jpa公共字段操作人等信息
 	 */
-	public static final String REQUEST_SUBJECT_ATTRIBUTE_KEY = "SUBJECT";
-	/**
-	 * 鉴权类型
-	 */
-	public enum AuthType{
-		sms,email,basic,bearer,open
-	}
+	public static final String REQUEST_SUBJECT_ATTRIBUTE_KEY = "BaseSubject";
 	/**
 	 * 放在request头中的权限key
 	 */
 	public static final String AUTHORIZATION_KEY = "Authorization";
-	/**
-	 * 短信方式鉴权，匹配短信响应码
-	 */
-	public static final String AUTHORIZATION_VALUE_SMS_PREFIX = "Sms ";
-	/**
-	 * 邮件方式鉴权，匹配邮件响应码
-	 */
-	public static final String AUTHORIZATION_VALUE_EMAIL_PREFIX = "Email ";
 	/**
 	 * basicAuth方式鉴权，匹配base64
 	 */

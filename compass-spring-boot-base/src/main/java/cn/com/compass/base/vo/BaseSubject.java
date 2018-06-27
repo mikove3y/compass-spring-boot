@@ -29,7 +29,7 @@ public class BaseSubject implements Serializable {
 	 */
 	private String account;
 	/**
-	 * 用户角色-权限
+	 * 用户角色
 	 */
 	private List<String> authorities;
 	
