@@ -1,16 +1,15 @@
 package cn.com.compass.starter.context;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
-import cn.com.compass.autoconfig.security.JwtUtil;
-import cn.com.compass.autoconfig.security.Subject;
 import cn.com.compass.base.constant.BaseConstant;
+import cn.com.compass.base.vo.BaseSubject;
 import cn.com.compass.util.JacksonUtil;
 /**
  * 
@@ -24,23 +23,17 @@ import cn.com.compass.util.JacksonUtil;
 @Component
 public class GlobalContext {
 
-	@Resource
-	private HttpServletRequest request;
-	@Resource
-	private HttpServletResponse response;
-	@Autowired
-	private JwtUtil jwtUtil;
 
 	public HttpServletRequest getRequest() {
-		return request;
+		return ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
 	}
 	
 	public HttpServletResponse getResponse() {
-		return response;
+		return ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getResponse();
 	}
 
 	public HttpSession getSession() {
-		return request.getSession();
+		return this.getRequest().getSession();
 	}
 	
 	public Object getSessionAttribute( String attr ) {
@@ -70,8 +63,8 @@ public class GlobalContext {
 		this.getRequest().removeAttribute(attr);
 	}
 	
-	public Subject getGlobalSubject() throws Exception {
-		String token = request.getHeader(BaseConstant.AUTHORIZATION_KEY);
-		return JacksonUtil.json2pojo(jwtUtil.parseSubject(token), Subject.class);
+	public BaseSubject getGlobalSubject() throws Exception {
+		String suject = this.getRequest().getHeader(BaseConstant.REQUEST_SUBJECT_ATTRIBUTE_KEY);
+		return JacksonUtil.json2pojo(suject, BaseSubject.class);
 	}
 }

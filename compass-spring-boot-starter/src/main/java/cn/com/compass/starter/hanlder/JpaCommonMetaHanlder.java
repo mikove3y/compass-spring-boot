@@ -7,12 +7,12 @@ import java.util.Iterator;
 import org.hibernate.CallbackException;
 import org.hibernate.EmptyInterceptor;
 import org.hibernate.type.Type;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import cn.com.compass.autoconfig.security.Subject;
 import cn.com.compass.base.entity.BaseEntity;
+import cn.com.compass.base.vo.BaseSubject;
 import cn.com.compass.starter.context.GlobalContext;
-import cn.com.compass.web.context.AppContext;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -29,6 +29,9 @@ import lombok.extern.slf4j.Slf4j;
 public class JpaCommonMetaHanlder extends EmptyInterceptor {
 
 	private static final long serialVersionUID = -5464568289140494842L;
+	
+	@Autowired
+	private GlobalContext globalContext;
 
 	@Override
 	public void onDelete(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
@@ -48,8 +51,7 @@ public class JpaCommonMetaHanlder extends EmptyInterceptor {
 		System.out.println("save..............");
 		if (entity instanceof BaseEntity) {
 			try {
-				GlobalContext context = AppContext.getInstance().getBean(GlobalContext.class);
-				Subject sub = context.getGlobalSubject();
+				BaseSubject sub = globalContext.getGlobalSubject();
 				for (int i = 0; i < propertyNames.length; i++) {
 					if (sub != null) {
 						if (propertyNames[i].equals(BaseEntity.CRETERID)) {

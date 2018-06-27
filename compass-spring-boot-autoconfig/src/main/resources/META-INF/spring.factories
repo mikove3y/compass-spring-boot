@@ -1,4 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-cn.com.compass.autoconfig.security.JwtAutoConfiguration,\
-cn.com.compass.autoconfig.global.GlobalAutoConfiguration,\
 cn.com.compass.autoconfig.constant.ConstantAutoConfiguration
