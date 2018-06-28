@@ -18,22 +18,28 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>cn.com.compass</groupId>
 			<artifactId>compass-spring-boot-autoconfig</artifactId>
-			<exclusions>
-				<!-- 去掉util中的jackson依赖冲突 -->
+			<!-- <exclusions>
+				去掉util中的jackson依赖冲突
 				<exclusion>
 					<groupId>com.fasterxml.jackson.datatype</groupId>
 					<artifactId>jackson-datatype-jsr310</artifactId>
 				</exclusion>
-				<!-- 去掉autoConfig中的logging依赖冲突 -->
+				去掉autoConfig中的logging依赖冲突
 				<exclusion>
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>spring-boot-starter-logging</artifactId>
 				</exclusion>
-				<!-- 去掉spring4all swagger自动化配置冲突依赖 -->
+				去掉spring4all swagger自动化配置冲突依赖
 				<exclusion>
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>spring-boot-starter-web</artifactId>
@@ -42,7 +48,7 @@
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>spring-boot-starter</artifactId>
 				</exclusion>
-			</exclusions>
+			</exclusions> -->
 		</dependency>
 		<dependency>
 			<groupId>cn.com.compass</groupId>
