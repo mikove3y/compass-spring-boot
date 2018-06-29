@@ -1,9 +1,10 @@
 package cn.com.compass.base.vo;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import cn.com.compass.base.entity.BaseEntity;
+import cn.com.compass.base.service.IBaseDataX;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,28 +19,33 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class BaseRequestPageVo extends BaseRequestVo {
+public abstract class BaseRequestPageVo implements IBaseDataX {
 
 	private static final long serialVersionUID = 8464373602146221705L;
-
-	private Integer pageNo = 1;
-
-	private Integer pageSize = 20;
-
-	private Boolean isAsc = true;
-
-	private List<String> orders = new ArrayList<>();
-	
 	/**
-	 * default order by column createTime
+	 * 页码
+	 */
+	private Integer pageNo = 1;
+	/**
+	 * 页条数
+	 */
+	private Integer pageSize = 20;
+	/**
+	 * 排序字段以及升降序 </br>
+	 * key: order colum default createTime </br>
+	 * value: isAsc default false </br>
+	 */
+	private Map<String,Boolean> orders = new HashMap<>();
+	/**
+	 * default order by column createTime false
 	 * 
 	 * @return
 	 */
-	public List<String> getOrders() {
-		if (this.orders.size() == 0) {
-			this.orders.add(BaseEntity.CREATETIME);
+	public Map<String,Boolean> getOrders() {
+		if(orders.isEmpty()) {
+			orders.put(BaseEntity.CREATETIME, Boolean.FALSE);
 		}
-		return this.orders;
+		return orders;
 	}
 
 }

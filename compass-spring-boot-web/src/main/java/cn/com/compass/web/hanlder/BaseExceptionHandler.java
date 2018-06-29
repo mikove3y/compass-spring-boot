@@ -1,34 +1,28 @@
 package cn.com.compass.web.hanlder;
 
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import cn.com.compass.autoconfig.constant.ConstantUtil;
 import cn.com.compass.base.constant.BaseConstant;
 import cn.com.compass.base.exception.BaseException;
 import cn.com.compass.base.vo.BaseResponseVo;
-import cn.com.compass.util.JacksonUtil;
-import cn.com.compass.web.context.AppContext;
 
 /**
  * 
@@ -51,8 +45,10 @@ public class BaseExceptionHandler {
 	 * @return
 	 */
 	@ExceptionHandler(BaseException.class)
-	public void handleBaseException(BaseException exception) {
-		this.printResonpseJson(exception.getErrorCode(), null,HttpStatus.BAD_REQUEST.value());
+	@ResponseBody
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	public BaseResponseVo handleBaseException(BaseException exception) {
+		return new BaseResponseVo(exception.getErrorCode(),null,exception.getMessage());
 	}
 	
 	/**
@@ -60,8 +56,10 @@ public class BaseExceptionHandler {
 	 * @param exception
 	 */
 	@ExceptionHandler(IllegalArgumentException.class)
-	public void handleIllegalArgumentException(IllegalArgumentException exception) {
-		this.printResonpseJson(BaseConstant.ILLEGAL_ARGUMENT, null,HttpStatus.BAD_REQUEST.value());
+	@ResponseBody
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	public BaseResponseVo handleIllegalArgumentException(IllegalArgumentException exception) {
+		return new BaseResponseVo(BaseConstant.ILLEGAL_ARGUMENT,null,exception.getMessage());
 	}
 
 	/**
@@ -71,7 +69,9 @@ public class BaseExceptionHandler {
 	 * @return
 	 */
 	@ExceptionHandler(ValidationException.class)
-	public void handleValidationException(ValidationException exception) {
+	@ResponseBody
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public BaseResponseVo handleValidationException(ValidationException exception) {
 		String data = null;
 		if (exception instanceof ConstraintViolationException) {
 			ConstraintViolationException exs = (ConstraintViolationException) exception;
@@ -82,7 +82,7 @@ public class BaseExceptionHandler {
 			}
 			data = buff.toString();
 		}
-		this.printResonpseJson(BaseConstant.REQUEST_PARAMS_VALID_ERRO, data,HttpStatus.BAD_REQUEST.value());
+		return new BaseResponseVo(BaseConstant.REQUEST_PARAMS_VALID_ERRO,null,data);
 	}
 
 	/**
@@ -92,7 +92,9 @@ public class BaseExceptionHandler {
 	 * @return
 	 */
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public void handleException(MethodArgumentNotValidException exception) {
+	@ResponseBody
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public BaseResponseVo handleException(MethodArgumentNotValidException exception) {
 		BindingResult validResult = exception.getBindingResult();
 		Map<String, Object> errorMp = new HashMap<>();
 		for (ObjectError error : validResult.getAllErrors()) {
@@ -105,7 +107,7 @@ public class BaseExceptionHandler {
 			String message = error.getDefaultMessage();
 			errorMp.put(field, message);
 		}
-		this.printResonpseJson(BaseConstant.REQUEST_PARAMS_VALID_ERRO, errorMp ,HttpStatus.BAD_REQUEST.value());
+		return new BaseResponseVo(BaseConstant.REQUEST_PARAMS_VALID_ERRO,null,errorMp);
 	}
 	
 //	@Resource
@@ -116,25 +118,25 @@ public class BaseExceptionHandler {
 	 * 
 	 * @param rs
 	 */
-	public void printResonpseJson(String code,Object data,Integer httpStatus) {
-		PrintWriter writer = null;
-		try {
-			ConstantUtil constantUtil = AppContext.getInstance().getBean(ConstantUtil.class);
-			String msg = constantUtil.getValue(code);
-			BaseResponseVo rsp = new BaseResponseVo(code, msg).setData(data);
-			HttpServletResponse response = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getResponse();
-			response.setContentType(MediaType.APPLICATION_JSON_UTF8.toString());
-			response.setHeader("Cache-Control", "no-cache");
-			response.setStatus(httpStatus!=null?httpStatus:HttpStatus.OK.value());
-			writer = response.getWriter();
-			writer.write(JacksonUtil.obj2json(rsp));
-			writer.flush();
-		} catch (Exception e) {
-			throw new BaseException(BaseConstant.RESPONSE_DATA_TO_JSON_ERRO, e);
-		} finally {
-			if (writer != null)
-				writer.close();
-		}
-	}
+//	public void printResonpseJson(String code,Object data,Integer httpStatus) {
+//		PrintWriter writer = null;
+//		try {
+//			ConstantUtil constantUtil = AppContext.getInstance().getBean(ConstantUtil.class);
+//			String msg = constantUtil.getValue(code);
+//			BaseResponseVo rsp = new BaseResponseVo(code, msg).setData(data);
+//			HttpServletResponse response = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getResponse();
+//			response.setContentType(MediaType.APPLICATION_JSON_UTF8.toString());
+//			response.setHeader("Cache-Control", "no-cache");
+//			response.setStatus(httpStatus!=null?httpStatus:HttpStatus.OK.value());
+//			writer = response.getWriter();
+//			writer.write(JacksonUtil.obj2json(rsp));
+//			writer.flush();
+//		} catch (Exception e) {
+//			throw new BaseException(BaseConstant.RESPONSE_DATA_TO_JSON_ERRO, e);
+//		} finally {
+//			if (writer != null)
+//				writer.close();
+//		}
+//	}
 
 }

@@ -16,7 +16,7 @@ import cn.com.compass.base.vo.Page;
  * @date 2018年6月6日 下午2:48:03
  *
  */
-public interface BaseService<T extends BaseEntity> {
+public interface IBaseService<T extends BaseEntity> {
 	// save entity
 	/**
 	 * save one

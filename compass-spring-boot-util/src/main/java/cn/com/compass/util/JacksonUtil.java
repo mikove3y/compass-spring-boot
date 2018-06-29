@@ -38,6 +38,28 @@ public class JacksonUtil {
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         return mapper.writeValueAsString(obj);
     }
+    
+    /**
+     * javaBean 列表数组转换为json字符串 在深度转Map
+     * @param obj
+     * @return
+     * @throws Exception
+     */
+    public static Map<String,Object> obj2Map(Object obj) throws Exception {
+    	String json = obj2json(obj);
+    	return json2mapDeeply(json);
+    }
+    
+    /**
+     * javaBean 列表数组转换为json字符串 在深度转Map,忽略空值
+     * @param obj
+     * @return
+     * @throws Exception
+     */
+    public static Map<String,Object> obj2MapIgnoreNull(Object obj) throws Exception {
+    	String json = obj2jsonIgnoreNull(obj);
+    	return json2mapDeeply(json);
+    }
 
     /**
      * json 转JavaBean

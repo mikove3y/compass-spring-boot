@@ -35,20 +35,35 @@ public class JpaCommonMetaHanlder extends EmptyInterceptor {
 
 	@Override
 	public void onDelete(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
-		System.out.println("delete..............");
+		if(log.isDebugEnabled()) {
+			log.debug("delete..............");
+		}
+		if(log.isInfoEnabled()) {
+			log.info("delete..............");
+		}
 		super.onDelete(entity, id, state, propertyNames, types);
 	}
 
 	@Override
 	public boolean onFlushDirty(Object entity, Serializable id, Object[] currentState, Object[] previousState,
 			String[] propertyNames, Type[] types) {
-		System.out.println("flushDirty..............");
+		if(log.isDebugEnabled()) {
+			log.debug("flushDirty..............");
+		}
+		if(log.isInfoEnabled()) {
+			log.info("flushDirty..............");
+		}
 		return super.onFlushDirty(entity, id, currentState, previousState, propertyNames, types);
 	}
 
 	@Override
 	public boolean onSave(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
-		System.out.println("save..............");
+		if(log.isDebugEnabled()) {
+			log.debug("save..............");
+		}
+		if(log.isInfoEnabled()) {
+			log.info("save..............");
+		}
 		if (entity instanceof BaseEntity) {
 			try {
 				BaseSubject sub = globalContext.getGlobalSubject();
@@ -72,45 +87,80 @@ public class JpaCommonMetaHanlder extends EmptyInterceptor {
 
 	@Override
 	public void onCollectionRecreate(Object collection, Serializable key) throws CallbackException {
-		System.out.println("recreate..............");
+		if(log.isDebugEnabled()) {
+			log.debug("recreate..............");
+		}
+		if(log.isInfoEnabled()) {
+			log.info("recreate..............");
+		}
 		super.onCollectionRecreate(collection, key);
 	}
 
 	@Override
 	public void onCollectionRemove(Object collection, Serializable key) throws CallbackException {
-		System.out.println("remove..............");
+		if(log.isDebugEnabled()) {
+			log.debug("remove..............");
+		}
+		if(log.isInfoEnabled()) {
+			log.info("remove..............");
+		}
 		super.onCollectionRemove(collection, key);
 	}
 
 	@Override
 	public void onCollectionUpdate(Object collection, Serializable key) throws CallbackException {
-		System.out.println("collectionUpdate..............");
+		if(log.isDebugEnabled()) {
+			log.debug("collectionUpdate..............");
+		}
+		if(log.isInfoEnabled()) {
+			log.info("collectionUpdate..............");
+		}
 		super.onCollectionUpdate(collection, key);
 	}
 
 	@Override
 	public boolean onLoad(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
-		System.out.println("load..............");
+		if(log.isDebugEnabled()) {
+			log.debug("load..............");
+		}
+		if(log.isInfoEnabled()) {
+			log.info("load..............");
+		}
 		return super.onLoad(entity, id, state, propertyNames, types);
 	}
 
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void postFlush(Iterator entities) {
-		System.out.println("flush..............");
+		if(log.isDebugEnabled()) {
+			log.debug("flush..............");
+		}
+		if(log.isInfoEnabled()) {
+			log.info("flush..............");
+		}
 		super.postFlush(entities);
 	}
 
 	@Override
 	public String onPrepareStatement(String sql) {
-		System.out.println("statement..............");
+		if(log.isDebugEnabled()) {
+			log.debug("statement..............");
+		}
+		if(log.isInfoEnabled()) {
+			log.info("statement..............");
+		}
 		return super.onPrepareStatement(sql);
 	}
 
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void preFlush(Iterator entities) {
-		System.out.println("preflush..............");
+		if(log.isDebugEnabled()) {
+			log.debug("preflush..............");
+		}
+		if(log.isInfoEnabled()) {
+			log.info("preflush..............");
+		}
 		super.preFlush(entities);
 	}
 

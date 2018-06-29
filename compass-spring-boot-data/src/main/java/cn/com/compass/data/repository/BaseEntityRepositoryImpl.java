@@ -1,6 +1,5 @@
 package cn.com.compass.data.repository;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +8,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.apache.commons.beanutils.BeanUtilsBean2;
-import org.apache.commons.collections.CollectionUtils;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -20,9 +18,13 @@ import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import cn.com.compass.base.constant.BaseConstant;
 import cn.com.compass.base.entity.BaseEntity;
+import cn.com.compass.base.exception.BaseException;
 import cn.com.compass.base.vo.BaseRequestPageVo;
 import cn.com.compass.base.vo.Page;
+import cn.com.compass.util.DataXUtil;
+import cn.com.compass.util.JacksonUtil;
 
 /**
  * 
@@ -108,6 +110,7 @@ public class BaseEntityRepositoryImpl<T extends BaseEntity> extends SimpleJpaRep
 	 * @see cn.com.compass.base.service.BaseService#deleteByIds(java.util.List)
 	 */
 	@Override
+	@Transactional(rollbackFor = Exception.class)
 	public boolean deleteByIds(List<Long> ids) {
 		Assert.notEmpty(ids, "deleteByIds->The given ids not be empty!");
 		this.deleteInBatch(this.findByIds(ids));
@@ -164,18 +167,15 @@ public class BaseEntityRepositoryImpl<T extends BaseEntity> extends SimpleJpaRep
 	@Transactional(rollbackFor = Exception.class)
 	public T updateOneByParams(Long id, Map<String, Object> params) {
 		Assert.notEmpty(params, "updateOneByParams->The given map of params not be empty!");
-		T t = this.findById(id);
 		try {
-			for (Map.Entry<String, Object> entry : params.entrySet()) {
-				BeanUtilsBean2.getInstance().setProperty(t, entry.getKey(), entry.getValue());
-			}
-			t = this.updateOne(t);
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
+			T ot = this.findById(id);
+			T nt = entityClass.newInstance();
+			nt.setId(ot.getId());
+			BeanUtilsBean2.getInstance().copyProperties(nt, params);
+			return this.updateOne(nt);
+		} catch (Exception e) {
+			throw new BaseException(BaseConstant.ILLEGAL_ARGUMENT, e);
 		}
-		return t;
 	}
 
 	/*
@@ -201,24 +201,24 @@ public class BaseEntityRepositoryImpl<T extends BaseEntity> extends SimpleJpaRep
 	@Transactional(rollbackFor = Exception.class)
 	public List<T> updateBatchByParams(List<Long> ids, List<Map<String, Object>> params) {
 		Assert.notEmpty(params, "updateBatchByParams->The given Collection of params not be empty!");
-		List<T> entities = this.findByIds(ids);
-		if (CollectionUtils.isNotEmpty(entities) && params.size() == entities.size()) {
+		Assert.notEmpty(ids, "updateBatchByParams->The given Collection of ids not be empty!");
+		List<T> rs = new ArrayList<>();
+		if (params.size() == ids.size()) {
 			try {
-				for (int i = 0; i < entities.size(); i++) {
-					T t = entities.get(i);
-					Map<String, Object> temp = params.get(i);
-					for (Map.Entry<String, Object> entry : temp.entrySet()) {
-						BeanUtilsBean2.getInstance().setProperty(t, entry.getKey(), entry.getValue());
-					}
+				List<T> upl = new ArrayList<>();
+				for (int i = 0; i < ids.size(); i++) {
+					T ot = this.findById(ids.get(i));
+					T nt = entityClass.newInstance();
+					nt.setId(ot.getId());
+					BeanUtilsBean2.getInstance().copyProperties(nt, params.get(i));
+					upl.add(nt);
 				}
-				entities = this.updateBatch(entities);
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				e.printStackTrace();
+				rs = this.updateBatch(upl);
+			} catch (Exception e) {
+				throw new BaseException(BaseConstant.ILLEGAL_ARGUMENT, e);
 			}
 		}
-		return entities;
+		return rs;
 	}
 
 	/*
@@ -253,19 +253,12 @@ public class BaseEntityRepositoryImpl<T extends BaseEntity> extends SimpleJpaRep
 		Assert.notEmpty(params, "findListByParams->The given map of params not be empty!");
 		try {
 			T t = entityClass.newInstance();
-			for (Map.Entry<String, Object> entry : params.entrySet()) {
-				BeanUtilsBean2.getInstance().setProperty(t, entry.getKey(), entry.getValue());
-			}
+			BeanUtilsBean2.getInstance().copyProperties(t, params);
 			Example<T> example = Example.of(t);
 			return this.findAll(example);
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
-		}
-		return null;
+		} catch (Exception e) {
+			throw new BaseException(BaseConstant.ILLEGAL_ARGUMENT, e);
+		} 
 	}
 
 	/*
@@ -276,21 +269,20 @@ public class BaseEntityRepositoryImpl<T extends BaseEntity> extends SimpleJpaRep
 	 */
 	@Override
 	public Page<T> findPage(BaseRequestPageVo pageVo) {
-		Assert.notEmpty(pageVo.getConditions(), "findPage->The given pageVo of conditions not be empty!");
-		Page<T> result = new Page<>();
 		try {
+			Map<String,Object> conditions = JacksonUtil.obj2Map(pageVo);
 			// build example
 			T t = entityClass.newInstance();
-			for (Map.Entry<String, Object> entry : pageVo.getConditions().entrySet()) {
-				BeanUtilsBean2.getInstance().setProperty(t, entry.getKey(), entry.getValue());
-			}
+			DataXUtil.copyProperties(conditions, t, pageVo.source2targetProperties());
 			Example<T> example = Example.of(t);
 			// order columns 
-			List<String> orderCols = pageVo.getOrders();
+			Map<String,Boolean> om = pageVo.getOrders();
 			// build orders
 			List<Order> orders = new ArrayList<>();
-			for (String oc : orderCols) {
-				Order order = new Order(pageVo.getIsAsc() ? Direction.ASC : Direction.DESC, oc);
+			for(Map.Entry<String,Boolean> entry : om.entrySet()) {
+				String orderCol = entry.getKey();
+				boolean isAsc = entry.getValue();
+				Order order = new Order(isAsc ? Direction.ASC : Direction.DESC, orderCol);
 				orders.add(order);
 			}
 			// build sort
@@ -299,18 +291,25 @@ public class BaseEntityRepositoryImpl<T extends BaseEntity> extends SimpleJpaRep
 			Pageable pageRequest = new PageRequest(pageVo.getPageNo() - 1, pageVo.getPageSize(), sort);
 			org.springframework.data.domain.Page<T> page = this.findAll(example,pageRequest);
 			// build result
+			Page<T> result = new Page<>();
 			result.setTotal(page.getTotalElements());
 			result.setRecords(page.getContent());
 			result.setCurrent(page.getNumber());
 			result.setSize(page.getSize());
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
+			return result;
+		} catch (Exception e) {
+			throw new BaseException(BaseConstant.ILLEGAL_ARGUMENT, e);
 		}
-		return result;
+	}
+
+	@Override
+	public Class<T> domainClass() {
+		return entityClass;
+	}
+
+	@Override
+	public EntityManager entityManager() {
+		return entityManager;
 	}
 
 }

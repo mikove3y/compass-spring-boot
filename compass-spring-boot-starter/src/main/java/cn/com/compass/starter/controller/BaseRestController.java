@@ -1,23 +1,29 @@
 package cn.com.compass.starter.controller;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import java.util.Map;
 
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
+import cn.com.compass.base.constant.BaseConstant;
 import cn.com.compass.base.entity.BaseEntity;
-import cn.com.compass.base.vo.BaseRequestPageVo;
-import cn.com.compass.base.vo.BaseRequestVo;
+import cn.com.compass.base.exception.BaseException;
+import cn.com.compass.base.service.IBaseDataX;
+import cn.com.compass.base.vo.Page;
 import cn.com.compass.data.repository.BaseEntityRepository;
+import cn.com.compass.util.DataXUtil;
+import cn.com.compass.util.JacksonUtil;
 import cn.com.compass.web.controller.BaseController;
+import cn.com.compass.web.controller.IBaseController;
+import cn.com.compass.web.vo.BaseControllerRequestVo;
+import cn.com.compass.web.vo.BaseControllerRequestVo.AddBatch;
+import cn.com.compass.web.vo.BaseControllerRequestVo.AddOne;
+import cn.com.compass.web.vo.BaseControllerRequestVo.DeleteBatch;
+import cn.com.compass.web.vo.BaseControllerRequestVo.GetList;
+import cn.com.compass.web.vo.BaseControllerRequestVo.GetPage;
+import cn.com.compass.web.vo.BaseControllerRequestVo.UpdateBatch;
+import cn.com.compass.web.vo.BaseControllerRequestVo.UpdateOne;
 /**
  * 
  * @author wanmk
@@ -25,100 +31,116 @@ import cn.com.compass.web.controller.BaseController;
  * @email 524623302@qq.com
  * @todo rest controller 通用增删改查接口
  * @date 2018年6月6日 下午2:42:03
- *
+ * @since 1.0.7 优化为泛型实现类
  */
 @Validated
-public abstract class BaseRestController<T extends BaseEntity> extends BaseController {
+public class BaseRestController<T extends BaseEntity,Rv extends BaseControllerRequestVo> extends BaseController implements IBaseController<T,Rv> {
 	
 	private BaseEntityRepository<T> baseEntityRepository;
 	
+	private Class<T> domainClass;
+	
 	public void setBaseEntityRepository(BaseEntityRepository<T> baseEntityRepository) {
 		this.baseEntityRepository = baseEntityRepository;
+		this.domainClass = baseEntityRepository.domainClass();
+		
 	}
 	
 	public BaseEntityRepository<T> getBaseEntityRepository() {
 		return baseEntityRepository;
 	}
 	
-	/**
-	 * 单条新增,返回最新数据
-	 * @param entity
-	 */
-	@PostMapping("/one")
-	public void add(@Valid @RequestBody T entity) {
-		this.printResonpseJson(this.getBaseEntityRepository().saveOne(entity));
+	
+	private T copyOne(Object source,Map<String, String> propertyMapping){
+		try {
+			T target = domainClass.newInstance();
+			DataXUtil.copyProperties(source, target, propertyMapping);
+			return target;
+		} catch (Exception e) {
+			throw new BaseException(BaseConstant.ILLEGAL_ARGUMENT, e);
+		}
 	}
 	
-	/**
-	 * 批量新增,返回最新数据集
-	 * @param entities
-	 */
-	@PostMapping("/batch")
-	public void addBatch(@Valid @RequestBody List<T> entities) {
-		this.printResonpseJson(this.getBaseEntityRepository().saveBatch(entities));
+	private List<T> copyList(List<?> sources) {
+		List<T> targets = new ArrayList<>();
+		for (Object source : sources) {
+			if(source instanceof IBaseDataX) {
+				IBaseDataX dx = (IBaseDataX) source;
+				targets.add(this.copyOne(source,dx.source2targetProperties()));
+			}else {
+				targets.add(this.copyOne(source,null));
+			}
+		}
+		return targets;
 	}
 	
-	/**
-	 * 单条删除
-	 * @param id
-	 */
-	@DeleteMapping("/one/{id}")
-	public void delete(@NotNull(message="id不能为空") @PathVariable(value="id",required=true) Long id) {
-		this.printResonpseJson(this.getBaseEntityRepository().deleteById(id));
+	@Override
+	public T addOne(AddOne vo) {
+		T entity = this.copyOne(vo,vo.source2targetProperties());
+		return this.getBaseEntityRepository().saveOne(entity);
 	}
-	
-	/**
-	 * 批量删除
-	 * @param ids
-	 */
-	@DeleteMapping("/batch")
-	public void deleteBatch(@Valid @RequestBody List<Long> ids) {
-		this.printResonpseJson(this.getBaseEntityRepository().deleteByIds(ids));
+
+	@Override
+	public List<T> addBatch(AddBatch vo) {
+		List<T> entities = this.copyList(vo.getList());
+		return this.getBaseEntityRepository().saveBatch(entities);
 	}
-	
-	/**
-	 * 更新单条记录,返回最新数据
-	 * @param entity
-	 */
-	@PutMapping("/one")
-	public void update(@Valid @RequestBody T entity) {
-		this.printResonpseJson(this.getBaseEntityRepository().updateOne(entity));
+
+	@Override
+	public T deleteOne(Long id) {
+		T oe = this.getOne(id);
+		boolean del = this.getBaseEntityRepository().deleteById(id);
+		return del ? oe : null;
 	}
-	
-	/**
-	 * 批量更新,返回最新数据集
-	 * @param entities
-	 */
-	@PutMapping("/batch")
-	public void updateBatch(@Valid @RequestBody List<T> entities) {
-		this.printResonpseJson(this.getBaseEntityRepository().updateBatch(entities));
+
+	@Override
+	public List<T> deleteBatch(DeleteBatch vo) {
+		List<Long> ids = vo.getIds();
+		List<T> oes = this.getBaseEntityRepository().findByIds(ids);
+		boolean del = this.getBaseEntityRepository().deleteByIds(ids);
+		return del ? oes : null;
 	}
-	
-	/**
-	 * 查询一条记录
-	 * @param id
-	 */
-	@GetMapping("/one/{id}")
-	public void getOne(@NotNull(message="id不能为空") @PathVariable(value="id",required=true) Long id) {
-		this.printResonpseJson(this.getBaseEntityRepository().findById(id));
+
+	@Override
+	public T updateOne(UpdateOne vo) {
+		T oe = this.getOne(vo.getId());
+		T ne = this.copyOne(vo,vo.source2targetProperties());
+		ne.setId(oe.getId());
+		return this.getBaseEntityRepository().updateOne(ne);
 	}
-	
-	/**
-	 * 列表查询
-	 * @param params
-	 */
-	@PostMapping("/list")
-	public void getList(@Valid @RequestBody BaseRequestVo requestVo) {
-		this.printResonpseJson(this.getBaseEntityRepository().findListByParams(requestVo.getConditions()));
+
+	@Override
+	public List<T> updateBatch(UpdateBatch vo) {
+		List<UpdateOne> ul = vo.getList();
+		List<T> ues = new ArrayList<>();
+		for(UpdateOne uo : ul) {
+			T oe = this.getOne(uo.getId());
+			T ne = this.copyOne(uo,uo.source2targetProperties());
+			ne.setId(oe.getId());
+			ues.add(ne);
+		}
+		return this.getBaseEntityRepository().updateBatch(ues);
 	}
-	
-	/**
-	 * 分页查询
-	 * @param pageVo
-	 */
-	@PostMapping("/page")
-	public void getPage(@Valid @RequestBody BaseRequestPageVo pageVo) {
-		this.printResonpseJson(this.getBaseEntityRepository().findPage(pageVo));
+
+	@Override
+	public T getOne(Long id) {
+		return this.getBaseEntityRepository().findById(id);
 	}
+
+	@Override
+	public List<T> getList(GetList vo) {
+		try {
+			T queryExample = copyOne(vo, vo.source2targetProperties());
+			return this.getBaseEntityRepository().findListByParams(JacksonUtil.obj2MapIgnoreNull(queryExample));
+		} catch (Exception e) {
+			throw new BaseException(BaseConstant.ILLEGAL_ARGUMENT, e);
+		}
+	}
+
+	@Override
+	public Page<T> getPage(GetPage vo) {
+		return this.getBaseEntityRepository().findPage(vo);
+	}
+
 
 }
