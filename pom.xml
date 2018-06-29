@@ -43,7 +43,7 @@
 
 	<properties>
 		<!-- compass version -->
-		<compss-boot.version>1.0.6-SNAPSHOT</compss-boot.version>
+		<compss-boot.version>1.0.8-SNAPSHOT</compss-boot.version>
 		<!-- spring boot -->
 		<spring-boot.version>1.5.13.RELEASE</spring-boot.version>
 		<!-- spring cloud -->
@@ -244,6 +244,9 @@
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
+					<!-- jdk 8新特性，保证参数名不变 -->
+					<compilerArgument>-parameters</compilerArgument>
+					<encoding>UTF-8</encoding>
 					<source>${jdk.version}</source>
 					<target>${jdk.version}</target>
 					<!-- 打包本地jar包,如maven库不存在的jar -->

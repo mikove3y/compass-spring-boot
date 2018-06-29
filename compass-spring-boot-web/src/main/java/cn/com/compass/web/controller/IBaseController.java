@@ -36,7 +36,7 @@ public interface IBaseController<T extends BaseEntity,Rv extends BaseControllerR
 	 * @param id
 	 */
 	@DeleteMapping("/{id}")
-	public T deleteOne(@NotNull(message="id不能为空") @PathVariable(value="id",required=true) Long id);
+	public T deleteOne(@NotNull(message="id can not be null") @PathVariable("id") Long id);
 	
 	/**
 	 * 批量删除
@@ -64,7 +64,7 @@ public interface IBaseController<T extends BaseEntity,Rv extends BaseControllerR
 	 * @param id
 	 */
 	@GetMapping("/{id}")
-	public T getOne(@NotNull(message="id不能为空") @PathVariable(value="id",required=true) Long id);
+	public T getOne(@NotNull(message="id can not be null") @PathVariable("id") Long id);
 	
 	/**
 	 * 列表查询

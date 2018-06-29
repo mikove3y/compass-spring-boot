@@ -66,7 +66,7 @@ public class BaseEntity implements Serializable {
 	 * <h1>使用sharding-jdbc分库分表框架</h1>
 	 */
 
-	@GeneratedValue(strategy = GenerationType.AUTO) /* MYSQL 适配凤凰慧2.0架构 */
+	@GeneratedValue(strategy = GenerationType.IDENTITY) /* MYSQL 适配凤凰慧2.0架构 */
 	// @SequenceGenerator(name =
 	// "prodG",sequenceName="product_id_seq",allocationSize=1) /*ORACLE*/
 	// @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "prodG")

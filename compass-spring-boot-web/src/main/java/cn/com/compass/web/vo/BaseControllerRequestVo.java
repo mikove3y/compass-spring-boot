@@ -38,8 +38,8 @@ public class BaseControllerRequestVo {
 	public static abstract class AddBatch implements Serializable {
 		
 		private static final long serialVersionUID = -7959597882674797944L;
-		@NotNull(message="新增list不能为空")
-		@Size(min=1,message="新增list不能为空")
+		@NotNull(message="list can not be empty")
+		@Size(min=1,message="list can not be empty")
 		private List<AddOne> list;
 		
 	}
@@ -52,8 +52,8 @@ public class BaseControllerRequestVo {
 	public static class DeleteBatch implements Serializable {
 
 		private static final long serialVersionUID = 3929950643557226865L;
-		@NotNull(message="删除id-list不能为空")
-		@Size(min=1,message="删除id-list不能为空")
+		@NotNull(message="ids can not be empty")
+		@Size(min=1,message="ids can not be empty")
 		private List<Long> ids;
 		
 	}
@@ -66,7 +66,7 @@ public class BaseControllerRequestVo {
 	public static abstract class UpdateOne implements IBaseDataX {
 
 		private static final long serialVersionUID = 3080869245679812222L;
-		@NotNull(message="更新id不能为空")
+		@NotNull(message="id can not be null")
 		private Long id;
 		
 	}
@@ -79,8 +79,8 @@ public class BaseControllerRequestVo {
 	public static class UpdateBatch implements Serializable {
 		
 		private static final long serialVersionUID = -3796278925186438303L;
-		@NotNull(message="更新列表list不能为空")
-		@Size(min=1,message="更新列表list不能为空")
+		@NotNull(message="list can not be empty")
+		@Size(min=1,message="list can not be empty")
 		private List<UpdateOne> list;
 	}
 	
