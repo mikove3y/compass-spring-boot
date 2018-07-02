@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 import cn.com.compass.base.entity.BaseEntity;
 import cn.com.compass.base.vo.BaseSubject;
-import cn.com.compass.starter.context.GlobalContext;
+import cn.com.compass.web.context.GlobalContext;
 import lombok.extern.slf4j.Slf4j;
 
 /**

@@ -4,6 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 import cn.com.compass.base.constant.BaseConstant;
 import cn.com.compass.base.entity.BaseEntity;
 import cn.com.compass.base.exception.BaseException;
@@ -13,6 +23,7 @@ import cn.com.compass.data.repository.BaseEntityRepository;
 import cn.com.compass.util.DataXUtil;
 import cn.com.compass.util.JacksonUtil;
 import cn.com.compass.web.controller.BaseController;
+import cn.com.compass.web.controller.IBaseController;
 import cn.com.compass.web.vo.BaseControllerRequestVo;
 import cn.com.compass.web.vo.BaseControllerRequestVo.AddBatch;
 import cn.com.compass.web.vo.BaseControllerRequestVo.AddOne;
@@ -30,7 +41,7 @@ import cn.com.compass.web.vo.BaseControllerRequestVo.UpdateOne;
  * @date 2018年6月6日 下午2:42:03
  * @since 1.0.7 优化为泛型实现类
  */
-public class BaseRestController<T extends BaseEntity,Rv extends BaseControllerRequestVo> extends BaseController {
+public class BaseRestController<T extends BaseEntity,Rv extends BaseControllerRequestVo> extends BaseController implements IBaseController<T, Rv>{
 	
 	private BaseEntityRepository<T> baseEntityRepository;
 	
@@ -70,39 +81,43 @@ public class BaseRestController<T extends BaseEntity,Rv extends BaseControllerRe
 		return targets;
 	}
 	
-	
-	public T addOne(AddOne vo) {
+	@PostMapping
+	public T addOne(@Valid @RequestBody AddOne vo) {
 		T entity = this.copyOne(vo,vo.source2targetProperties());
 		return this.getBaseEntityRepository().saveOne(entity);
 	}
 
-	
-	public List<T> addBatch(AddBatch vo) {
+	@PostMapping("/batch")
+	public List<T> addBatch(@Valid @RequestBody AddBatch vo) {
 		List<T> entities = this.copyList(vo.getList());
 		return this.getBaseEntityRepository().saveBatch(entities);
 	}
 	
-	public T deleteOne(Long id) {
+	@DeleteMapping("/{id}")
+	public T deleteOne(@NotNull(message="id can not be null") @PathVariable("id") Long id) {
 		T oe = this.getOne(id);
 		boolean del = this.getBaseEntityRepository().deleteById(id);
 		return del ? oe : null;
 	}
 	
-	public List<T> deleteBatch(DeleteBatch vo) {
+	@DeleteMapping("/batch")
+	public List<T> deleteBatch(@Valid @RequestBody DeleteBatch vo) {
 		List<Long> ids = vo.getIds();
 		List<T> oes = this.getBaseEntityRepository().findByIds(ids);
 		boolean del = this.getBaseEntityRepository().deleteByIds(ids);
 		return del ? oes : null;
 	}
 	
-	public T updateOne(UpdateOne vo) {
+	@PutMapping
+	public T updateOne(@Valid @RequestBody UpdateOne vo) {
 		T oe = this.getOne(vo.getId());
 		T ne = this.copyOne(vo,vo.source2targetProperties());
 		ne.setId(oe.getId());
 		return this.getBaseEntityRepository().updateOne(ne);
 	}
-
-	public List<T> updateBatch(UpdateBatch vo) {
+	
+	@PutMapping("/batch")
+	public List<T> updateBatch(@Valid @RequestBody UpdateBatch vo) {
 		List<UpdateOne> ul = vo.getList();
 		List<T> ues = new ArrayList<>();
 		for(UpdateOne uo : ul) {
@@ -113,12 +128,14 @@ public class BaseRestController<T extends BaseEntity,Rv extends BaseControllerRe
 		}
 		return this.getBaseEntityRepository().updateBatch(ues);
 	}
-
-	public T getOne(Long id) {
+	
+	@GetMapping("/{id}")
+	public T getOne(@NotNull(message="id can not be null") @PathVariable("id")  Long id) {
 		return this.getBaseEntityRepository().findById(id);
 	}
-
-	public List<T> getList(GetList vo) {
+	
+	@PostMapping("/list")
+	public List<T> getList(@Valid @RequestBody GetList vo) {
 		try {
 			T queryExample = copyOne(vo, vo.source2targetProperties());
 			return this.getBaseEntityRepository().findListByParams(JacksonUtil.obj2MapIgnoreNull(queryExample));
@@ -126,8 +143,9 @@ public class BaseRestController<T extends BaseEntity,Rv extends BaseControllerRe
 			throw new BaseException(BaseConstant.ILLEGAL_ARGUMENT, e);
 		}
 	}
-
-	public Page<T> getPage(GetPage vo) {
+	
+	@PostMapping("/page")
+	public Page<T> getPage(@Valid @RequestBody GetPage vo) {
 		return this.getBaseEntityRepository().findPage(vo);
 	}
 

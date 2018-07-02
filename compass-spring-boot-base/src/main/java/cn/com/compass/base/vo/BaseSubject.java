@@ -1,7 +1,6 @@
 package cn.com.compass.base.vo;
 
 import java.io.Serializable;
-import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -25,22 +24,22 @@ public class BaseSubject implements Serializable {
 	 */
 	private Long userId;
 	/**
+	 * 组织Id
+	 */
+	private Long orgId;
+	/**
 	 * 用户账号
 	 */
 	private String account;
-	/**
-	 * 用户角色
-	 */
-	private List<String> authorities;
 	
 	public BaseSubject() {
 		
 	}
 	
-	public BaseSubject(Long userId,String account,List<String> authorities) {
+	public BaseSubject(Long userId,Long orgId,String account) {
 		this.userId = userId;
+		this.orgId = orgId;
 		this.account = account;
-		this.authorities = authorities;
 	}
 
 }

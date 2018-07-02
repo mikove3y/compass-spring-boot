@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
@@ -25,26 +27,36 @@ public class BaseDataX implements Serializable{
 	 * k-v unRepetd</br> 
 	 * key: source property </br>
 	 * value: target property </br>
+	 * ex: {{"s1","t1"},{"s2","t2"},{"s3","t3"}} </br>
 	 * @return
 	 */
 	@JsonIgnore
-	public Map<String,String> source2targetProperties(){
+	public Map<String, String> source2targetProperties() {
+		source2targetProperties.clear();
+		String[][] pairs = this.getPairs();
+		if (ArrayUtils.isNotEmpty(pairs)) {
+			for (int i = 0; i < pairs.length; i++) {
+				if(ArrayUtils.isEmpty(pairs[i]) || pairs[i].length != 2) continue;
+				String source = pairs[i][0];
+				String target = pairs[i][1];
+				source2targetProperties.put(source, target);
+			}
+		}
 		return source2targetProperties;
 	}
 	
-	/**
-	 * 
-	 * ex: {{"s1","t1"},{"s2","t2"},{"s3","t3"}} </br>
-	 * 塞入K-v二维数组  </br>
-	 * @param pairs </br>
-	 */
 	@JsonIgnore
-	public void pushPairs(String[][] pairs) {
-		for(int i = 0 ; i < pairs.length; i++) {
-			String source = pairs[i][0];
-			String target = pairs[i][1];
-			source2targetProperties.put(source, target);
-		}
+	private String[][] pairs;
+	
+	@JsonIgnore
+	public String[][] getPairs() {
+		return pairs;
 	}
+	
+	@JsonIgnore
+	public void setPairs(String[][] pairs) {
+		this.pairs = pairs;
+	}
+	
 
 }

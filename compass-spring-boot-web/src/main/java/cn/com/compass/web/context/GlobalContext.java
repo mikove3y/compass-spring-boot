@@ -1,12 +1,11 @@
-package cn.com.compass.starter.context;
+package cn.com.compass.web.context;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import cn.com.compass.base.constant.BaseConstant;
 import cn.com.compass.base.vo.BaseSubject;
@@ -22,14 +21,19 @@ import cn.com.compass.util.JacksonUtil;
  */
 @Component
 public class GlobalContext {
-
+	
+	@Resource
+	private HttpServletRequest request;
+	
+	@Resource
+	private HttpServletResponse response;
 
 	public HttpServletRequest getRequest() {
-		return ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
+		return request;
 	}
 	
 	public HttpServletResponse getResponse() {
-		return ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getResponse();
+		return response;
 	}
 
 	public HttpSession getSession() {

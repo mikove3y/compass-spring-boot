@@ -36,8 +36,6 @@ public abstract class BaseController {
 	@Resource
 	private HttpServletRequest request;
 	
-	private NativeWebRequest nativeWebRequest = new ServletWebRequest(request);
-	
 	public HttpServletResponse response() {
 		return response;
 	}
@@ -47,11 +45,11 @@ public abstract class BaseController {
 	}
 	
 	public NativeWebRequest nativeWebRequest() {
-		return nativeWebRequest;
+		return new ServletWebRequest(request);
 	}
 	
 	public Map<String, Object> pathVarialbes() {
-		Object obj = nativeWebRequest.getAttribute(View.PATH_VARIABLES, RequestAttributes.SCOPE_REQUEST);
+		Object obj = nativeWebRequest().getAttribute(View.PATH_VARIABLES, RequestAttributes.SCOPE_REQUEST);
 		return obj != null ? (Map<String, Object>) obj : new HashMap<>();
 	}
 	
