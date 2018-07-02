@@ -4,18 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.validation.annotation.Validated;
-
 import cn.com.compass.base.constant.BaseConstant;
 import cn.com.compass.base.entity.BaseEntity;
 import cn.com.compass.base.exception.BaseException;
-import cn.com.compass.base.service.IBaseDataX;
+import cn.com.compass.base.vo.BaseDataX;
 import cn.com.compass.base.vo.Page;
 import cn.com.compass.data.repository.BaseEntityRepository;
 import cn.com.compass.util.DataXUtil;
 import cn.com.compass.util.JacksonUtil;
 import cn.com.compass.web.controller.BaseController;
-import cn.com.compass.web.controller.IBaseController;
 import cn.com.compass.web.vo.BaseControllerRequestVo;
 import cn.com.compass.web.vo.BaseControllerRequestVo.AddBatch;
 import cn.com.compass.web.vo.BaseControllerRequestVo.AddOne;
@@ -33,8 +30,7 @@ import cn.com.compass.web.vo.BaseControllerRequestVo.UpdateOne;
  * @date 2018年6月6日 下午2:42:03
  * @since 1.0.7 优化为泛型实现类
  */
-@Validated
-public class BaseRestController<T extends BaseEntity,Rv extends BaseControllerRequestVo> extends BaseController implements IBaseController<T,Rv> {
+public class BaseRestController<T extends BaseEntity,Rv extends BaseControllerRequestVo> extends BaseController {
 	
 	private BaseEntityRepository<T> baseEntityRepository;
 	
@@ -64,8 +60,8 @@ public class BaseRestController<T extends BaseEntity,Rv extends BaseControllerRe
 	private List<T> copyList(List<?> sources) {
 		List<T> targets = new ArrayList<>();
 		for (Object source : sources) {
-			if(source instanceof IBaseDataX) {
-				IBaseDataX dx = (IBaseDataX) source;
+			if(source instanceof BaseDataX) {
+				BaseDataX dx = (BaseDataX) source;
 				targets.add(this.copyOne(source,dx.source2targetProperties()));
 			}else {
 				targets.add(this.copyOne(source,null));
@@ -74,34 +70,31 @@ public class BaseRestController<T extends BaseEntity,Rv extends BaseControllerRe
 		return targets;
 	}
 	
-	@Override
+	
 	public T addOne(AddOne vo) {
 		T entity = this.copyOne(vo,vo.source2targetProperties());
 		return this.getBaseEntityRepository().saveOne(entity);
 	}
 
-	@Override
+	
 	public List<T> addBatch(AddBatch vo) {
 		List<T> entities = this.copyList(vo.getList());
 		return this.getBaseEntityRepository().saveBatch(entities);
 	}
-
-	@Override
+	
 	public T deleteOne(Long id) {
 		T oe = this.getOne(id);
 		boolean del = this.getBaseEntityRepository().deleteById(id);
 		return del ? oe : null;
 	}
-
-	@Override
+	
 	public List<T> deleteBatch(DeleteBatch vo) {
 		List<Long> ids = vo.getIds();
 		List<T> oes = this.getBaseEntityRepository().findByIds(ids);
 		boolean del = this.getBaseEntityRepository().deleteByIds(ids);
 		return del ? oes : null;
 	}
-
-	@Override
+	
 	public T updateOne(UpdateOne vo) {
 		T oe = this.getOne(vo.getId());
 		T ne = this.copyOne(vo,vo.source2targetProperties());
@@ -109,7 +102,6 @@ public class BaseRestController<T extends BaseEntity,Rv extends BaseControllerRe
 		return this.getBaseEntityRepository().updateOne(ne);
 	}
 
-	@Override
 	public List<T> updateBatch(UpdateBatch vo) {
 		List<UpdateOne> ul = vo.getList();
 		List<T> ues = new ArrayList<>();
@@ -122,12 +114,10 @@ public class BaseRestController<T extends BaseEntity,Rv extends BaseControllerRe
 		return this.getBaseEntityRepository().updateBatch(ues);
 	}
 
-	@Override
 	public T getOne(Long id) {
 		return this.getBaseEntityRepository().findById(id);
 	}
 
-	@Override
 	public List<T> getList(GetList vo) {
 		try {
 			T queryExample = copyOne(vo, vo.source2targetProperties());
@@ -137,7 +127,6 @@ public class BaseRestController<T extends BaseEntity,Rv extends BaseControllerRe
 		}
 	}
 
-	@Override
 	public Page<T> getPage(GetPage vo) {
 		return this.getBaseEntityRepository().findPage(vo);
 	}

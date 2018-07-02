@@ -6,7 +6,7 @@ import java.util.List;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import cn.com.compass.base.service.IBaseDataX;
+import cn.com.compass.base.vo.BaseDataX;
 import cn.com.compass.base.vo.BaseRequestPageVo;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,7 +24,7 @@ public class BaseControllerRequestVo {
 	/**
 	 * 新增单条记录
 	 */
-	public static abstract class AddOne implements IBaseDataX {
+	public class AddOne extends BaseDataX {
 		
 		private static final long serialVersionUID = -1122678082058697210L;
 		
@@ -35,7 +35,7 @@ public class BaseControllerRequestVo {
 	 */
 	@Getter
 	@Setter
-	public static abstract class AddBatch implements Serializable {
+	public class AddBatch implements Serializable {
 		
 		private static final long serialVersionUID = -7959597882674797944L;
 		@NotNull(message="list can not be empty")
@@ -49,7 +49,7 @@ public class BaseControllerRequestVo {
 	 */
 	@Getter
 	@Setter
-	public static class DeleteBatch implements Serializable {
+	public class DeleteBatch implements Serializable {
 
 		private static final long serialVersionUID = 3929950643557226865L;
 		@NotNull(message="ids can not be empty")
@@ -63,7 +63,7 @@ public class BaseControllerRequestVo {
 	 */
 	@Getter
 	@Setter
-	public static abstract class UpdateOne implements IBaseDataX {
+	public class UpdateOne extends BaseDataX {
 
 		private static final long serialVersionUID = 3080869245679812222L;
 		@NotNull(message="id can not be null")
@@ -76,7 +76,7 @@ public class BaseControllerRequestVo {
 	 */
 	@Getter
 	@Setter
-	public static class UpdateBatch implements Serializable {
+	public class UpdateBatch implements Serializable {
 		
 		private static final long serialVersionUID = -3796278925186438303L;
 		@NotNull(message="list can not be empty")
@@ -87,7 +87,7 @@ public class BaseControllerRequestVo {
 	/**
 	 * 查询列表
 	 */
-	public static abstract class GetList implements IBaseDataX {
+	public class GetList extends BaseDataX {
 
 		private static final long serialVersionUID = 5777352902371832824L;
 		
@@ -96,7 +96,7 @@ public class BaseControllerRequestVo {
 	/**
 	 * 查询分页
 	 */
-	public static abstract class GetPage extends BaseRequestPageVo {
+	public class GetPage extends BaseRequestPageVo {
 
 		private static final long serialVersionUID = -2276205545836799150L;
 		

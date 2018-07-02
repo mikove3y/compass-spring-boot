@@ -5,7 +5,6 @@ import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,33 +16,42 @@ import cn.com.compass.base.entity.BaseEntity;
 import cn.com.compass.base.vo.Page;
 import cn.com.compass.web.vo.BaseControllerRequestVo;
 
-@Validated
+/**
+ * 
+ * @author wanmk
+ * @git https://gitee.com/milkove
+ * @email 524623302@qq.com
+ * @todo feignClient 不支持多层接口实例化，client层统一在eip层级定义
+ * @date 2018年7月1日 下午5:02:50
+ *
+ */
+@Deprecated
 public interface IBaseController<T extends BaseEntity,Rv extends BaseControllerRequestVo> {
 	
 	
 	@PostMapping
-	public T addOne(@Valid @RequestBody Rv.AddOne vo);
+	public T addOne(@RequestBody Rv.AddOne vo);
 	
 	/**
 	 * 批量新增,返回最新数据集
 	 * @param entities
 	 */
 	@PostMapping("/batch")
-	public List<T> addBatch(@Valid @RequestBody Rv.AddBatch vo);
+	public List<T> addBatch(@RequestBody Rv.AddBatch vo);
 	
 	/**
 	 * 单条删除
 	 * @param id
 	 */
 	@DeleteMapping("/{id}")
-	public T deleteOne(@NotNull(message="id can not be null") @PathVariable("id") Long id);
+	public T deleteOne(@PathVariable("id") Long id);
 	
 	/**
 	 * 批量删除
 	 * @param ids
 	 */
 	@DeleteMapping("/batch")
-	public List<T> deleteBatch(@Valid @RequestBody Rv.DeleteBatch vo);
+	public List<T> deleteBatch(@RequestBody Rv.DeleteBatch vo);
 	
 	/**
 	 * 更新单条记录,返回最新数据

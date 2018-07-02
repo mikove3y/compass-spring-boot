@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cn.com.compass.base.entity.BaseEntity;
-import cn.com.compass.base.service.IBaseDataX;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,7 +18,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public abstract class BaseRequestPageVo implements IBaseDataX {
+public class BaseRequestPageVo extends BaseDataX{
 
 	private static final long serialVersionUID = 8464373602146221705L;
 	/**
