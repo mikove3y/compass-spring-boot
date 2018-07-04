@@ -29,7 +29,7 @@ public class DataXUtil {
 	 * @throws Exception
 	 */
 	public static void copyProperties(Object source, Object target, Map<String, String> source2targetProperties) throws Exception {
-		if (MapUtils.isEmpty(source2targetProperties)) {
+		if (MapUtils.isNotEmpty(source2targetProperties)) {
 			// mapping source 2 target
 			Map<String, Object> sourceMap = JacksonUtil.obj2MapIgnoreNull(source);
 			Map<String, Object> sourceMapX = new HashMap<>();

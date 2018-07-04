@@ -80,15 +80,13 @@ public class BaseEntity implements Serializable {
 	@Id
 	private Long id;
 	
-	@JsonIgnore
 	private Long creterId;
 	
 	private Date createTime;
 
-	@JsonIgnore
 	private Long lastUpdaterId;
 	
-	private Date lastUpdateTime = new Date();
+	private Date lastUpdateTime;
 	
 	@Version
 	@JsonIgnore
