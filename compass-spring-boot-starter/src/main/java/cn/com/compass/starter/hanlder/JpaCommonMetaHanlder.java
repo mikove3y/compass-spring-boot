@@ -69,7 +69,7 @@ public class JpaCommonMetaHanlder extends EmptyInterceptor {
 				BaseSubject sub = globalContext.getGlobalSubject();
 				for (int i = 0; i < propertyNames.length; i++) {
 					if (sub != null) {
-						if (propertyNames[i].equals(BaseEntity.CRETERID)) {
+						if (propertyNames[i].equals(BaseEntity.CREATERID)) {
 							state[i] = sub.getUserId();
 							return true;
 						}

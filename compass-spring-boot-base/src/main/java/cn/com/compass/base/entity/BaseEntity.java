@@ -80,7 +80,7 @@ public class BaseEntity implements Serializable {
 	@Id
 	private Long id;
 	
-	private Long creterId;
+	private Long createrId;
 	
 	private Date createTime;
 
@@ -101,7 +101,7 @@ public class BaseEntity implements Serializable {
 
 	public static final String CREATETIME = "createTime";
 
-	public static final String CRETERID = "creterId";
+	public static final String CREATERID = "createrId";
 
 	public static final String LASTUPDATETIME = "lastUpdateTime";
 
