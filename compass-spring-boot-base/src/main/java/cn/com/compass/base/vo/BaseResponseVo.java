@@ -12,7 +12,7 @@ public class BaseResponseVo implements Serializable {
 	
 	private static final String SUCCESS = "success";
 	
-	private String code;
+	private String status;
 
 	private String msg;
 
@@ -22,23 +22,23 @@ public class BaseResponseVo implements Serializable {
 		
 	}
 	
-	public BaseResponseVo(String code) {
-		this.code = code;
+	public BaseResponseVo(String status) {
+		this.status = status;
 	}
 	
-	public BaseResponseVo(String code,String msg) {
-		this.code = code;
+	public BaseResponseVo(String status,String msg) {
+		this.status = status;
 		this.msg = msg;
 	}
 	
-	public BaseResponseVo(String code,String msg,Object data) {
-		this.code = code;
+	public BaseResponseVo(String status,String msg,Object data) {
+		this.status = status;
 		this.msg = msg;
 		this.data = data;
 	}
 
-	public BaseResponseVo setCode(String code) {
-		this.code = code;
+	public BaseResponseVo setStatus(String status) {
+		this.status = status;
 		return this;
 	}
 

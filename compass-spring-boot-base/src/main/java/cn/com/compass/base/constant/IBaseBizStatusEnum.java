@@ -45,5 +45,20 @@ public interface IBaseBizStatusEnum {
         }
         throw new IllegalArgumentException("No enum code " + code + " of " + enumType.getCanonicalName());
     }
+	
+	/**
+	 * 按枚举的desc获取枚举实例
+	 * @param enumType
+	 * @param desc
+	 * @return
+	 */
+	public static <T extends IBaseBizStatusEnum> T fromDesc(Class<T> enumType, String desc) {
+        for (T object : enumType.getEnumConstants()) {
+            if (Objects.equals(desc, object.getDes())) {
+                return object;
+            }
+        }
+        throw new IllegalArgumentException("No enum desc " + desc + " of " + enumType.getCanonicalName());
+    }
 
 }

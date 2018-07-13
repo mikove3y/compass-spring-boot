@@ -12,30 +12,65 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * @date 2018年6月6日 下午8:53:15
  *
  */
-public enum BaseBizeStatusEnum implements IBaseBizStatusEnum {
+public class BaseBizeStatusEnum {
 	
-	YES(1, "是"), NO(0, "否");
+	/**
+	 * 是否
+	 */
+	public enum YesOrNo implements IBaseBizStatusEnum {
+
+		YES(1, "是"), NO(0, "否");
+
+		private final Integer code;
+
+		private final String des;
+
+		@JsonCreator
+		private YesOrNo(Integer code, String des) {
+			this.code = code;
+			this.des = des;
+		}
+
+		@Override
+		@JsonValue
+		public Integer getCode() {
+			return this.code;
+		}
+
+		@Override
+		public String getDes() {
+			return this.des;
+		}
+	}
 	
+	/**
+	 * 文件类型（ 0-图片，1-音频，2-视频，3-其他）
+	 */
+	public enum FileType implements IBaseBizStatusEnum {
 
-	private final Integer code;
+		PIC(0, "图片"), AUDIO(1, "音频"), VIDEO(3,"视频"), OTHER(3,"其他");
 
-	private final String des;
+		private final Integer code;
+
+		private final String des;
+
+		@JsonCreator
+		private FileType(Integer code, String des) {
+			this.code = code;
+			this.des = des;
+		}
+
+		@Override
+		@JsonValue
+		public Integer getCode() {
+			return this.code;
+		}
+
+		@Override
+		public String getDes() {
+			return this.des;
+		}
+	}
 	
-	@JsonCreator
-	private BaseBizeStatusEnum(Integer code, String des) {
-		this.code = code;
-		this.des = des;
-	}
-
-	@Override
-	@JsonValue
-	public Integer getCode() {
-		return this.code;
-	}
-
-	@Override
-	public String getDes() {
-		return this.des;
-	}
 
 }

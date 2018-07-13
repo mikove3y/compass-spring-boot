@@ -3,6 +3,7 @@ package cn.com.compass.base.vo;
 import java.io.Serializable;
 import java.util.List;
 
+import cn.com.compass.base.constant.IBaseBizStatusEnum;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -36,16 +37,54 @@ public class BaseSubject implements Serializable {
 	 * 用户角色
 	 */
 	private List<String> authorities;
+	/**
+	 * 客户端类型
+	 */
+	private Integer clientType;
+	/**
+	 * 授权类型
+	 */
+	private String grantType;
 	
 	public BaseSubject() {
 		
 	}
 	
-	public BaseSubject(Long userId,Long orgId,String account,List<String> authorities) {
+	public BaseSubject(Long userId,Long orgId,String account,Integer clientType,List<String> authorities) {
 		this.userId = userId;
 		this.orgId = orgId;
 		this.account = account;
+		this.clientType = clientType;
 		this.authorities = authorities;
 	}
+	
+	/**
+	 * 客户端类型枚举
+	 */
+	public enum ClientType implements IBaseBizStatusEnum{
+		APP(1, "APP"), PC(2, "PC");
+		private final Integer code;
 
+		private final String des;
+		
+		private ClientType(Integer code,String des) {
+			this.code= code;
+			this.des = des;
+		}
+		
+		@Override
+		public Integer getCode() {
+			return code;
+		}
+
+		@Override
+		public String getDes() {
+			return des;
+		}
+		
+	}
+	
+	
+	public static final String GREANT_ACCESS_TOKEN = "access_token";
+	public static final String GRANT_REFRESH_TOKEN = "refresh_token";
 }

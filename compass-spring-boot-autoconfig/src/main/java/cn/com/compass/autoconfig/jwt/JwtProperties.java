@@ -28,7 +28,11 @@ public class JwtProperties {
     /**
      * 过期时间 默认二个小时
      */
-    private long expire = 2*60*60*1000; 
+    private long expire = 2*60*60*1000L; 
+    /**
+     * 默认二个半小时
+     */
+    private long refreshExpire = expire + 30*60*1000L;
     
     /**
      * 签发方
