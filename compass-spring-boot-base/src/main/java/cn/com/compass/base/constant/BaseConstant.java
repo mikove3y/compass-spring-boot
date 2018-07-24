@@ -16,6 +16,10 @@ public interface BaseConstant {
 	 */
 	public static final String REQUEST_SUBJECT_ATTRIBUTE_KEY = "BaseSubject";
 	/**
+	 * 业务数据权限
+	 */
+	public static final String REQUEST_DATA_PERMISSION = "DataFilter";
+	/**
 	 * 放在request头中的权限key
 	 */
 	public static final String AUTHORIZATION_KEY = "Authorization";

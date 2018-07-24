@@ -43,34 +43,6 @@ public class BaseBizeStatusEnum {
 		}
 	}
 	
-	/**
-	 * 文件类型（ 0-图片，1-音频，2-视频，3-其他）
-	 */
-	public enum FileType implements IBaseBizStatusEnum {
-
-		PIC(0, "图片"), AUDIO(1, "音频"), VIDEO(3,"视频"), OTHER(3,"其他");
-
-		private final Integer code;
-
-		private final String des;
-
-		@JsonCreator
-		private FileType(Integer code, String des) {
-			this.code = code;
-			this.des = des;
-		}
-
-		@Override
-		@JsonValue
-		public Integer getCode() {
-			return this.code;
-		}
-
-		@Override
-		public String getDes() {
-			return this.des;
-		}
-	}
 	
 
 }
