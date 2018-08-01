@@ -42,7 +42,7 @@
 
 	<properties>
 		<!-- compass version -->
-		<compss-boot.version>1.1.0-SNAPSHOT</compss-boot.version>
+		<compss-boot.version>1.1.1-SNAPSHOT</compss-boot.version>
 		<!-- spring boot -->
 		<spring-boot.version>1.5.13.RELEASE</spring-boot.version>
 		<!-- spring cloud -->
@@ -207,6 +207,16 @@
 				<artifactId>compass-spring-boot-starter</artifactId>
 				<version>${compss-boot.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>cn.com.compass</groupId>
+				<artifactId>compass-spring-boot-camel</artifactId>
+				<version>${compss-boot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.com.compass</groupId>
+				<artifactId>compass-spring-boot-cache</artifactId>
+				<version>${compss-boot.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -315,5 +325,6 @@
 		<module>compass-spring-boot-web</module>
 		<module>compass-spring-boot-starter</module>
     	<module>compass-spring-boot-cache</module>
+    	<module>compass-spring-boot-camel</module>
   </modules>
 </project>
