@@ -14,12 +14,12 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class BaseAddBatchRequestVo implements Serializable{
+public class BaseAddBatchRequestVo<T extends BaseAddOneRequestVo> implements Serializable{
 
 	private static final long serialVersionUID = 4380268252864559218L;
 	
 	@NotNull(message="list can not be empty")
 	@Size(min=1,message="list can not be empty")
-	private List<BaseAddOneRequestVo> list;
+	private List<T> list;
 
 }

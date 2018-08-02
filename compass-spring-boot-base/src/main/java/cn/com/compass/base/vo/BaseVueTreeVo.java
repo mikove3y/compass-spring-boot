@@ -2,8 +2,7 @@ package cn.com.compass.base.vo;
 
 import java.io.Serializable;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 /**
  * 
@@ -14,8 +13,7 @@ import lombok.Setter;
  * @date 2018年7月24日 上午10:01:11
  *
  */
-@Getter
-@Setter
+@Data
 public class BaseVueTreeVo implements Serializable{
 	
 	private static final long serialVersionUID = -4007798288234006756L;

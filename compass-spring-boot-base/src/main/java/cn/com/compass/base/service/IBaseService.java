@@ -4,7 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import cn.com.compass.base.entity.BaseEntity;
-import cn.com.compass.base.vo.BaseRequestPageVo;
+import cn.com.compass.base.vo.BaseRequestAppPageVo;
+import cn.com.compass.base.vo.BaseRequestPcPageVo;
 import cn.com.compass.base.vo.Page;
 
 /**
@@ -132,12 +133,17 @@ public interface IBaseService<T extends BaseEntity> {
 	 * @return
 	 */
 	public List<T> findListByParams(Map<String, Object> params);
-
 	/**
-	 * find page
+	 * find pc page 按照pageNo pageSize分页
 	 * 
 	 * @param pageVo
 	 * @return
 	 */
-	public Page<T> findPage(BaseRequestPageVo pageVo);
+	public Page<T> findPcPage(BaseRequestPcPageVo pageVo);
+	/**
+	 * find app page 按照dataId pageSize分页
+	 * @param pageVo
+	 * @return
+	 */
+	public Page<T> findAppPage(BaseRequestAppPageVo pageVo);
 }

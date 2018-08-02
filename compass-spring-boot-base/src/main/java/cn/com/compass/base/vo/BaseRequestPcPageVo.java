@@ -12,13 +12,13 @@ import lombok.Setter;
  * @author wanmk
  * @git https://gitee.com/milkove
  * @email 524623302@qq.com
- * @todo 分页查询请求vo
+ * @todo pc分页查询请求vo
  * @date 2018年6月6日 下午2:47:26
  *
  */
 @Getter
 @Setter
-public class BaseRequestPageVo extends BaseDataX{
+public class BaseRequestPcPageVo extends BaseDataX{
 
 	private static final long serialVersionUID = 8464373602146221705L;
 	/**

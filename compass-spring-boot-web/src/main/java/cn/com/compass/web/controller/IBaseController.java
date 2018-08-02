@@ -13,12 +13,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import cn.com.compass.base.entity.BaseEntity;
+import cn.com.compass.base.vo.BaseDataX;
+import cn.com.compass.base.vo.BaseRequestAppPageVo;
+import cn.com.compass.base.vo.BaseRequestPcPageVo;
 import cn.com.compass.base.vo.Page;
 import cn.com.compass.web.vo.BaseAddBatchRequestVo;
 import cn.com.compass.web.vo.BaseAddOneRequestVo;
 import cn.com.compass.web.vo.BaseDeleteBatchRequestVo;
-import cn.com.compass.web.vo.BaseGetListRequestVo;
-import cn.com.compass.web.vo.BaseGetPageRequestVo;
 import cn.com.compass.web.vo.BaseUpdateBatchRequestVo;
 import cn.com.compass.web.vo.BaseUpdateOneRequestVo;
 
@@ -31,18 +32,18 @@ import cn.com.compass.web.vo.BaseUpdateOneRequestVo;
  * @date 2018年7月1日 下午5:02:50
  *
  */
-public interface IBaseController<T extends BaseEntity, A extends BaseAddOneRequestVo, B extends BaseAddBatchRequestVo, C extends BaseUpdateOneRequestVo, D extends BaseUpdateBatchRequestVo, E extends BaseGetListRequestVo, F extends BaseGetPageRequestVo> {
+public interface IBaseController<T extends BaseEntity> {
 	
 	
 	@PostMapping
-	public T addOne(@Valid @RequestBody A vo);
+	public <A extends BaseAddOneRequestVo> T addOne(@Valid @RequestBody A vo);
 	
 	/**
 	 * 批量新增,返回最新数据集
 	 * @param entities
 	 */
 	@PostMapping("/batch")
-	public List<T> addBatch(@Valid @RequestBody B vo);
+	public <B extends BaseAddBatchRequestVo<BaseAddOneRequestVo>> List<T> addBatch(@Valid @RequestBody B vo);
 	
 	/**
 	 * 单条删除
@@ -63,14 +64,14 @@ public interface IBaseController<T extends BaseEntity, A extends BaseAddOneReque
 	 * @param entity
 	 */
 	@PutMapping
-	public T updateOne(@Valid @RequestBody C vo);
+	public <C extends BaseUpdateOneRequestVo> T updateOne(@Valid @RequestBody C vo);
 	
 	/**
 	 * 批量更新,返回最新数据集
 	 * @param entities
 	 */
 	@PutMapping("/batch")
-	public List<T> updateBatch(@Valid @RequestBody D vo);
+	public <D extends BaseUpdateBatchRequestVo<BaseUpdateOneRequestVo>> List<T> updateBatch(@Valid @RequestBody D vo);
 	
 	/**
 	 * 查询一条记录
@@ -84,13 +85,20 @@ public interface IBaseController<T extends BaseEntity, A extends BaseAddOneReque
 	 * @param params
 	 */
 	@PostMapping("/list")
-	public List<T> getList(@Valid @RequestBody E vo);
+	public <E extends BaseDataX> List<T> getList(@Valid @RequestBody E vo);
 	
 	/**
-	 * 分页查询
+	 * pc分页查询
 	 * @param pageVo
 	 */
-	@PostMapping("/page")
-	public Page<T> getPage(@Valid @RequestBody F vo);
+	@PostMapping("/page/pc")
+	public <F extends BaseRequestPcPageVo> Page<T> getPcPage(@Valid @RequestBody F vo);
+	
+	/**
+	 * app分页查询
+	 * @param pageVo
+	 */
+	@PostMapping("/page/app")
+	public <G extends BaseRequestAppPageVo> Page<T> getAppPage(@Valid @RequestBody G vo);
 
 }

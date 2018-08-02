@@ -21,7 +21,8 @@ import org.springframework.util.Assert;
 import cn.com.compass.base.constant.BaseConstant;
 import cn.com.compass.base.entity.BaseEntity;
 import cn.com.compass.base.exception.BaseException;
-import cn.com.compass.base.vo.BaseRequestPageVo;
+import cn.com.compass.base.vo.BaseRequestAppPageVo;
+import cn.com.compass.base.vo.BaseRequestPcPageVo;
 import cn.com.compass.base.vo.Page;
 import cn.com.compass.util.DataXUtil;
 import cn.com.compass.util.JacksonUtil;
@@ -217,6 +218,8 @@ public class BaseEntityRepositoryImpl<T extends BaseEntity> extends SimpleJpaRep
 			} catch (Exception e) {
 				throw new BaseException(BaseConstant.ILLEGAL_ARGUMENT, e);
 			}
+		}else {
+			throw new BaseException(BaseConstant.ILLEGAL_ARGUMENT, "ids's length is not equals params's length");
 		}
 		return rs;
 	}
@@ -268,7 +271,7 @@ public class BaseEntityRepositoryImpl<T extends BaseEntity> extends SimpleJpaRep
 	 * BaseRequestPageVo)
 	 */
 	@Override
-	public Page<T> findPage(BaseRequestPageVo pageVo) {
+	public Page<T> findPcPage(BaseRequestPcPageVo pageVo) {
 		try {
 			Map<String,Object> conditions = JacksonUtil.obj2Map(pageVo);
 			// build example
@@ -301,6 +304,11 @@ public class BaseEntityRepositoryImpl<T extends BaseEntity> extends SimpleJpaRep
 			throw new BaseException(BaseConstant.ILLEGAL_ARGUMENT, e);
 		}
 	}
+	
+	@Override
+	public Page<T> findAppPage(BaseRequestAppPageVo pageVo) {
+		return null;
+	}
 
 	@Override
 	public Class<T> domainClass() {
@@ -311,5 +319,7 @@ public class BaseEntityRepositoryImpl<T extends BaseEntity> extends SimpleJpaRep
 	public EntityManager entityManager() {
 		return entityManager;
 	}
+
+	
 
 }

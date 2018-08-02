@@ -52,13 +52,13 @@ public interface IBaseBizStatusEnum {
 	 * @param desc
 	 * @return
 	 */
-	public static <T extends IBaseBizStatusEnum> T fromDesc(Class<T> enumType, String desc) {
+	public static <T extends IBaseBizStatusEnum> T fromDesc(Class<T> enumType, String des) {
         for (T object : enumType.getEnumConstants()) {
-            if (Objects.equals(desc, object.getDes())) {
+            if (Objects.equals(des, object.getDes())) {
                 return object;
             }
         }
-        throw new IllegalArgumentException("No enum desc " + desc + " of " + enumType.getCanonicalName());
+        throw new IllegalArgumentException("No enum desc " + des + " of " + enumType.getCanonicalName());
     }
 
 }
