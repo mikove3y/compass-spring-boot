@@ -1,28 +1,34 @@
 <?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>cn.com.compass</groupId>
-    <artifactId>compass-spring-boot</artifactId>
-    <version>${compss-boot.version}</version>
-  </parent>
-  <artifactId>compass-spring-boot-data</artifactId>
-  <name>compass-spring-boot-data</name>
-  <url>http://maven.apache.org</url>
-  <dependencies>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>cn.com.compass</groupId>
+		<artifactId>compass-spring-boot</artifactId>
+		<version>${compss-boot.version}</version>
+	</parent>
+	<artifactId>compass-spring-boot-data</artifactId>
+	<name>compass-spring-boot-data</name>
+	<url>http://maven.apache.org</url>
+	<dependencies>
+		<!-- jpa -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
+		<!-- mybatis -->
 		<dependency>
 			<groupId>org.mybatis.spring.boot</groupId>
 			<artifactId>mybatis-spring-boot-starter</artifactId>
 		</dependency>
+		<!-- compass base -->
 		<dependency>
 			<groupId>cn.com.compass</groupId>
 			<artifactId>compass-spring-boot-base</artifactId>
 		</dependency>
+		<!-- druid -->
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>druid-spring-boot-starter</artifactId>
@@ -31,9 +37,15 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
-		<dependency>
+		<!-- sharding-jdbc -->
+		<!-- orchestration数据治理  -->
+		<!-- <dependency>
 			<groupId>io.shardingsphere</groupId>
 			<artifactId>sharding-jdbc-orchestration-spring-boot-starter</artifactId>
+		</dependency> -->
+		<dependency>
+			<groupId>io.shardingsphere</groupId>
+			<artifactId>sharding-jdbc-spring-boot-starter</artifactId>
 		</dependency>
 	</dependencies>
 </project>

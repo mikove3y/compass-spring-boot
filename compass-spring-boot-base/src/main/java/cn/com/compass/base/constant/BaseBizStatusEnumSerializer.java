@@ -28,7 +28,7 @@ public class BaseBizStatusEnumSerializer<T extends IBaseBizStatusEnum> extends S
 		gen.writeStartObject();
         gen.writeFieldName("code");
         gen.writeString(value.getCode().toString());
-        gen.writeFieldName("desc");
+        gen.writeFieldName("des");
         gen.writeNumber(value.getDes());
         gen.writeEndObject();
 	}

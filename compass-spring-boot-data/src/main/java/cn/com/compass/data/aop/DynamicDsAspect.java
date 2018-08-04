@@ -21,10 +21,11 @@ import cn.com.compass.data.dynamic.DynamicDsSwitch;
  * @email 524623302@qq.com
  * @todo 动态数据源切换切面
  * @date 2018年6月6日 下午3:50:58
- *
+ * @since v1.1.2 sharding-jdbc自动实现了读写分离 master-slave分离，不在使用自定义方式切换数据源
  */
 @Aspect
 @Component
+@Deprecated 
 public class DynamicDsAspect {
 
 	private ThreadLocal<String> hodler = new ThreadLocal<>();

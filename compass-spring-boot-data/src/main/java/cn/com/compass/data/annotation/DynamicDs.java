@@ -13,11 +13,12 @@ import java.lang.annotation.Target;
  * @email 524623302@qq.com
  * @todo 动态数据源注解
  * @date 2018年6月6日 下午3:50:42
- *
+ * @since v1.1.2 sharding-jdbc自动实现了读写分离 master-slave分离，不在使用自定义方式切换数据源
  */
 @Documented
 @Retention(RUNTIME)
 @Target(METHOD)
+@Deprecated  
 public @interface DynamicDs {
 	String target();
 }

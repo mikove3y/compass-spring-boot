@@ -15,6 +15,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
  */
 // enum json序列化为对象
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
+//@JsonSerialize(using=BaseBizStatusEnumSerializer.class)
 public interface IBaseBizStatusEnum {
 	/**
 	 * code
@@ -52,13 +53,13 @@ public interface IBaseBizStatusEnum {
 	 * @param desc
 	 * @return
 	 */
-	public static <T extends IBaseBizStatusEnum> T fromDesc(Class<T> enumType, String des) {
+	public static <T extends IBaseBizStatusEnum> T fromDes(Class<T> enumType, String des) {
         for (T object : enumType.getEnumConstants()) {
             if (Objects.equals(des, object.getDes())) {
                 return object;
             }
         }
-        throw new IllegalArgumentException("No enum desc " + des + " of " + enumType.getCanonicalName());
+        throw new IllegalArgumentException("No enum des " + des + " of " + enumType.getCanonicalName());
     }
 
 }

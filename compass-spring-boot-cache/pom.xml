@@ -17,9 +17,25 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-cache</artifactId>
 		</dependency>
+		<!-- 作为二级缓存 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-redis</artifactId>
+		</dependency>
+		<!-- 内存缓存 java8性能大升，作为一级缓存 -->
+		<dependency>
+			<groupId>com.github.ben-manes.caffeine</groupId>
+			<artifactId>caffeine</artifactId>
+		</dependency>
+		<!-- Kryo -->
+		<dependency>
+            <groupId>com.esotericsoftware</groupId>
+            <artifactId>kryo-shaded</artifactId>
+        </dependency>
+		<!-- compass web -->
+		<dependency>
+			<groupId>cn.com.compass</groupId>
+			<artifactId>compass-spring-boot-web</artifactId>
 		</dependency>
 	</dependencies>
 </project>

@@ -6,8 +6,9 @@ package cn.com.compass.data.dynamic;
  * @email 524623302@qq.com
  * @todo 数据源切换
  * @date 2018年6月6日 下午3:51:25
- *
+ * v1.1.2 sharding-jdbc自动实现了读写分离 master-slave分离，不在使用自定义方式切换数据源
  */
+@Deprecated 
 public class DynamicDsSwitch {
 	
 	private static final ThreadLocal<String> contextHolder = new ThreadLocal<>();

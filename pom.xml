@@ -68,6 +68,7 @@
 		<!-- util工具集 -->
 		<common-lang3.version>3.7</common-lang3.version>
 		<common-beanutils.version>1.9.3</common-beanutils.version>
+		<kryo.version>3.0.3</kryo.version>
 		<!-- jwt签名 -->
 		<jjwt.version>0.9.0</jjwt.version>
 		<!-- shiro -->
@@ -124,9 +125,16 @@
 				<version>${mybatis.version}</version>
 			</dependency>
 			<!-- sharding-jdbc -->
+			<!-- 分库分表+数据自理 -->
 			<dependency>
 				<groupId>io.shardingsphere</groupId>
 				<artifactId>sharding-jdbc-orchestration-spring-boot-starter</artifactId>
+				<version>${sharding-jdbc.version}</version>
+			</dependency>
+			<!-- 分库分表 -->
+			<dependency>
+				<groupId>io.shardingsphere</groupId>
+				<artifactId>sharding-jdbc-spring-boot-starter</artifactId>
 				<version>${sharding-jdbc.version}</version>
 			</dependency>
 			<!-- jackson -->
@@ -146,6 +154,12 @@
 				<artifactId>commons-beanutils</artifactId>
 				<version>${common-beanutils.version}</version>
 			</dependency>
+			<!-- kryo  -->
+			<dependency>
+            	<groupId>com.esotericsoftware</groupId>
+            	<artifactId>kryo-shaded</artifactId>
+            	<version>${kryo.version}</version>
+        	</dependency>
 			<!-- jwt -->
 			<dependency>
 				<groupId>io.jsonwebtoken</groupId>
@@ -171,11 +185,11 @@
 				<version>${druid.version}</version>
 			</dependency>
 			<!-- swagger -->
-			<!-- <dependency>
+			<dependency>
 				<groupId>com.spring4all</groupId>
 				<artifactId>swagger-spring-boot-starter</artifactId>
 				<version>${swagger.version}</version>
-			</dependency> -->
+			</dependency>
 			<!-- compass -->
 			<dependency>
 				<groupId>cn.com.compass</groupId>

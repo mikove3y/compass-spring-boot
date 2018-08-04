@@ -17,6 +17,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+		<!-- test -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -27,26 +28,51 @@
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<!-- hot dev tool -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+		<!-- compass autoConfig -->
 		<dependency>
 			<groupId>cn.com.compass</groupId>
 			<artifactId>compass-spring-boot-autoconfig</artifactId>
-			<!-- <exclusions> 去掉util中的jackson依赖冲突 <exclusion> <groupId>com.fasterxml.jackson.datatype</groupId> 
-				<artifactId>jackson-datatype-jsr310</artifactId> </exclusion> 去掉autoConfig中的logging依赖冲突 
-				<exclusion> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-logging</artifactId> 
-				</exclusion> 去掉spring4all swagger自动化配置冲突依赖 <exclusion> <groupId>org.springframework.boot</groupId> 
-				<artifactId>spring-boot-starter-web</artifactId> </exclusion> <exclusion> 
-				<groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter</artifactId> 
-				</exclusion> </exclusions> -->
+			<exclusions>
+				<!-- 去掉util中的jackson依赖冲突 -->
+				<exclusion>
+					<groupId>com.fasterxml.jackson.datatype</groupId>
+					<artifactId>jackson-datatype-jsr310</artifactId>
+				</exclusion>
+				<!-- 去掉autoConfig中的logging依赖冲突 -->
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-logging</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
+		<!-- swagger -->
+		<dependency>
+			<groupId>com.spring4all</groupId>
+			<artifactId>swagger-spring-boot-starter</artifactId>
+			<exclusions>
+				<!-- 去掉spring4all swagger自动化配置冲突依赖 -->
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-web</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<!-- comapss base -->
 		<dependency>
 			<groupId>cn.com.compass</groupId>
 			<artifactId>compass-spring-boot-base</artifactId>
 		</dependency>
+		<!-- aop -->
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjweaver</artifactId>
