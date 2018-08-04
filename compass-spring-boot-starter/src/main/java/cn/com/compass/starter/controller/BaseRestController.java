@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.validation.annotation.Validated;
+
 import cn.com.compass.base.constant.BaseConstant;
 import cn.com.compass.base.entity.BaseEntity;
 import cn.com.compass.base.exception.BaseException;
@@ -25,7 +27,7 @@ import cn.com.compass.web.controller.BaseController;
  * @date 2018年6月6日 下午2:42:03
  * @since 1.0.7 优化为泛型实现类
  */
-//@Validated
+@Validated
 public class BaseRestController<T extends BaseEntity> extends BaseController {
 
 	/**
