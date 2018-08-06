@@ -1,6 +1,5 @@
 package cn.com.compass.web.convert;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.WeakHashMap;
 
@@ -47,22 +46,15 @@ public class UniversalEnumConverterFactory implements ConverterFactory<String, I
 	 */
 	private class IntegerStrToEnum<T extends IBaseBizStatusEnum> implements Converter<String, T> {
 
-		private Map<String, T> enumMap = new HashMap<>();
+		private final Class<T> targerType;
 
-		public IntegerStrToEnum(Class<T> enumType) {
-			T[] enums = enumType.getEnumConstants();
-			for (T e : enums) {
-				enumMap.put(e.getCode().toString(), e);
-			}
+		public IntegerStrToEnum(Class<T> targerType) {
+			this.targerType = targerType;
 		}
 
 		@Override
 		public T convert(String source) {
-			T result = enumMap.get(source);
-			if (result == null) {
-				throw new IllegalArgumentException("No element matches " + source);
-			}
-			return result;
+			return IBaseBizStatusEnum.fromCode(targerType, Integer.valueOf(source));
 		}
 	}
 

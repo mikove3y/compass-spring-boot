@@ -1,7 +1,8 @@
 package cn.com.compass.web.config;
 
+import java.util.List;
+
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.web.HttpMessageConverters;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
@@ -41,19 +42,20 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
 	/**
 	 * 配置消息转换器 
 	 */
-//	@Override
-//	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-//		super.configureMessageConverters(converters);
-//		// ... mapper
-//		HttpMessageConverter<?> converter = new MappingJackson2HttpMessageConverter(mapper);
-//		converters.add(converter);
-//		
-//	}
-	@Bean
-    public HttpMessageConverters jacksonHttpMessageConverters(){
+	@Override
+	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+		super.configureMessageConverters(converters);
+		// ... mapper
 		HttpMessageConverter<?> converter = new MappingJackson2HttpMessageConverter(JacksonObjectMapperWrapper.getInstance());
-        return new HttpMessageConverters(converter);
-    }
+		converters.add(converter);
+		
+	}
+	
+//	@Bean
+//    public HttpMessageConverters jacksonHttpMessageConverters(){
+//		HttpMessageConverter<?> converter = new MappingJackson2HttpMessageConverter(JacksonObjectMapperWrapper.getInstance());
+//        return new HttpMessageConverters(converter);
+//    }
 	
 	@Bean
 	@ConditionalOnMissingBean
