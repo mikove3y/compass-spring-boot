@@ -1,15 +1,15 @@
 package cn.com.compass.web.hanlder;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 
+import javax.validation.ConstraintDeclarationException;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
@@ -22,7 +22,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import cn.com.compass.base.constant.BaseConstant;
 import cn.com.compass.base.exception.BaseException;
-import cn.com.compass.base.vo.BaseResponseVo;
+import cn.com.compass.base.vo.BaseErroVo;
 
 /**
  * 
@@ -47,8 +47,8 @@ public class BaseExceptionHandler {
 	@ExceptionHandler(BaseException.class)
 	@ResponseBody
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	public BaseResponseVo handleBaseException(BaseException exception) {
-		return new BaseResponseVo(exception.getErrorCode(),null,exception.getMessage());
+	public BaseErroVo handleBaseException(BaseException exception) {
+		return new BaseErroVo(exception.getErrorCode(),exception.getMessage());
 	}
 	
 	/**
@@ -58,8 +58,8 @@ public class BaseExceptionHandler {
 	@ExceptionHandler(IllegalArgumentException.class)
 	@ResponseBody
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	public BaseResponseVo handleIllegalArgumentException(IllegalArgumentException exception) {
-		return new BaseResponseVo(BaseConstant.ILLEGAL_ARGUMENT,null,exception.getMessage());
+	public BaseErroVo handleIllegalArgumentException(IllegalArgumentException exception) {
+		return new BaseErroVo(BaseConstant.ILLEGAL_ARGUMENT,exception.getMessage());
 	}
 
 	/**
@@ -71,8 +71,8 @@ public class BaseExceptionHandler {
 	@ExceptionHandler(ValidationException.class)
 	@ResponseBody
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public BaseResponseVo handleValidationException(ValidationException exception) {
-		String data = null;
+	public BaseErroVo handleValidationException(ValidationException exception) {
+		String error = null;
 		if (exception instanceof ConstraintViolationException) {
 			ConstraintViolationException exs = (ConstraintViolationException) exception;
 			StringBuffer buff = new StringBuffer();
@@ -80,9 +80,13 @@ public class BaseExceptionHandler {
 			for (ConstraintViolation<?> item : violations) {
 				buff.append(item.getMessage());
 			}
-			data = buff.toString();
+			error = buff.toString();
+		}else if(exception instanceof ConstraintDeclarationException) {
+			// HV000151 问题
+			String solveScheme = "To solve the issue, add the constraints to the interface method instead of the implementation method.";
+			error = exception.getMessage()+"\n"+solveScheme;
 		}
-		return new BaseResponseVo(BaseConstant.REQUEST_PARAMS_VALID_ERRO,null,data);
+		return new BaseErroVo(BaseConstant.REQUEST_PARAMS_VALID_ERRO,error);
 	}
 
 	/**
@@ -94,9 +98,9 @@ public class BaseExceptionHandler {
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	@ResponseBody
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public BaseResponseVo handleException(MethodArgumentNotValidException exception) {
+	public BaseErroVo handleException(MethodArgumentNotValidException exception) {
 		BindingResult validResult = exception.getBindingResult();
-		Map<String, Object> errorMp = new HashMap<>();
+		StringBuffer errorBuff = new StringBuffer();
 		for (ObjectError error : validResult.getAllErrors()) {
 			String field = null;
 			if (error instanceof FieldError) {
@@ -105,38 +109,21 @@ public class BaseExceptionHandler {
 				field = error.getCode();
 			}
 			String message = error.getDefaultMessage();
-			errorMp.put(field, message);
+			errorBuff.append(field+":"+message+"\n");
 		}
-		return new BaseResponseVo(BaseConstant.REQUEST_PARAMS_VALID_ERRO,null,errorMp);
+		return new BaseErroVo(BaseConstant.REQUEST_PARAMS_VALID_ERRO,errorBuff.toString());
 	}
 	
-//	@Resource
-//	private HttpServletResponse response;
-	
 	/**
-	 * json格式数据打印
-	 * 
-	 * @param rs
+	 * 请求参数转换错误 HttpMessageConversionException
+	 * @param exception
+	 * @return
 	 */
-//	public void printResonpseJson(String code,Object data,Integer httpStatus) {
-//		PrintWriter writer = null;
-//		try {
-//			ConstantUtil constantUtil = AppContext.getInstance().getBean(ConstantUtil.class);
-//			String msg = constantUtil.getValue(code);
-//			BaseResponseVo rsp = new BaseResponseVo(code, msg).setData(data);
-//			HttpServletResponse response = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getResponse();
-//			response.setContentType(MediaType.APPLICATION_JSON_UTF8.toString());
-//			response.setHeader("Cache-Control", "no-cache");
-//			response.setStatus(httpStatus!=null?httpStatus:HttpStatus.OK.value());
-//			writer = response.getWriter();
-//			writer.write(JacksonUtil.obj2json(rsp));
-//			writer.flush();
-//		} catch (Exception e) {
-//			throw new BaseException(BaseConstant.RESPONSE_DATA_TO_JSON_ERRO, e);
-//		} finally {
-//			if (writer != null)
-//				writer.close();
-//		}
-//	}
-
+	@ExceptionHandler(HttpMessageConversionException.class)
+	@ResponseBody
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public BaseErroVo handleException(HttpMessageConversionException exception) {
+		return new BaseErroVo(BaseConstant.REQUEST_PARAMS_VALID_ERRO,exception.getMessage());
+	}
+	
 }

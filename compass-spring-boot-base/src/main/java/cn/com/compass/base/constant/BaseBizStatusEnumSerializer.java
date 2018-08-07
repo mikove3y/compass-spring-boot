@@ -15,21 +15,25 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
  * @date 2018年7月1日 下午7:31:40
  *
  */
-public class BaseBizStatusEnumSerializer<T extends IBaseBizStatusEnum> extends StdSerializer<T>{
-
+public class BaseBizStatusEnumSerializer extends StdSerializer<IBaseBizStatusEnum>{
+	
 	private static final long serialVersionUID = -1918391420455571610L;
+	
+	public BaseBizStatusEnumSerializer() {
+		super(IBaseBizStatusEnum.class);
+	}
 
-	public BaseBizStatusEnumSerializer(Class<T> t) {
+	public BaseBizStatusEnumSerializer(Class<IBaseBizStatusEnum> t) {
 		super(t);
 	}
-	
+
 	@Override
-	public void serialize(T value, JsonGenerator gen, SerializerProvider provider) throws IOException {
+	public void serialize(IBaseBizStatusEnum value, JsonGenerator gen, SerializerProvider provider) throws IOException {
 		gen.writeStartObject();
-        gen.writeFieldName("code");
-        gen.writeString(value.getCode().toString());
-        gen.writeFieldName("des");
-        gen.writeNumber(value.getDes());
+        gen.writeFieldName(IBaseBizStatusEnum.CODE);
+        gen.writeNumber(value.getCode());
+        gen.writeFieldName(IBaseBizStatusEnum.DES);
+        gen.writeString(value.getDes());
         gen.writeEndObject();
 	}
 

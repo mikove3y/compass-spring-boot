@@ -2,7 +2,8 @@ package cn.com.compass.base.constant;
 
 import java.util.Objects;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
  * 
@@ -14,8 +15,9 @@ import com.fasterxml.jackson.annotation.JsonFormat;
  *
  */
 // enum json序列化为对象
-@JsonFormat(shape = JsonFormat.Shape.OBJECT)
-//@JsonSerialize(using=BaseBizStatusEnumSerializer.class)
+//@JsonFormat(shape = JsonFormat.Shape.OBJECT)
+@JsonSerialize(using=BaseBizStatusEnumSerializer.class)//BaseBizStatusEnumSerializer需要实例化
+@JsonDeserialize(using=BaseBizStatusEnumDeserializer.class)//BaseBizStatusEnumDeserializer需要实例化
 public interface IBaseBizStatusEnum {
 	/**
 	 * code

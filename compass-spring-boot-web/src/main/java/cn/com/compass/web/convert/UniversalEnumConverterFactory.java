@@ -15,6 +15,7 @@ import cn.com.compass.base.constant.IBaseBizStatusEnum;
  * @email 524623302@qq.com
  * @todo spring message convert
  *       自定义integr-string转enum转换器,注册到WebMvcConfigurerAdapter中的FormatterRegistry
+ * 注意:该转换器仅能处理简单参数，如请求查询参数，url路径参数等，复杂的对象参数不行
  * @date 2018年6月7日 下午2:17:54
  *
  */

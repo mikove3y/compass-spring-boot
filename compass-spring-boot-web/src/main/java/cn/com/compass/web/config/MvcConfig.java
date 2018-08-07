@@ -11,6 +11,13 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.ser.std.StdSerializer;
+
+import cn.com.compass.base.constant.BaseBizStatusEnumDeserializer;
+import cn.com.compass.base.constant.BaseBizStatusEnumSerializer;
+import cn.com.compass.base.constant.IBaseBizStatusEnum;
 import cn.com.compass.util.JacksonObjectMapperWrapper;
 import cn.com.compass.web.aop.BaseControllerLogAspect;
 import cn.com.compass.web.aop.BaseServiceLogAspect;
@@ -46,7 +53,15 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
 	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
 		super.configureMessageConverters(converters);
 		// ... mapper
-		HttpMessageConverter<?> converter = new MappingJackson2HttpMessageConverter(JacksonObjectMapperWrapper.getInstance());
+		JacksonObjectMapperWrapper objectMapper = JacksonObjectMapperWrapper.getInstance();
+		// 注册IBaseBizStatusEnum序列化和反序列化
+		SimpleModule simpleModule = new SimpleModule();
+		JsonDeserializer<IBaseBizStatusEnum> deserialize = new BaseBizStatusEnumDeserializer();
+		simpleModule.addDeserializer(IBaseBizStatusEnum.class, deserialize);
+		StdSerializer<IBaseBizStatusEnum> serialize = new BaseBizStatusEnumSerializer();
+		simpleModule.addSerializer(IBaseBizStatusEnum.class, serialize);
+		objectMapper.registerModule(simpleModule);
+		HttpMessageConverter<?> converter = new MappingJackson2HttpMessageConverter(objectMapper);
 		converters.add(converter);
 		
 	}
