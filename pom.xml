@@ -287,6 +287,22 @@
 					<skipTests>true</skipTests>    <!--默认关掉单元测试 -->
 				</configuration>
 			</plugin>
+            <!-- 生成sources源码包的插件 -->  
+            <plugin>  
+                <artifactId>maven-source-plugin</artifactId>  
+                <version>3.0.1</version>  
+                <configuration>  
+                    <attach>true</attach>  
+                </configuration>  
+                <executions>  
+                    <execution>  
+                        <phase>package</phase>  
+                        <goals>  
+                            <goal>jar-no-fork</goal>  
+                        </goals>  
+                    </execution>  
+                </executions>  
+            </plugin> 
 		</plugins>
 	</build>
 	
