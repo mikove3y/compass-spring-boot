@@ -242,6 +242,7 @@
 				<plugin>
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>spring-boot-maven-plugin</artifactId>
+					<version>${spring-boot.version}</version>
 					<configuration>
 						<layout>ZIP</layout>
 						<!-- 有多个入口类的时候需要指定mainclass,也可以定义一个start-class属性 -->
