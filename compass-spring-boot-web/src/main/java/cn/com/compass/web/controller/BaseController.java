@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.ServletWebRequest;
@@ -28,6 +29,7 @@ import cn.com.compass.util.JacksonUtil;
  * @date 2018年6月6日 下午3:59:24
  *
  */
+@Validated
 public abstract class BaseController {
 	
 	

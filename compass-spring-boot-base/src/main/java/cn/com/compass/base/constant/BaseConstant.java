@@ -50,4 +50,8 @@ public interface BaseConstant {
 	 * 系统参数不合法
 	 */
 	public static final String ILLEGAL_ARGUMENT = "base-0004";
+	/**
+	 * 系统内部错误
+	 */
+	public static final String INNER_ERRO = "base-0005";
 }

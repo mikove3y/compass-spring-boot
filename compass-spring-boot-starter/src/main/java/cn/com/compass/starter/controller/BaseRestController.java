@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.validation.annotation.Validated;
-
 import cn.com.compass.base.constant.BaseConstant;
 import cn.com.compass.base.entity.BaseEntity;
 import cn.com.compass.base.exception.BaseException;
@@ -26,8 +24,9 @@ import cn.com.compass.web.controller.BaseController;
  * @todo rest controller 通用增删改查接口
  * @date 2018年6月6日 下午2:42:03
  * @since 1.0.7 优化为泛型实现类
+ * @since 1.1.14 不在允许使用直接在Controller层进行后台数据操作，必须通过接口进行封装{@link cn.com.compass.data.service.BaseEntityServiceImpl<T>}
  */
-@Validated
+@Deprecated
 public class BaseRestController<T extends BaseEntity> extends BaseController {
 
 	/**

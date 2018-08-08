@@ -16,7 +16,7 @@ import cn.com.compass.base.service.IBaseService;
  * @email 524623302@qq.com
  * @todo 基类jpa repository
  * @date 2018年6月5日 下午4:02:54
- *
+ * @since 1.1.14不在直接提供给Controller层直接调用，必须通过service继承{@link cn.com.compass.data.service.BaseEntityServiceImpl<T>}来实现数据操作
  */
 @NoRepositoryBean
 public interface BaseEntityRepository<T extends BaseEntity> extends JpaRepository<T, Long>,
@@ -25,10 +25,12 @@ public interface BaseEntityRepository<T extends BaseEntity> extends JpaRepositor
 	 * 领域模型类
 	 * @return
 	 */
+	@Deprecated
 	public Class<T> domainClass();
 	/**
 	 * 实体管理器
 	 * @return
 	 */
+	@Deprecated
 	public EntityManager entityManager();
 }
