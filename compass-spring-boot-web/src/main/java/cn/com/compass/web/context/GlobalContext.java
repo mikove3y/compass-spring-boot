@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Component;
 
 import cn.com.compass.base.constant.BaseConstant;
+import cn.com.compass.base.exception.BaseException;
 import cn.com.compass.base.vo.BaseSubject;
 import cn.com.compass.util.JacksonUtil;
 /**
@@ -67,8 +68,12 @@ public class GlobalContext {
 		this.getRequest().removeAttribute(attr);
 	}
 	
-	public BaseSubject getGlobalSubject() throws Exception {
-		String suject = this.getRequest().getHeader(BaseConstant.REQUEST_SUBJECT_ATTRIBUTE_KEY);
-		return JacksonUtil.json2pojo(suject, BaseSubject.class);
+	public BaseSubject getGlobalSubject() {
+		try {
+			String suject = this.getRequest().getHeader(BaseConstant.REQUEST_SUBJECT_ATTRIBUTE_KEY);
+			return JacksonUtil.json2pojo(suject, BaseSubject.class);
+		} catch (Exception e) {
+			throw new BaseException(BaseConstant.TOKEN_GET_ERRO, e);
+		}
 	}
 }

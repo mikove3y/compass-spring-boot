@@ -35,6 +35,14 @@ public interface IBaseBizStatusEnum {
 	public static final String DES = "des";
 	
 	/**
+	 * 获取枚举类的所有枚举值
+	 * @param enumType
+	 * @return
+	 */
+	public static <T extends IBaseBizStatusEnum> T[] fromCode(Class<T> enumType) {
+		return enumType.getEnumConstants();
+	}
+	/**
 	 * 按枚举的code获取枚举实例
 	 * @param enumType
 	 * @param code

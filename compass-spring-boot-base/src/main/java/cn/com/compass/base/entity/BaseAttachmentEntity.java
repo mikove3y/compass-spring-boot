@@ -2,6 +2,7 @@ package cn.com.compass.base.entity;
 
 import javax.persistence.MappedSuperclass;
 
+import cn.com.compass.base.constant.BaseBizeStatusEnum.FileType;
 import lombok.Getter;
 import lombok.Setter;
 /**
@@ -41,10 +42,13 @@ public class BaseAttachmentEntity extends BaseEntity{
      */
 	private String fileUrl;
 	
+	private FileType fileType;
+	
 	public static final String FILENAME = "fileName";
 	public static final String ORIGINALFILENAME = "originalFileName";
 	public static final String EXTENDNAME = "extendName";
 	public static final String FILESIZE = "fileSize";
 	public static final String FILEURL = "fileUrl";
+	public static final String FILETYPE = "fileType";
 
 }

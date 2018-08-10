@@ -54,4 +54,8 @@ public interface BaseConstant {
 	 * 系统内部错误
 	 */
 	public static final String INNER_ERRO = "base-0005";
+	/**
+	 * token信息获取失败
+	 */
+	public static final String TOKEN_GET_ERRO = "base-0006";
 }
