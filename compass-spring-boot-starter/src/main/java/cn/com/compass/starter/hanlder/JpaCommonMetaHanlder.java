@@ -7,11 +7,12 @@ import java.util.Iterator;
 import org.hibernate.CallbackException;
 import org.hibernate.EmptyInterceptor;
 import org.hibernate.type.Type;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import cn.com.compass.base.constant.BaseBizeStatusEnum.YesOrNo;
 import cn.com.compass.base.entity.BaseEntity;
 import cn.com.compass.base.vo.BaseSubject;
+import cn.com.compass.web.context.AppContext;
 import cn.com.compass.web.context.GlobalContext;
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,9 +31,6 @@ public class JpaCommonMetaHanlder extends EmptyInterceptor {
 
 	private static final long serialVersionUID = -5464568289140494842L;
 	
-	@Autowired
-	private GlobalContext globalContext;
-
 	@Override
 	public void onDelete(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
 		if(log.isDebugEnabled()) {
@@ -65,21 +63,23 @@ public class JpaCommonMetaHanlder extends EmptyInterceptor {
 			log.info("save..............");
 		}
 		if (entity instanceof BaseEntity) {
-			try {
-				BaseSubject sub = globalContext.getGlobalSubject();
-				for (int i = 0; i < propertyNames.length; i++) {
-					if (sub != null) {
-						if (propertyNames[i].equals(BaseEntity.CREATERID)) {
-							state[i] = sub.getUserId();
-							return true;
-						}
-					}
-					if (propertyNames[i].equals(BaseEntity.CREATETIME)) {
-						state[i] = new Date();
+			GlobalContext context = AppContext.getInstance().getBean(GlobalContext.class);
+			BaseSubject sub = context.getGlobalSubject();
+			for (int i = 0; i < propertyNames.length; i++) {
+				// 创建人
+				if (sub != null) {
+					if (propertyNames[i].equals(BaseEntity.CREATERID)) {
+						state[i] = sub.getUserId();
 					}
 				}
-			} catch (Exception e) {
-				log.error("保存插入创建人Id错误", e);
+				// 创建时间
+				if (propertyNames[i].equals(BaseEntity.CREATETIME)) {
+					state[i] = new Date();
+				}
+				// 逻辑删除字段
+				if (propertyNames[i].equals(BaseEntity.ENABLED)) {
+					state[i] = YesOrNo.NO.getCode();
+				}
 			}
 		}
 		return false;
@@ -144,10 +144,10 @@ public class JpaCommonMetaHanlder extends EmptyInterceptor {
 	@Override
 	public String onPrepareStatement(String sql) {
 		if(log.isDebugEnabled()) {
-			log.debug("statement..............");
+			log.debug("statement..............,sql:"+sql);
 		}
 		if(log.isInfoEnabled()) {
-			log.info("statement..............");
+			log.info("statement..............,sql:"+sql);
 		}
 		return super.onPrepareStatement(sql);
 	}
