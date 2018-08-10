@@ -13,7 +13,7 @@ public class BaseRequestAppPageVo extends BaseDataX{
 
 	private static final long serialVersionUID = -2113556648016554107L;
 	/**
-	 * 页码
+	 * 最新主键Id
 	 */
 	private Long dataId = 0L;
 	/**
