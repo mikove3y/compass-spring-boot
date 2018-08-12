@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cn.com.compass.base.entity.BaseEntity;
+import cn.com.compass.util.DataXUtil;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -34,15 +35,22 @@ public class BaseRequestPcPageVo extends BaseDataX{
 	 * key: order colum default createTime </br>
 	 * value: isAsc default false </br>
 	 */
-	private Map<String,Boolean> orders = new HashMap<>();
+	private Map<String,String> orders = new HashMap<>();
 	/**
 	 * default order by column createTime false
 	 * 
 	 * @return
 	 */
-	public Map<String,Boolean> getOrders() {
+	public Map<String,String> getOrders() {
 		if(orders.isEmpty()) {
-			orders.put(BaseEntity.CREATETIME, Boolean.FALSE);
+			orders.put(BaseEntity.CREATETIME, ORDER_DESC);
+		}
+		if(this.getCamel2Underline()) {
+			Map<String,String> underlineOrders = new HashMap<>();
+			for(Map.Entry<String,String> en : orders.entrySet()) {
+				underlineOrders.put(DataXUtil.camelToUnderline(en.getKey()), en.getValue());
+			}
+			this.orders = underlineOrders;
 		}
 		return orders;
 	}

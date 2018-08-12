@@ -4,13 +4,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.com.compass.base.entity.BaseEntity;
-import cn.com.compass.base.service.IBaseService;
+import cn.com.compass.base.vo.AppPage;
 import cn.com.compass.base.vo.BaseRequestAppPageVo;
 import cn.com.compass.base.vo.BaseRequestPcPageVo;
-import cn.com.compass.base.vo.Page;
+import cn.com.compass.base.vo.PcPage;
 import cn.com.compass.data.repository.BaseEntityRepository;
 
 /**
@@ -23,7 +24,7 @@ import cn.com.compass.data.repository.BaseEntityRepository;
  *
  */
 @Transactional(readOnly = true)
-public class BaseEntityServiceImpl<T extends BaseEntity> implements IBaseService<T>{
+public class BaseEntityServiceImpl<T extends BaseEntity> implements IBaseEntityService<T>{
 	
 	@Autowired
 	private BaseEntityRepository<T> repository;
@@ -66,8 +67,8 @@ public class BaseEntityServiceImpl<T extends BaseEntity> implements IBaseService
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public boolean deletByParams(Map<String, Object> params) {
-		return repository.deletByParams(params);
+	public boolean deletBySpec(Specification<T> spec) {
+		return repository.deletBySpec(spec);
 	}
 
 	@Override
@@ -103,20 +104,25 @@ public class BaseEntityServiceImpl<T extends BaseEntity> implements IBaseService
 	public List<T> findByIds(List<Long> ids) {
 		return repository.findByIds(ids);
 	}
-
+	
 	@Override
-	public List<T> findListByParams(Map<String, Object> params) {
-		return repository.findListByParams(params);
+	public T findOneBySpec(Specification<T> spec) {
+		return repository.findOneBySpec(spec);
 	}
 
 	@Override
-	public Page<T> findPcPage(BaseRequestPcPageVo pageVo) {
-		return repository.findPcPage(pageVo);
+	public List<T> findListBySpec(Specification<T> spec) {
+		return repository.findListBySpec(spec);
 	}
 
 	@Override
-	public Page<T> findAppPage(BaseRequestAppPageVo pageVo) {
-		return repository.findAppPage(pageVo);
+	public PcPage<T> findPcPage(BaseRequestPcPageVo pageVo,Specification<T> spec) {
+		return repository.findPcPage(pageVo,spec);
+	}
+
+	@Override
+	public AppPage<T> findAppPage(BaseRequestAppPageVo pageVo,Specification<T> spec) {
+		return repository.findAppPage(pageVo,spec);
 	}
 
 }

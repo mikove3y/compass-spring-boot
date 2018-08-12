@@ -7,6 +7,7 @@ import java.util.Iterator;
 import org.hibernate.CallbackException;
 import org.hibernate.EmptyInterceptor;
 import org.hibernate.type.Type;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import cn.com.compass.base.constant.BaseBizeStatusEnum.YesOrNo;
@@ -63,8 +64,12 @@ public class JpaCommonMetaHanlder extends EmptyInterceptor {
 			log.info("save..............");
 		}
 		if (entity instanceof BaseEntity) {
-			GlobalContext context = AppContext.getInstance().getBean(GlobalContext.class);
-			BaseSubject sub = context.getGlobalSubject();
+			ApplicationContext appContext = AppContext.getInstance();
+			BaseSubject sub = null;
+			if(appContext!=null) {
+				GlobalContext context = appContext.getBean(GlobalContext.class);
+				sub = context.getGlobalSubject();
+			}
 			for (int i = 0; i < propertyNames.length; i++) {
 				// 创建人
 				if (sub != null) {

@@ -23,6 +23,11 @@
 			<groupId>org.mybatis.spring.boot</groupId>
 			<artifactId>mybatis-spring-boot-starter</artifactId>
 		</dependency>
+		<!-- page hepler -->
+		<dependency>
+			<groupId>com.github.pagehelper</groupId>
+			<artifactId>pagehelper-spring-boot-starter</artifactId>
+		</dependency>
 		<!-- compass base -->
 		<dependency>
 			<groupId>cn.com.compass</groupId>
@@ -38,14 +43,12 @@
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
 		<!-- sharding-jdbc -->
-		<!-- orchestration数据治理  -->
-		<!-- <dependency>
-			<groupId>io.shardingsphere</groupId>
-			<artifactId>sharding-jdbc-orchestration-spring-boot-starter</artifactId>
-		</dependency> -->
-		<!-- <dependency>
+		<!-- orchestration数据治理 -->
+		<!-- <dependency> <groupId>io.shardingsphere</groupId> <artifactId>sharding-jdbc-orchestration-spring-boot-starter</artifactId> 
+			</dependency> -->
+		<dependency>
 			<groupId>io.shardingsphere</groupId>
 			<artifactId>sharding-jdbc-spring-boot-starter</artifactId>
-		</dependency> -->
+		</dependency>
 	</dependencies>
 </project>

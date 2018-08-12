@@ -12,10 +12,7 @@ import lombok.Setter;
 public class BaseRequestAppPageVo extends BaseDataX{
 
 	private static final long serialVersionUID = -2113556648016554107L;
-	/**
-	 * 最新主键Id
-	 */
-	private Long dataId = 0L;
+	
 	/**
 	 * 页条数
 	 */
@@ -25,17 +22,18 @@ public class BaseRequestAppPageVo extends BaseDataX{
 	 * key: order colum default createTime </br>
 	 * value: isAsc default false </br>
 	 */
-	private Map<String,Boolean> orders = new HashMap<>();
+	private Map<String,String> orders = new HashMap<>();
 	/**
-	 * default order by column createTime false
+	 * default order by column createTime asc false
 	 * 
 	 * @return
 	 */
-	public Map<String,Boolean> getOrders() {
+	public Map<String,String> getOrders() {
 		if(orders.isEmpty()) {
-			orders.put(BaseEntity.CREATETIME, Boolean.FALSE);
+			orders.put(BaseEntity.CREATETIME, ORDER_DESC);
 		}
 		return orders;
 	}
+	
 
 }

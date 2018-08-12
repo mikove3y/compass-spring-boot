@@ -1,12 +1,15 @@
-package cn.com.compass.base.service;
+package cn.com.compass.data.service;
 
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.data.jpa.domain.Specification;
+
 import cn.com.compass.base.entity.BaseEntity;
+import cn.com.compass.base.vo.AppPage;
 import cn.com.compass.base.vo.BaseRequestAppPageVo;
 import cn.com.compass.base.vo.BaseRequestPcPageVo;
-import cn.com.compass.base.vo.Page;
+import cn.com.compass.base.vo.PcPage;
 
 /**
  * 
@@ -17,7 +20,7 @@ import cn.com.compass.base.vo.Page;
  * @date 2018年6月6日 下午2:48:03
  *
  */
-public interface IBaseService<T extends BaseEntity> {
+public interface IBaseEntityService<T extends BaseEntity> {
 	// save entity
 	/**
 	 * save one
@@ -68,12 +71,12 @@ public interface IBaseService<T extends BaseEntity> {
 	public boolean deleteBatch(List<T> entities);
 
 	/**
-	 * delete by params
+	 * delete by spec
 	 * 
-	 * @param params
+	 * @param spec
 	 * @return
 	 */
-	public boolean deletByParams(Map<String, Object> params);
+	public boolean deletBySpec(Specification<T> spec);
 
 	// update entity
 	/**
@@ -117,6 +120,13 @@ public interface IBaseService<T extends BaseEntity> {
 	 * @return
 	 */
 	public T findById(Long id);
+	
+	/**
+	 * find one by spec
+	 * @param spec
+	 * @return
+	 */
+	public T findOneBySpec(Specification<T> spec);
 
 	/**
 	 * find list by ids
@@ -125,25 +135,26 @@ public interface IBaseService<T extends BaseEntity> {
 	 * @return
 	 */
 	public List<T> findByIds(List<Long> ids);
-
+	
 	/**
-	 * find list by params
+	 * find list by spec
 	 * 
-	 * @param params
+	 * @param spec
 	 * @return
 	 */
-	public List<T> findListByParams(Map<String, Object> params);
+	public List<T> findListBySpec(Specification<T> spec);
 	/**
 	 * find pc page 按照pageNo pageSize分页
-	 * 
 	 * @param pageVo
+	 * @param matcher
 	 * @return
 	 */
-	public Page<T> findPcPage(BaseRequestPcPageVo pageVo);
+	public PcPage<T> findPcPage(BaseRequestPcPageVo pageVo,Specification<T> spec);
 	/**
 	 * find app page 按照dataId pageSize分页
 	 * @param pageVo
+	 * @param matcher
 	 * @return
 	 */
-	public Page<T> findAppPage(BaseRequestAppPageVo pageVo);
+	public AppPage<T> findAppPage(BaseRequestAppPageVo pageVo,Specification<T> spec);
 }

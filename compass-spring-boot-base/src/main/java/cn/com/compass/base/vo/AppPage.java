@@ -16,15 +16,15 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class Page<T extends BaseEntity> {
+public class AppPage<T extends BaseEntity> {
 	/**
 	 * 当前页码
 	 */
-	private int current = 1;
+	private Long dataId = 0L;
 	/**
 	 * 每页条目数
 	 */
-	private int size = 20;
+	private int size = 12;
 	/**
 	 * 查询总数
 	 */

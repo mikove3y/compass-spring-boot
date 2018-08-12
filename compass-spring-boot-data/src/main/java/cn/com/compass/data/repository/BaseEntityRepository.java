@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.NoRepositoryBean;
 
 import cn.com.compass.base.entity.BaseEntity;
-import cn.com.compass.base.service.IBaseService;
+import cn.com.compass.data.service.IBaseEntityService;
 
 /**
  * 
@@ -20,17 +20,15 @@ import cn.com.compass.base.service.IBaseService;
  */
 @NoRepositoryBean
 public interface BaseEntityRepository<T extends BaseEntity> extends JpaRepository<T, Long>,
-		JpaSpecificationExecutor<T>, IBaseService<T> {
+		JpaSpecificationExecutor<T>, IBaseEntityService<T> {
 	/**
 	 * 领域模型类
 	 * @return
 	 */
-	@Deprecated
 	public Class<T> domainClass();
 	/**
 	 * 实体管理器
 	 * @return
 	 */
-	@Deprecated
 	public EntityManager entityManager();
 }
