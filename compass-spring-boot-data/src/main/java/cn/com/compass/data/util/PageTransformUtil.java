@@ -28,7 +28,7 @@ public class PageTransformUtil {
 		result.setRecords(jpaPage.getContent());
 		result.setSize(jpaPage.getSize());
 		if (CollectionUtils.isNotEmpty(jpaPage.getContent())) {
-			result.setId(jpaPage.getContent().get(0).getId());
+			result.setDataId(jpaPage.getContent().get(0).getId());
 		}
 		return result;
 	}
@@ -58,7 +58,7 @@ public class PageTransformUtil {
 		AppPage<T> result = new AppPage<>();
 		result.setRecords(mybatisPage.getResult());
 		if(CollectionUtils.isNotEmpty(mybatisPage.getResult())) {
-			result.setId(mybatisPage.getResult().get(0).getId());
+			result.setDataId(mybatisPage.getResult().get(0).getId());
 		}
 		result.setSize(mybatisPage.getPageSize());
 		result.setTotal(mybatisPage.getTotal());
