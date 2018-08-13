@@ -78,13 +78,13 @@ public class BaseExceptionHandler {
 			StringBuffer buff = new StringBuffer();
 			Set<ConstraintViolation<?>> violations = exs.getConstraintViolations();
 			for (ConstraintViolation<?> item : violations) {
-				buff.append(item.getMessage());
+				buff.append(item.getPropertyPath()+":"+item.getMessage()+",");
 			}
-			error = buff.toString();
+			error = buff.substring(0, buff.length()-1);
 		}else if(exception instanceof ConstraintDeclarationException) {
 			// HV000151 问题
 			String solveScheme = "To solve the issue, add the constraints to the interface method instead of the implementation method.";
-			error = exception.getMessage()+"\n"+solveScheme;
+			error = exception.getMessage()+","+solveScheme;
 		}
 		return new BaseErroVo(BaseConstant.REQUEST_PARAMS_VALID_ERRO,error);
 	}
@@ -109,9 +109,9 @@ public class BaseExceptionHandler {
 				field = error.getCode();
 			}
 			String message = error.getDefaultMessage();
-			errorBuff.append(field+":"+message+"\n");
+			errorBuff.append(field+":"+message+",");
 		}
-		return new BaseErroVo(BaseConstant.REQUEST_PARAMS_VALID_ERRO,errorBuff.toString());
+		return new BaseErroVo(BaseConstant.REQUEST_PARAMS_VALID_ERRO,errorBuff.substring(0, errorBuff.length()-1));
 	}
 	
 	/**

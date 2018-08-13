@@ -2,7 +2,6 @@ package cn.com.compass.base.vo;
 
 import java.util.List;
 
-import cn.com.compass.base.entity.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 /**
@@ -16,7 +15,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class PcPage<T extends BaseEntity> {
+public class PcPage<T> {
 	/**
 	 * 当前页码
 	 */

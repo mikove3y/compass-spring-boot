@@ -1,10 +1,13 @@
 package cn.com.compass.data.util;
 
+import org.apache.commons.beanutils.BeanUtilsBean2;
 import org.apache.commons.collections.CollectionUtils;
 
-import cn.com.compass.base.entity.BaseEntity;
+import cn.com.compass.base.constant.BaseConstant;
+import cn.com.compass.base.exception.BaseException;
 import cn.com.compass.base.vo.AppPage;
 import cn.com.compass.base.vo.PcPage;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author wanmk
@@ -14,6 +17,7 @@ import cn.com.compass.base.vo.PcPage;
  * @date 2018年8月12日 下午3:40:57
  *
  */
+@Slf4j
 public class PageTransformUtil {
 	
 	/**
@@ -21,16 +25,26 @@ public class PageTransformUtil {
 	 * @param jpaPage
 	 * @return
 	 */
-	public static <T extends BaseEntity> AppPage<T> transformJpaPage2AppPage(
+	public static <T> AppPage<T> transformJpaPage2AppPage(
 			org.springframework.data.domain.Page<T> jpaPage) {
-		AppPage<T> result = new AppPage<>();
-		result.setTotal(jpaPage.getTotalElements());
-		result.setRecords(jpaPage.getContent());
-		result.setSize(jpaPage.getSize());
-		if (CollectionUtils.isNotEmpty(jpaPage.getContent())) {
-			result.setDataId(jpaPage.getContent().get(0).getId());
+		try {
+			AppPage<T> result = new AppPage<>();
+			result.setTotal(jpaPage.getTotalElements());
+			result.setRecords(jpaPage.getContent());
+			result.setSize(jpaPage.getSize());
+			if (CollectionUtils.isNotEmpty(jpaPage.getContent())) {
+				Object o = jpaPage.getContent().get(0);
+				String id = BeanUtilsBean2.getInstance().getProperty(o, "id");
+				if(id==null) {
+					id = BeanUtilsBean2.getInstance().getProperty(o, "dataId");
+				}
+				result.setDataId(Long.valueOf(id));
+			}
+			return result;
+		} catch (Exception e) {
+			log.error("transformJpaPage2AppPage erro:{}", e);
+			throw new BaseException(BaseConstant.INNER_ERRO, "transformJpaPage2AppPage erro :" +e.getMessage());
 		}
-		return result;
 	}
 	
 	/**
@@ -38,7 +52,7 @@ public class PageTransformUtil {
 	 * @param jpaPage
 	 * @return
 	 */
-	public static <T extends BaseEntity> PcPage<T> transformJpaPage2PcPage(
+	public static <T> PcPage<T> transformJpaPage2PcPage(
 			org.springframework.data.domain.Page<T> jpaPage) {
 		PcPage<T> result = new PcPage<>();
 		result.setTotal(jpaPage.getTotalElements());
@@ -53,16 +67,26 @@ public class PageTransformUtil {
 	 * @param mybatisPage
 	 * @return
 	 */
-	public static <T extends BaseEntity> AppPage<T> transformMybtaisPage2AppPage(
+	public static <T> AppPage<T> transformMybtaisPage2AppPage(
 			com.github.pagehelper.Page<T> mybatisPage) {
-		AppPage<T> result = new AppPage<>();
-		result.setRecords(mybatisPage.getResult());
-		if(CollectionUtils.isNotEmpty(mybatisPage.getResult())) {
-			result.setDataId(mybatisPage.getResult().get(0).getId());
+		try {
+			AppPage<T> result = new AppPage<>();
+			result.setRecords(mybatisPage.getResult());
+			if(CollectionUtils.isNotEmpty(mybatisPage.getResult())) {
+				Object o = mybatisPage.getResult().get(0);
+				String id = BeanUtilsBean2.getInstance().getProperty(o, "id");
+				if(id==null) {
+					id = BeanUtilsBean2.getInstance().getProperty(o, "dataId");
+				}
+				result.setDataId(Long.valueOf(id));
+			}
+			result.setSize(mybatisPage.getPageSize());
+			result.setTotal(mybatisPage.getTotal());
+			return result;
+		}catch (Exception e) {
+			log.error("transformMybtaisPage2AppPage erro:{}", e);
+			throw new BaseException(BaseConstant.INNER_ERRO, "transformJpaPage2AppPage erro :" +e.getMessage());
 		}
-		result.setSize(mybatisPage.getPageSize());
-		result.setTotal(mybatisPage.getTotal());
-		return result;
 	}
 	
 	/**
@@ -70,7 +94,7 @@ public class PageTransformUtil {
 	 * @param mybatisPage
 	 * @return
 	 */
-	public static <T extends BaseEntity> PcPage<T> transformMybtaisPage2PcPage(
+	public static <T> PcPage<T> transformMybtaisPage2PcPage(
 			com.github.pagehelper.Page<T> mybatisPage) {
 		PcPage<T> result = new PcPage<>();
 		result.setRecords(mybatisPage.getResult());

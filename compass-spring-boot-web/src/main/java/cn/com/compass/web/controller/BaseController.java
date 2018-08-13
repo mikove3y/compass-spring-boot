@@ -3,10 +3,12 @@ package cn.com.compass.web.controller;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.ConstraintViolation;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,6 +22,7 @@ import cn.com.compass.base.constant.BaseConstant;
 import cn.com.compass.base.exception.BaseException;
 import cn.com.compass.base.vo.BaseResponseVo;
 import cn.com.compass.util.JacksonUtil;
+import lombok.extern.slf4j.Slf4j;
 /**
  * 
  * @author wanmk
@@ -30,6 +33,7 @@ import cn.com.compass.util.JacksonUtil;
  *
  */
 @Validated
+@Slf4j
 public abstract class BaseController {
 	
 	
@@ -67,6 +71,24 @@ public abstract class BaseController {
 	
 	public Map<String,Object> requestParams() {
 		return null;
+	}
+	
+	/**
+	 * 检查hibernate ConstraintViolation是否有校验不通过的数据
+	 * @param set
+	 * @return
+	 * @throws Exception
+	 */
+	public <T> void checkHVConstraintViolation(Set<ConstraintViolation<T>> set) {
+		if (set != null && !set.isEmpty()) {
+			StringBuffer buff = new StringBuffer();
+			for (ConstraintViolation<T> item : set) {
+				buff.append(item.getPropertyPath()+":"+item.getMessage()+",");
+			}
+			if (buff.length()>0) {
+				throw new BaseException(BaseConstant.REQUEST_PARAMS_VALID_ERRO, buff.substring(0, buff.length()-1));
+			}
+		}
 	}
 	/**
 	 * json格式数据打印
