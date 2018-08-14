@@ -1,7 +1,7 @@
 package cn.com.compass.util;
 
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.commons.beanutils.BeanUtilsBean2;
@@ -40,27 +40,49 @@ public class DataXUtil {
 	public static void copyProperties(Object source, Object target, Map<String, String> source2targetProperties)
 			throws Exception {
 		if (MapUtils.isNotEmpty(source2targetProperties)) {
-			// mapping source 2 target
-			Map<String, Object> sourceMap = JacksonUtil.obj2MapIgnoreNull(source);
-			Map<String, Object> sourceMapX = new HashMap<>();
-			Iterator<String> sourceIt = source2targetProperties.keySet().iterator();
-			while (sourceIt.hasNext()) {
-				// source k-v
-				String sourceKey = sourceIt.next();
-				// not contain skip
-				if (!sourceMap.containsKey(sourceKey))
-					continue;
-				Object sourceValue = sourceMap.get(sourceKey);
-				// target k-v
-				String targetKey = source2targetProperties.get(sourceKey);
-				sourceMapX.put(targetKey, sourceValue);
+			if(source instanceof Collection && target instanceof Collection) {
+				// Collection集合映射
+				Object[] sc = ((Collection<?>)source).toArray(new Object[0]);
+				Object[] tc = ((Collection<?>)target).toArray(new Object[0]);
+				if(sc==null||tc==null||sc.length!=sc.length)return;
+				for(int i = 0 ; i < sc.length; i++) {
+					Object s = sc[i];
+					Object t =tc[i];
+					xOne(s, t, source2targetProperties);
+				}
+			}else {
+				// 单个对象映射
+				xOne(source, target, source2targetProperties);
 			}
-			// copy source 2 target
-			BeanUtilsBean2.getInstance().copyProperties(target, sourceMapX);
 		} else {
 			// copy source 2 target
 			BeanUtilsBean2.getInstance().copyProperties(target, source);
 		}
+	}
+	
+	/**
+	 * 单个对象映射转换
+	 * @param source
+	 * @param target
+	 * @param source2targetProperties
+	 * @throws Exception
+	 */
+	private static void xOne(Object source, Object target, Map<String, String> source2targetProperties) throws Exception {
+		// 单个对象映射
+		// mapping source 2 target
+		Map<String, Object> sourceMap = JacksonUtil.obj2MapIgnoreNull(source);
+		Map<String, Object> sourceMapX = new HashMap<>();
+		source2targetProperties.forEach((k,v)->{
+			// not contain skip
+			if (sourceMap.containsKey(k)) {
+				Object sourceValue = sourceMap.get(k);
+				// target k-v
+				String targetKey = source2targetProperties.get(k);
+				sourceMapX.put(targetKey, sourceValue);
+			}
+		});
+		// copy source 2 target
+		BeanUtilsBean2.getInstance().copyProperties(target, sourceMapX);
 	}
 	
 	/**

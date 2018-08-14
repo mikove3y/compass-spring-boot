@@ -41,7 +41,9 @@ public class BaseAttachmentEntity extends BaseEntity{
      * 文件路径
      */
 	private String fileUrl;
-	
+	/**
+	 * 文件类型
+	 */
 	private FileType fileType;
 	
 	public static final String FILENAME = "fileName";
