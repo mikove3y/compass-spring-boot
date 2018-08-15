@@ -1,16 +1,18 @@
 <?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>cn.com.compass</groupId>
-    <artifactId>compass-spring-boot</artifactId>
-    <version>1.1.5-SNAPSHOT</version>
-  </parent>
-  <artifactId>compass-spring-boot-util</artifactId>
-  <name>compass-spring-boot-util</name>
-  <url>http://maven.apache.org</url>
-  <dependencies>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>cn.com.compass</groupId>
+		<artifactId>compass-spring-boot</artifactId>
+		<version>1.1.5-SNAPSHOT</version>
+	</parent>
+	<artifactId>compass-spring-boot-util</artifactId>
+	<name>compass-spring-boot-util</name>
+	<url>http://maven.apache.org</url>
+	<dependencies>
 		<dependency>
 			<groupId>com.fasterxml.jackson.datatype</groupId>
 			<artifactId>jackson-datatype-jsr310</artifactId>
@@ -26,6 +28,10 @@
 		<dependency>
 			<groupId>joda-time</groupId>
 			<artifactId>joda-time</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.google.zxing</groupId>
+			<artifactId>core</artifactId>
 		</dependency>
 	</dependencies>
 </project>

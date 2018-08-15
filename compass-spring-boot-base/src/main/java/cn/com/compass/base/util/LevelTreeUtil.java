@@ -24,14 +24,14 @@ public class LevelTreeUtil {
 
 	/**
 	 * 转层级树实体为层级树响应vo
-	 * 
-	 * @param treeList
-	 * @param treeRsClassz
+	 * @param treeList 实体树
+	 * @param isSortAsc 是否升序排列
+	 * @param treeRsClassz 树响应类名
 	 * @return
 	 * @throws Exception
 	 */
 	public static <T extends BaseLevelTreeEntity, V extends BaseLevelTreeResponseVo<V>> List<V> transform(
-			List<T> treeList, Class<V> treeRsClassz) throws Exception {
+			List<T> treeList, boolean isSortAsc, Class<V> treeRsClassz) throws Exception {
 		// 从root根节点一直循环到最底层
 		V rootNode = treeRsClassz.newInstance();
 		List<V> rootChild = new ArrayList<>();
@@ -43,29 +43,37 @@ public class LevelTreeUtil {
 		rootNode.setName("根节点");
 		// 循环获取
 		if (CollectionUtils.isNotEmpty(treeList)) {
-			push(rootNode, treeRsClassz, treeList);
+			push(rootNode, treeRsClassz, isSortAsc, treeList);
 		}
 		return rootNode.getChild();
 	}
-	
+
 	/**
-	 * 
-	 * @param node
-	 * @param treeRsClassz
-	 * @param treeList
+	 * 循环迭代
+	 * @param node 父节点
+	 * @param treeRsClassz 树响应类名
+	 * @param isSortAsc 是否升序
+	 * @param treeList 实体树
 	 * @throws Exception
 	 */
-	private static <T extends BaseLevelTreeEntity, V extends BaseLevelTreeResponseVo<V>> void push(V node, Class<V> treeRsClassz, List<T> treeList)
-			throws Exception {
+	private static <T extends BaseLevelTreeEntity, V extends BaseLevelTreeResponseVo<V>> void push(V node,
+			Class<V> treeRsClassz, boolean isSortAsc, List<T> treeList) throws Exception {
 		// 获取父节点的child
-		List<T> childTList = treeList.stream().filter(t->node.getId()==t.getParentId()).sorted(Comparator.comparing(T::getSortNum)).collect(Collectors.toList());
+		List<T> childTList = new ArrayList<>();
+		if (isSortAsc) {
+			childTList = treeList.stream().filter(t -> node.getId() == t.getParentId())
+			.sorted(Comparator.comparing(T::getSortNum)).collect(Collectors.toList());
+		}else {
+			childTList = treeList.stream().filter(t -> node.getId() == t.getParentId())
+			.sorted(Comparator.comparing(T::getSortNum).reversed()).collect(Collectors.toList());
+		}
 		// node 塞入child
 		List<V> childVList = new ArrayList<>();
 		for (T l : childTList) {
 			V ltrsTemp = treeRsClassz.newInstance();
 			DataXUtil.copyProperties(l, ltrsTemp, null);
 			childVList.add(ltrsTemp);
-			push(ltrsTemp, treeRsClassz, treeList);
+			push(ltrsTemp, treeRsClassz, isSortAsc, treeList);
 		}
 		node.setChild(childVList);
 	}

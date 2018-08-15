@@ -79,6 +79,8 @@
 		<joda-time.version>2.9.9</joda-time.version>
 		<!-- swagger api -->
 		<swagger.version>1.7.1.RELEASE</swagger.version>
+		<!-- zxing -->
+		<zxing.version>3.3.3</zxing.version>
 	</properties>
 
 	<dependencies>
@@ -201,6 +203,12 @@
 				<groupId>com.spring4all</groupId>
 				<artifactId>swagger-spring-boot-starter</artifactId>
 				<version>${swagger.version}</version>
+			</dependency>
+			<!-- zxing -->
+			<dependency>
+    			<groupId>com.google.zxing</groupId>
+    			<artifactId>core</artifactId>
+    			<version>${zxing.version}</version>
 			</dependency>
 			<!-- compass -->
 			<dependency>
