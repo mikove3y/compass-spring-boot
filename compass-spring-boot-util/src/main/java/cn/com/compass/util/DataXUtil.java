@@ -47,7 +47,7 @@ public class DataXUtil {
 				if(sc==null||tc==null||sc.length!=sc.length)return;
 				for(int i = 0 ; i < sc.length; i++) {
 					Object s = sc[i];
-					Object t =tc[i];
+					Object t = tc[i];
 					xOne(s, t, source2targetProperties);
 				}
 			}else {

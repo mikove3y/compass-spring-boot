@@ -83,4 +83,14 @@ public class GlobalContext {
 			throw new BaseException(BaseConstant.TOKEN_GET_ERRO, e);
 		}
 	}
+	
+	public Long getCurrentUserId() {
+		BaseSubject sub = this.getGlobalSubject();
+		return sub!=null?sub.getUserId():null;
+	}
+	
+	public Long getCurrentUserOrgId() {
+		BaseSubject sub = this.getGlobalSubject();
+		return sub!=null?sub.getOrgId():null;
+	}
 }
