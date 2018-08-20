@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisCallback;
@@ -14,6 +12,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
+import lombok.extern.slf4j.Slf4j;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisCluster;
 import redis.clients.jedis.JedisCommands;
@@ -47,9 +46,8 @@ import redis.clients.jedis.JedisCommands;
  * @date 2018年8月5日 上午12:22:35
  *
  */
+@Slf4j
 public class RedisLock {
-
-    private static Logger logger = LoggerFactory.getLogger(RedisLock.class);
 
     private RedisTemplate<String, Object> redisTemplate;
 
@@ -267,7 +265,7 @@ public class RedisLock {
                     }
 
                     if (result == 0 && !StringUtils.isEmpty(lockKeyLog)) {
-                        logger.info("Redis分布式锁，解锁{}失败！解锁时间：{}", lockKeyLog, System.currentTimeMillis());
+                        log.error("Redis分布式锁，解锁{}失败！解锁时间：{}", lockKeyLog, System.currentTimeMillis());
                     }
 
                     locked = result == 0;
@@ -306,7 +304,12 @@ public class RedisLock {
                 }
 
                 if (!StringUtils.isEmpty(lockKeyLog) && !StringUtils.isEmpty(result)) {
-                    logger.info("获取锁{}的时间：{}", lockKeyLog, System.currentTimeMillis());
+                	if(log.isInfoEnabled()) {
+                		log.info("获取锁{}的时间：{}", lockKeyLog, System.currentTimeMillis());
+                	}
+                	if(log.isDebugEnabled()) {
+                		log.debug("获取锁{}的时间：{}", lockKeyLog, System.currentTimeMillis());
+                	}
                 }
 
                 return result;
@@ -336,7 +339,7 @@ public class RedisLock {
         try {
             Thread.sleep(millis, random.nextInt(nanos));
         } catch (InterruptedException e) {
-            logger.info("获取分布式锁休眠被中断：", e);
+            log.error("获取分布式锁休眠被中断：{}", e);
         }
     }
 

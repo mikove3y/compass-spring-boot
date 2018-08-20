@@ -7,6 +7,7 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.SerializationException;
 
 import cn.com.compass.util.JacksonUtil;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 
@@ -17,6 +18,7 @@ import cn.com.compass.util.JacksonUtil;
  * @date 2018年8月5日 上午12:23:06
  *
  */
+@Slf4j
 public class JaksonRedisSerializer<T> implements RedisSerializer<T> {
 
     public static final Charset DEFAULT_CHARSET = Charset.forName("UTF-8");
@@ -39,6 +41,7 @@ public class JaksonRedisSerializer<T> implements RedisSerializer<T> {
         try {
 			return JacksonUtil.obj2json(t).getBytes(DEFAULT_CHARSET);
 		} catch (Exception e) {
+			log.error("serialization exception:{}",e);
 			throw new SerializationException("serialization exception",e);
 		}
     }
@@ -56,6 +59,7 @@ public class JaksonRedisSerializer<T> implements RedisSerializer<T> {
         try {
 			return (T) JacksonUtil.json2pojo(str, clazz);
 		} catch (Exception e) {
+			log.error("serialization exception:{}",e);
 			throw new SerializationException("serialization exception",e);
 		}
     }

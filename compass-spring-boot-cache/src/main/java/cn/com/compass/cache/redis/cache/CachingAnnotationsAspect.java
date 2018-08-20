@@ -21,22 +21,29 @@ import org.springframework.core.BridgeMethodResolver;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ClassUtils;
 
-@Aspect
-@Component
+
 /**
  * 
  * @author wanmk
  * @git https://gitee.com/milkove
  * @email 524623302@qq.com
- * @todo 缓存拦截，用于注册方法信息
+ * @todo Cacheable注解拦截，用于注册方法信息
  * @date 2018年8月5日 上午12:21:50
  *
  */
+@Aspect
+@Component
 public class CachingAnnotationsAspect {
 
     @Autowired
     private CacheSupport cacheSupport;
-
+    
+    /**
+     * 获取方法注解
+     * @param ae
+     * @param annotationType
+     * @return
+     */
     private <T extends Annotation> List<T> getMethodAnnotations(AnnotatedElement ae, Class<T> annotationType) {
         List<T> anns = new ArrayList<T>(2);
         // look for raw annotation
@@ -53,7 +60,12 @@ public class CachingAnnotationsAspect {
         }
         return (anns.isEmpty() ? null : anns);
     }
-
+    
+    /**
+     * 获取方法
+     * @param pjp
+     * @return
+     */
     private Method getSpecificmethod(ProceedingJoinPoint pjp) {
         MethodSignature methodSignature = (MethodSignature) pjp.getSignature();
         Method method = methodSignature.getMethod();
@@ -70,11 +82,20 @@ public class CachingAnnotationsAspect {
         specificMethod = BridgeMethodResolver.findBridgedMethod(specificMethod);
         return specificMethod;
     }
-
+    
+    /**
+     * 切点
+     */
     @Pointcut("@annotation(org.springframework.cache.annotation.Cacheable)")
     public void pointcut() {
     }
-
+    
+    /**
+     * 注册缓存
+     * @param joinPoint
+     * @return
+     * @throws Throwable
+     */
     @Around("pointcut()")
     public Object registerInvocation(ProceedingJoinPoint joinPoint) throws Throwable {
 

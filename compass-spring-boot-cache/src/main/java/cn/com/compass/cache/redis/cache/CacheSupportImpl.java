@@ -8,8 +8,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.aop.framework.AopProxyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
@@ -23,11 +21,14 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.MethodInvoker;
 
+import cn.com.compass.base.constant.BaseConstant;
+import cn.com.compass.base.exception.BaseException;
 import cn.com.compass.cache.layering.LayeringCache;
 import cn.com.compass.cache.redis.cache.expression.CacheOperationExpressionEvaluator;
 import cn.com.compass.cache.redis.utils.RedisTemplateUtils;
 import cn.com.compass.cache.redis.utils.ReflectionUtils;
 import cn.com.compass.web.context.AppContext;
+import lombok.extern.slf4j.Slf4j;
 
 
 /**
@@ -35,13 +36,13 @@ import cn.com.compass.web.context.AppContext;
  * @author wanmk
  * @git https://gitee.com/milkove
  * @email 524623302@qq.com
- * @todo 手动刷新缓存实现类
+ * @todo 注册和刷新缓存接口实现类
  * @date 2018年8月5日 上午12:21:38
  *
  */
 @Component
+@Slf4j
 public class CacheSupportImpl implements CacheSupport {
-    private static final Logger logger = LoggerFactory.getLogger(CacheSupportImpl.class);
 
     private final CacheOperationExpressionEvaluator evaluator = new CacheOperationExpressionEvaluator();
 
@@ -93,7 +94,7 @@ public class CacheSupportImpl implements CacheSupport {
             // 执行刷新方法
             refreshCache(invocation, cacheName);
         } else {
-            logger.error("刷新redis缓存，反序列化方法信息异常");
+            log.error("刷新redis缓存，反序列化方法信息异常");
         }
 
     }
@@ -114,11 +115,12 @@ public class CacheSupportImpl implements CacheSupport {
                 long expireTime = redisCache.getExpirationSecondTime();
                 // 刷新redis中缓存法信息key的有效时间
                 redisTemplate.expire(getInvocationCacheKey(redisCache.getCacheKey(invocation.getKey())), expireTime, TimeUnit.SECONDS);
-
-                logger.info("缓存：{}-{}，重新加载数据", cacheName, invocation.getKey().toString().getBytes());
+                if(log.isInfoEnabled()) {
+                	log.info("缓存：{}-{}，重新加载数据", cacheName, invocation.getKey().toString().getBytes());
+                }
             }
         } catch (Exception e) {
-            logger.info("刷新缓存失败：" + e.getMessage(), e);
+        	log.error("刷新缓存失败：{}", e);
         }
 
     }
@@ -194,7 +196,7 @@ public class CacheSupportImpl implements CacheSupport {
             for (String cacheName : cacheNames) {
                 Cache cache = this.cacheManager.getCache(cacheName);
                 if (cache == null) {
-                    throw new IllegalArgumentException("Cannot find cache named '" + cacheName + "' for ");
+                	throw new BaseException(BaseConstant.INNER_ERRO, "Cannot find cache named '" + cacheName + "' for ");
                 }
                 result.add(cache);
             }

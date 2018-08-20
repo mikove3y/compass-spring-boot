@@ -3,8 +3,6 @@ package cn.com.compass.cache.redis.cache;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.cache.RedisCache;
 import org.springframework.data.redis.cache.RedisCacheElement;
 import org.springframework.data.redis.cache.RedisCacheKey;
@@ -15,6 +13,7 @@ import org.springframework.util.Assert;
 import cn.com.compass.cache.redis.lock.RedisLock;
 import cn.com.compass.cache.redis.utils.ThreadTaskUtils;
 import cn.com.compass.web.context.AppContext;
+import lombok.extern.slf4j.Slf4j;
 
 
 /**
@@ -26,9 +25,8 @@ import cn.com.compass.web.context.AppContext;
  * @date 2018年8月5日 上午12:22:04
  *
  */
+@Slf4j
 public class CustomizedRedisCache extends RedisCache {
-
-    private static final Logger logger = LoggerFactory.getLogger(CustomizedRedisCache.class);
 
     public static final String INVOCATION_CACHE_KEY_SUFFIX = ":invocation_suffix";
 
@@ -161,7 +159,7 @@ public class CustomizedRedisCache extends RedisCache {
                 // 线程等待
                 container.await(cacheKeyStr, 20);
             } catch (Exception e) {
-                logger.error(e.getMessage(), e);
+                log.error(e.getMessage(), e);
             } finally {
                 redisLock.unlock();
             }
@@ -200,7 +198,7 @@ public class CustomizedRedisCache extends RedisCache {
                 redisOperations.expire(cacheKeyStr, this.expirationSecondTime, TimeUnit.SECONDS);
             }
         } catch (Exception e) {
-            logger.error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
         } finally {
             redisLock.unlock();
         }
@@ -229,7 +227,7 @@ public class CustomizedRedisCache extends RedisCache {
                         }
                     }
                 } catch (Exception e) {
-                    logger.info(e.getMessage(), e);
+                    log.info(e.getMessage(), e);
                 } finally {
                     redisLock.unlock();
                 }

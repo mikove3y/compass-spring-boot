@@ -6,6 +6,7 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.util.Assert;
 
 import cn.com.compass.util.JacksonUtil;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 
@@ -16,6 +17,7 @@ import cn.com.compass.util.JacksonUtil;
  * @date 2018年8月5日 上午12:23:21
  *
  */
+@Slf4j
 public class StringRedisSerializer implements RedisSerializer<Object> {
 
     private final Charset charset;
@@ -48,7 +50,7 @@ public class StringRedisSerializer implements RedisSerializer<Object> {
 			string = string.replace(target, replacement);
 			return string.getBytes(charset);
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("serialization exception:{}",e);
 		}
 		return null;
     }

@@ -95,14 +95,24 @@ public class LayeringCache extends AbstractValueAdaptingCache {
         if (usedFirstCache) {
             // 查询一级缓存
             wrapper = caffeineCache.get(key);
-            log.debug("查询一级缓存 key:{},返回值是:{}", key, wrapper);
+            if(log.isDebugEnabled()) {
+            	log.debug("查询一级缓存{}, key:{},返回值是:{}", this.getName(), key, wrapper);
+            }
+            if(log.isInfoEnabled()) {
+            	log.info("查询一级缓存{}, key:{},返回值是:{}", this.getName(), key, wrapper);
+            }
         }
 
         if (wrapper == null) {
             // 查询二级缓存
             wrapper = redisCache.get(key);
             caffeineCache.put(key, wrapper == null ? null : wrapper.get());
-            log.debug("查询二级缓存,并将数据放到一级缓存。 key:{},返回值是:{}", key, wrapper);
+            if(log.isDebugEnabled()) {
+            	log.debug("查询二级缓存{},并将数据放到一级缓存{}。 key:{},返回值是:{}", this.getName(), this.getName(), key, wrapper);
+            }
+            if(log.isInfoEnabled()) {
+            	log.info("查询二级缓存{},并将数据放到一级缓存{}。 key:{},返回值是:{}", this.getName(), this.getName(), key, wrapper);
+            }
         }
         return wrapper;
     }
@@ -113,14 +123,24 @@ public class LayeringCache extends AbstractValueAdaptingCache {
         if (usedFirstCache) {
             // 查询一级缓存
             value = caffeineCache.get(key, type);
-            log.debug("查询一级缓存 key:{},返回值是:{}", key, value);
+            if(log.isDebugEnabled()) {
+            	log.debug("查询一级缓存{}, key:{},返回值是:{}", this.getName(), key, value);
+            }
+            if(log.isInfoEnabled()) {
+            	log.info("查询一级缓存{}, key:{},返回值是:{}", this.getName(), key, value);
+            }
         }
 
         if (value == null) {
             // 查询二级缓存
             value = redisCache.get(key, type);
             caffeineCache.put(key, value);
-            log.debug("查询二级缓存,并将数据放到一级缓存。 key:{},返回值是:{}", key, value);
+            if(log.isDebugEnabled()) {
+            	log.debug("查询二级缓存{},并将数据放到一级缓存{}。 key:{},返回值是:{}", this.getName(), this.getName(), key, value);
+            }
+            if(log.isInfoEnabled()) {
+            	log.info("查询二级缓存{},并将数据放到一级缓存{}。 key:{},返回值是:{}", this.getName(), this.getName(), key, value);
+            }
         }
         return value;
     }
@@ -166,8 +186,8 @@ public class LayeringCache extends AbstractValueAdaptingCache {
         if (usedFirstCache) {
             // 删除一级缓存需要用到redis的Pub/Sub（订阅/发布）模式，否则集群中其他服服务器节点的一级缓存数据无法删除
             Map<String, Object> message = new HashMap<>();
-            message.put("cacheName", "'"+name+"'");
-            message.put("key", "'"+key+"'");
+            message.put("cacheName", name);
+            message.put("key", key);
             // 创建redis发布者
             RedisPublisher redisPublisher = new RedisPublisher(redisOperations, ChannelTopicEnum.REDIS_CACHE_DELETE_TOPIC.getChannelTopic());
             // 发布消息
@@ -194,11 +214,21 @@ public class LayeringCache extends AbstractValueAdaptingCache {
         Object value = null;
         if (usedFirstCache) {
             value = caffeineCache.get(key);
-            log.debug("查询一级缓存 key:{},返回值是:{}", key, value);
+            if(log.isDebugEnabled()) {
+            	log.debug("查询一级缓存{}, key:{},返回值是:{}", this.getName(), key, value);
+            }
+            if(log.isInfoEnabled()) {
+            	log.info("查询一级缓存{}, key:{},返回值是:{}", this.getName(), key, value);
+            }
         }
         if (value == null) {
             value = redisCache.get(key);
-            log.debug("查询二级缓存 key:{},返回值是:{}", key, value);
+            if(log.isDebugEnabled()) {
+            	log.debug("查询二级缓存{}, key:{},返回值是:{}", this.getName(), this.getName(), key, value);
+            }
+            if(log.isInfoEnabled()) {
+            	log.info("查询二级缓存{}, key:{},返回值是:{}", this.getName(), this.getName(), key, value);
+            }
         }
         return value;
     }
@@ -212,7 +242,12 @@ public class LayeringCache extends AbstractValueAdaptingCache {
      */
     private <T> Object getForSecondaryCache(Object key, Callable<T> valueLoader) {
         T value = redisCache.get(key, valueLoader);
-        log.debug("查询二级缓存 key:{},返回值是:{}", key, value);
+        if(log.isDebugEnabled()) {
+        	log.debug("查询二级缓存{}, key:{},返回值是:{}", this.getName(), this.getName(), key, value);
+        }
+        if(log.isInfoEnabled()) {
+        	log.info("查询二级缓存{}, key:{},返回值是:{}", this.getName(), this.getName(), key, value);
+        }
         return toStoreValue(value);
     }
 

@@ -12,6 +12,7 @@ import cn.com.compass.base.constant.BaseConstant;
 import cn.com.compass.base.exception.BaseException;
 import cn.com.compass.cache.enums.ChannelTopicEnum;
 import cn.com.compass.cache.layering.LayeringCache;
+import cn.com.compass.cache.redis.serializer.KryoRedisSerializer;
 import cn.com.compass.util.JacksonUtil;
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,35 +30,51 @@ public class RedisMessageListener extends MessageListenerAdapter {
 	
 	@Autowired
 	private CacheManager cacheManager;
-
+	/**
+	 * kryo序列化工具
+	 */
+	private static final KryoRedisSerializer<Object> kryo = new KryoRedisSerializer<>(Object.class);
+	
 	@Override
 	public void onMessage(Message message, byte[] pattern) {
 		try {
 			super.onMessage(message, pattern);
 			ChannelTopicEnum channelTopic = ChannelTopicEnum.getChannelTopicEnum(new String(message.getChannel()));
-			log.info("redis消息订阅者接收到频道【{}】发布的消息。消息内容：{}", channelTopic.getChannelTopicStr(), message.toString());
 			// 解析订阅发布的信息，获取缓存的名称和缓存的key
-			String ms = new String(message.getBody());
-			Map<String, Object> map = JacksonUtil.json2map(ms);
+			Map<String, Object> map = (Map<String, Object>) kryo.deserialize(message.getBody());
+			if(log.isInfoEnabled()) {
+				log.info("redis消息订阅者接收到频道【{}】发布的消息。消息内容：{}", channelTopic.getChannelTopicStr(), JacksonUtil.mapToJson(map));
+			}
+			if(log.isDebugEnabled()) {
+				log.debug("redis消息订阅者接收到频道【{}】发布的消息。消息内容：{}", channelTopic.getChannelTopicStr(), JacksonUtil.mapToJson(map));
+			}
 			String cacheName = (String) map.get("cacheName");
 			Object key = map.get("key");
-
 			// 根据缓存名称获取多级缓存
 			Cache cache = cacheManager.getCache(cacheName);
-
 			// 判断缓存是否是多级缓存
 			if (cache != null && cache instanceof LayeringCache) {
 				switch (channelTopic) {
 				case REDIS_CACHE_DELETE_TOPIC:
 					// 获取一级缓存，并删除一级缓存数据
 					((LayeringCache) cache).getFirstCache().evict(key);
-					log.info("删除一级缓存{}数据,key:{}", cacheName, key.toString());
+					if(log.isInfoEnabled()) {
+						log.info("删除一级缓存{}数据,key:{}", cacheName, key.toString());
+					}
+					if(log.isDebugEnabled()) {
+						log.debug("删除一级缓存{}数据,key:{}", cacheName, key.toString());
+					}
 					break;
 
 				case REDIS_CACHE_CLEAR_TOPIC:
 					// 获取一级缓存，并清空一级缓存数据
 					((LayeringCache) cache).getFirstCache().clear();
-					log.info("清空一级缓存{}数据,key:{}", cacheName, key.toString());
+					if(log.isInfoEnabled()) {
+						log.info("清空一级缓存{}数据,key:{}", cacheName, key.toString());
+					}
+					if(log.isDebugEnabled()) {
+						log.debug("清空一级缓存{}数据,key:{}", cacheName, key.toString());
+					}
 					break;
 
 				default:
