@@ -36,6 +36,7 @@ public class RedisMessageListener extends MessageListenerAdapter {
 	private static final KryoRedisSerializer<Object> kryo = new KryoRedisSerializer<>(Object.class);
 	
 	@Override
+	@SuppressWarnings("unchecked")
 	public void onMessage(Message message, byte[] pattern) {
 		try {
 			super.onMessage(message, pattern);
@@ -78,7 +79,12 @@ public class RedisMessageListener extends MessageListenerAdapter {
 					break;
 
 				default:
-					log.info("接收到没有定义的订阅消息频道数据");
+					if(log.isInfoEnabled()) {
+						log.info("接收到没有定义的订阅消息频道【{}】数据",channelTopic);
+					}
+					if(log.isDebugEnabled()) {
+						log.info("接收到没有定义的订阅消息频道【{}】数据",channelTopic);
+					}
 					break;
 				}
 
