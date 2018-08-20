@@ -18,7 +18,7 @@ public class JacksonUtil {
     private JacksonUtil() {
 
     }
-
+    
     public static ObjectMapper getInstance() {
         return objectMapper;
     }
@@ -34,9 +34,8 @@ public class JacksonUtil {
      * javaBean、列表数组转换为json字符串,忽略空值
      */
     public static String obj2jsonIgnoreNull(Object obj) throws Exception {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        return mapper.writeValueAsString(obj);
+        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        return objectMapper.writeValueAsString(obj);
     }
     
     /**
@@ -64,20 +63,19 @@ public class JacksonUtil {
     /**
      * json 转JavaBean
      */
-
     public static <T> T json2pojo(String jsonString, Class<T> clazz) throws Exception {
         objectMapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
-        return objectMapper.readValue(jsonString, clazz);
+        T obj = objectMapper.readValue(jsonString, clazz);
+        objectMapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, false);
+        return obj;
     }
 
     /**
      * json字符串转换为map
      */
-    @SuppressWarnings("unchecked")
 	public static <T> Map<String, Object> json2map(String jsonString) throws Exception {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        return mapper.readValue(jsonString, Map.class);
+    	return objectMapper.readValue(jsonString, 
+                new TypeReference<HashMap<String,Object>>(){});
     }
 
     /**
@@ -172,7 +170,6 @@ public class JacksonUtil {
      */
     @SuppressWarnings("unchecked")
     public static <T> List<T> json2list(String jsonArrayStr, Class<T> clazz) throws Exception {
-
         JavaType javaType = getCollectionType(ArrayList.class, clazz);
         List<T> lst = (List<T>) objectMapper.readValue(jsonArrayStr, javaType);
         return lst;
@@ -207,13 +204,8 @@ public class JacksonUtil {
      * @return
      */
     @SuppressWarnings("rawtypes")
-    public static String mapToJson(Map map) {
-        try {
-            return objectMapper.writeValueAsString(map);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "";
+    public static String mapToJson(Map map) throws Exception{
+           return objectMapper.writeValueAsString(map);
     }
 
     /**

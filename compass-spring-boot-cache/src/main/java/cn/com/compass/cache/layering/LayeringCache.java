@@ -166,8 +166,8 @@ public class LayeringCache extends AbstractValueAdaptingCache {
         if (usedFirstCache) {
             // 删除一级缓存需要用到redis的Pub/Sub（订阅/发布）模式，否则集群中其他服服务器节点的一级缓存数据无法删除
             Map<String, Object> message = new HashMap<>();
-            message.put("cacheName", name);
-            message.put("key", key);
+            message.put("cacheName", "'"+name+"'");
+            message.put("key", "'"+key+"'");
             // 创建redis发布者
             RedisPublisher redisPublisher = new RedisPublisher(redisOperations, ChannelTopicEnum.REDIS_CACHE_DELETE_TOPIC.getChannelTopic());
             // 发布消息
