@@ -106,6 +106,7 @@ public abstract class BaseController {
 			writer.write(JacksonUtil.obj2json(rsp));
 			writer.flush();
 		} catch (Exception e) {
+			log.error("printResonpseJson erro:{}", e);
 			throw new BaseException(BaseConstant.RESPONSE_DATA_TO_JSON_ERRO, e);
 		} finally {
 			if (writer != null)

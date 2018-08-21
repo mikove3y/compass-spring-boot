@@ -2,8 +2,6 @@ package cn.com.compass.web.config;
 
 import java.util.List;
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -19,9 +17,6 @@ import cn.com.compass.base.constant.BaseBizStatusEnumDeserializer;
 import cn.com.compass.base.constant.BaseBizStatusEnumSerializer;
 import cn.com.compass.base.constant.IBaseBizStatusEnum;
 import cn.com.compass.util.JacksonObjectMapperWrapper;
-import cn.com.compass.web.aop.BaseControllerLogAspect;
-import cn.com.compass.web.aop.BaseServiceLogAspect;
-import cn.com.compass.web.context.AppContext;
 import cn.com.compass.web.convert.UniversalEnumConverterFactory;
 
 @Configuration
@@ -72,21 +67,4 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
 //        return new HttpMessageConverters(converter);
 //    }
 	
-	@Bean
-	@ConditionalOnMissingBean
-	public AppContext appContext() {
-		return new AppContext();
-	}
-	
-	@Bean
-	@ConditionalOnMissingBean
-	public BaseControllerLogAspect baseControllerLogAspect() {
-		return new BaseControllerLogAspect();
-	}
-	
-	@Bean
-	@ConditionalOnMissingBean
-	public BaseServiceLogAspect baseServiceLogAspect() {
-		return new BaseServiceLogAspect();
-	}
 }

@@ -4,9 +4,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import lombok.Getter;
-import lombok.Setter;
-
 /**
  * 
  * @author wanmk
@@ -16,8 +13,6 @@ import lombok.Setter;
  * @date 2018年6月6日 下午2:52:18
  *
  */
-@Getter
-@Setter
 public class ConstantUtil {
 	
 	@Autowired

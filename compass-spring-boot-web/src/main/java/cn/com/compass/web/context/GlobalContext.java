@@ -79,7 +79,7 @@ public class GlobalContext {
 			}else
 			return JacksonUtil.json2pojo(suject, BaseSubject.class);
 		} catch (Exception e) {
-			log.error("get BaseSubject from request header erro:{}", e.getMessage());
+			log.error("get BaseSubject from request header erro:{}", e);
 			throw new BaseException(BaseConstant.TOKEN_GET_ERRO, e);
 		}
 	}

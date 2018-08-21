@@ -18,6 +18,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
+@Deprecated
 public @interface TargetFeignService {
 	/**
 	 * feginClient 远程调用的应用名

@@ -91,7 +91,6 @@ public class BaseControllerLogAspect {
 		logV.setResponseData(JacksonUtil.obj2json(ret));
 		logV.setStatus(BaseLogVo.ResponseSatus.success.name());
 		log.info(JacksonUtil.obj2json(logV));
-		logLocal.set(null);
 		logLocal.remove();
 	}
 
@@ -114,7 +113,6 @@ public class BaseControllerLogAspect {
 			log.error("==日志后置通知异常==");
 			log.error("异常信息:{}", e.getMessage());
 		} finally {
-			logLocal.set(null);
 			logLocal.remove();
 		}
 	}
