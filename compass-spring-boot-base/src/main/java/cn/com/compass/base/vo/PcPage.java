@@ -1,6 +1,7 @@
 package cn.com.compass.base.vo;
 
 import java.util.List;
+import java.util.Map;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -32,4 +33,8 @@ public class PcPage<T> {
 	 * 当前页返回数据集
 	 */
 	private List<T> records;
+	/**
+	 * 扩展数据信息
+	 */
+	private Map<String,Object> extend;
 }
