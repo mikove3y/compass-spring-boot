@@ -28,12 +28,12 @@
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!-- hot dev tool -->
-		<dependency>
+		<!-- hot dev tool 负作用太大:1 kryo 序列化 A cast to A 2、 drools 读取drl规则校验不生效 -->
+		<!-- <dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 			<scope>runtime</scope>
-		</dependency>
+		</dependency> -->
 		<!-- compass autoConfig -->
 		<dependency>
 			<groupId>cn.com.compass</groupId>

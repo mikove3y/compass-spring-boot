@@ -71,6 +71,8 @@
 		<common-lang3.version>3.7</common-lang3.version>
 		<common-beanutils.version>1.9.3</common-beanutils.version>
 		<kryo.version>3.0.3</kryo.version>
+		<!-- drools -->
+		<drools.version>7.6.0.Final</drools.version>
 		<!-- jwt签名 -->
 		<jjwt.version>0.9.0</jjwt.version>
 		<!-- shiro -->
@@ -134,9 +136,9 @@
 				<version>${page-hepler.version}</version>
 			</dependency>
 			<dependency>
-    			<groupId>com.baomidou</groupId>
-    			<artifactId>mybatis-plus-boot-starter</artifactId>
-    			<version>${mybatis-plus.version}</version>
+				<groupId>com.baomidou</groupId>
+				<artifactId>mybatis-plus-boot-starter</artifactId>
+				<version>${mybatis-plus.version}</version>
 			</dependency>
 			<!-- sharding-jdbc -->
 			<!-- 分库分表+数据自理 -->
@@ -168,12 +170,12 @@
 				<artifactId>commons-beanutils</artifactId>
 				<version>${common-beanutils.version}</version>
 			</dependency>
-			<!-- kryo  -->
+			<!-- kryo -->
 			<dependency>
-            	<groupId>com.esotericsoftware</groupId>
-            	<artifactId>kryo-shaded</artifactId>
-            	<version>${kryo.version}</version>
-        	</dependency>
+				<groupId>com.esotericsoftware</groupId>
+				<artifactId>kryo-shaded</artifactId>
+				<version>${kryo.version}</version>
+			</dependency>
 			<!-- jwt -->
 			<dependency>
 				<groupId>io.jsonwebtoken</groupId>
@@ -206,10 +208,42 @@
 			</dependency>
 			<!-- zxing -->
 			<dependency>
-    			<groupId>com.google.zxing</groupId>
-    			<artifactId>core</artifactId>
-    			<version>${zxing.version}</version>
+				<groupId>com.google.zxing</groupId>
+				<artifactId>core</artifactId>
+				<version>${zxing.version}</version>
 			</dependency>
+			<!-- drools -->
+			<dependency>
+				<groupId>org.kie</groupId>
+				<artifactId>kie-spring</artifactId>
+				<version>${drools.version}</version>
+				<!-- Sadly kie-spring depends upon spring 3.2, but we need 4x to run 
+					smoothly with spring boot and while http://books.sonatype.com/mvnref-book/reference/pom-relationships-sect-project-dependencies.html 
+					is not working for us, we need to exclude the 3.2-dependencies -->
+				<exclusions>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-tx</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-beans</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-core</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-context</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+        	<dependency>
+            	<groupId>org.drools</groupId>
+            	<artifactId>drools-compiler</artifactId>
+            	<version>${drools.version}</version>
+        	</dependency>
 			<!-- compass -->
 			<dependency>
 				<groupId>cn.com.compass</groupId>
@@ -249,6 +283,11 @@
 			<dependency>
 				<groupId>cn.com.compass</groupId>
 				<artifactId>compass-spring-boot-cache</artifactId>
+				<version>${compss-boot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.com.compass</groupId>
+				<artifactId>compass-spring-boot-drools</artifactId>
 				<version>${compss-boot.version}</version>
 			</dependency>
 		</dependencies>
@@ -307,44 +346,44 @@
 					<skipTests>true</skipTests>    <!--默认关掉单元测试 -->
 				</configuration>
 			</plugin>
-            <!-- 生成sources源码包的插件 -->  
-            <plugin>  
-                <artifactId>maven-source-plugin</artifactId>  
-                <version>3.0.1</version>  
-                <configuration>  
-                    <attach>true</attach>  
-                </configuration>  
-                <executions>  
-                    <execution>  
-                        <phase>package</phase>  
-                        <goals>  
-                            <goal>jar-no-fork</goal>  
-                        </goals>  
-                    </execution>  
-                </executions>  
-            </plugin> 
+			<!-- 生成sources源码包的插件 -->
+			<plugin>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>3.0.1</version>
+				<configuration>
+					<attach>true</attach>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
-	
+
 	<!-- maven 仓库 -->
 	<repositories>
 		<!-- spring maven 仓库 -->
 		<repository>
-            <id>spring-snapshots</id>
-            <name>Spring Snapshots</name>
-            <url>https://repo.spring.io/snapshot</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>https://repo.spring.io/milestone</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
+			<id>spring-snapshots</id>
+			<name>Spring Snapshots</name>
+			<url>https://repo.spring.io/snapshot</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>spring-milestones</id>
+			<name>Spring Milestones</name>
+			<url>https://repo.spring.io/milestone</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
 		<!-- 私服仓库 -->
 		<repository>
 			<id>compass-repositories</id>
@@ -355,7 +394,7 @@
 			</snapshots>
 		</repository>
 	</repositories>
-	
+
 	<!-- 发布到私服 -->
 	<distributionManagement>
 		<repository>
@@ -375,7 +414,10 @@
 		<module>compass-spring-boot-data</module>
 		<module>compass-spring-boot-web</module>
 		<module>compass-spring-boot-starter</module>
-    	<module>compass-spring-boot-cache</module>
-    	<module>compass-spring-boot-camel</module>
+		<module>compass-spring-boot-cache</module>
+		<module>compass-spring-boot-camel</module>
+		<module>compass-spring-boot-drools</module>
+ 
+	 <module>compass-spring-boot-activiti</module>
   </modules>
 </project>
