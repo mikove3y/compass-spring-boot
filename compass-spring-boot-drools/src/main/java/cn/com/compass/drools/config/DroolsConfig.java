@@ -34,7 +34,7 @@ public class DroolsConfig {
 	/**
 	 * 规则路径,src/main/resource/rules 
 	 */
-	private static final String RULES_PATH = "rules/";
+	public static final String RULES_PATH = "rules/";
 
 	@Bean
 	@ConditionalOnMissingBean(KieFileSystem.class)
