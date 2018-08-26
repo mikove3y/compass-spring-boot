@@ -12,15 +12,15 @@ import org.activiti.engine.ProcessEngineConfiguration;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
+import org.activiti.engine.impl.cfg.IdGenerator;
 import org.activiti.engine.impl.cfg.ProcessEngineConfigurationImpl;
-import org.activiti.rest.common.application.ContentTypeResolver;
-import org.activiti.rest.common.application.DefaultContentTypeResolver;
-import org.activiti.rest.service.api.RestResponseFactory;
 import org.activiti.spring.ProcessEngineFactoryBean;
 import org.activiti.spring.SpringProcessEngineConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
+
+import cn.com.compass.activiti.id.UUIDGenerator;
 
 /**
  * 
@@ -47,9 +47,17 @@ public class ActivitiConfig {
         processEngineConfiguration.setActivityFontName("宋体");
         processEngineConfiguration.setAnnotationFontName("宋体");
         processEngineConfiguration.setLabelFontName("宋体");
+        // 主键生成策略
+        processEngineConfiguration.setIdGenerator(idGenerator());
 
         return processEngineConfiguration;
     }
+	
+	// 自定义uuid 
+	@Bean("ActivitiUUIDGenerator")
+	public IdGenerator idGenerator() {
+		return new UUIDGenerator();
+	}
 
     //流程引擎，与spring整合使用factoryBean
     @Bean
@@ -101,15 +109,15 @@ public class ActivitiConfig {
     }
     
     // activiti rest 配置
-    @Bean
-    public RestResponseFactory restResponseFactory() {
-      RestResponseFactory restResponseFactory = new RestResponseFactory();
-      return restResponseFactory;
-    }
-
-    @Bean
-    public ContentTypeResolver contentTypeResolver() {
-      ContentTypeResolver resolver = new DefaultContentTypeResolver();
-      return resolver;
-    }
+//    @Bean
+//    public RestResponseFactory restResponseFactory() {
+//      RestResponseFactory restResponseFactory = new RestResponseFactory();
+//      return restResponseFactory;
+//    }
+//
+//    @Bean
+//    public ContentTypeResolver contentTypeResolver() {
+//      ContentTypeResolver resolver = new DefaultContentTypeResolver();
+//      return resolver;
+//    }
 }

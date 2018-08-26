@@ -2,10 +2,12 @@ package cn.com.compass.web.config;
 
 import java.util.List;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.filter.HttpPutFormContentFilter;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
@@ -40,6 +42,14 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
     public void addFormatters(FormatterRegistry registry) {  
         registry.addConverterFactory(new UniversalEnumConverterFactory());  
     }  
+	
+	/**
+	 * form表单过滤器
+	 */
+	@Bean
+	public HttpPutFormContentFilter httpPutFormContentFilter() {
+		return new HttpPutFormContentFilter();
+	}
 	
 	/**
 	 * 配置消息转换器 

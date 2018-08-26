@@ -71,6 +71,13 @@ angular.module('activitiModeler')
             	var quickMenuItems = [];
             	
             	var morphRoles = [];
+            	
+            	//-------------------------------
+            	// add by wanmk 2018-08-26
+                // 临时处理办法:Object.ORYX.Core.StencilSet.stencilSets (oryx.debug.js:8618)
+            	// data就是后台返回的带有转义字符的json字符串，由于这里的是带有转义字符的完全没有转换的，因此需要转换两次，第一次转换为json字符串，第二次转换为json对象
+            	data = JSON.parse(JSON.parse(data));// 转JSON对象
+            	//-------------------------------
                 for (var i = 0; i < data.rules.morphingRules.length; i++) 
                 {
                     var role = data.rules.morphingRules[i].role;

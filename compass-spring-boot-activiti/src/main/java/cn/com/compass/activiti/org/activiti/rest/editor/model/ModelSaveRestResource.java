@@ -12,8 +12,10 @@
  */
 package cn.com.compass.activiti.org.activiti.rest.editor.model;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+
 import org.activiti.editor.constants.ModelDataJsonConstants;
 import org.activiti.engine.ActivitiException;
 import org.activiti.engine.RepositoryService;
@@ -25,11 +27,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 /**
  * @author Tijs Rademakers
@@ -46,26 +52,25 @@ public class ModelSaveRestResource implements ModelDataJsonConstants {
   @Autowired
   private ObjectMapper objectMapper;
   
-  @RequestMapping(value="/model/{modelId}/save", method = RequestMethod.PUT)
+  @PostMapping("/model/{modelId}/save")
   @ResponseStatus(value = HttpStatus.OK)
-  public void saveModel(@PathVariable String modelId
-          , String name, String description
-          , String json_xml, String svg_xml) {
+  @Transactional(rollbackFor=Exception.class)
+  public void saveModel(@PathVariable String modelId, ModelSaveRestRequestVo vo) {
     try {
       Model model = repositoryService.getModel(modelId);
       
       ObjectNode modelJson = (ObjectNode) objectMapper.readTree(model.getMetaInfo());
       
-      modelJson.put(MODEL_NAME, name);
-      modelJson.put(MODEL_DESCRIPTION, description);
+      modelJson.put(MODEL_NAME, vo.getName());
+      modelJson.put(MODEL_DESCRIPTION, vo.getDescription());
       model.setMetaInfo(modelJson.toString());
-      model.setName(name);
+      model.setName(vo.getName());
       
       repositoryService.saveModel(model);
       
-      repositoryService.addModelEditorSource(model.getId(), json_xml.getBytes("utf-8"));
+      repositoryService.addModelEditorSource(model.getId(), vo.getJson_xml().getBytes("utf-8"));
       
-      InputStream svgStream = new ByteArrayInputStream(svg_xml.getBytes("utf-8"));
+      InputStream svgStream = new ByteArrayInputStream(vo.getSvg_xml().getBytes("utf-8"));
       TranscoderInput input = new TranscoderInput(svgStream);
       
       PNGTranscoder transcoder = new PNGTranscoder();

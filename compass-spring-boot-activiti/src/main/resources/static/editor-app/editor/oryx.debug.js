@@ -8494,6 +8494,12 @@ ORYX.Core.StencilSet.StencilSet = Clazz.extend({
             // using eval instead of prototype's parsing,
             // since there are functions in this JSON.
             eval("this._jsonObject =" + response.responseText);
+            
+            //-------------------------------
+            // add by wanmk 2018-08-26
+            // 临时处理办法:Object.ORYX.Core.StencilSet.stencilSets (oryx.debug.js:8618)
+            this._jsonObject = JSON.parse(this._jsonObject);// 转JSON对象
+         	//-------------------------------
         } 
         catch (e) {
             throw "Stenciset corrupt: " + e;
