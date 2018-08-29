@@ -64,10 +64,10 @@ public class LevelTreeUtil {
 		// 获取父节点的child
 		List<T> childTList = new ArrayList<>();
 		if (isSortAsc) {
-			childTList = treeList.stream().filter(t -> node.getId() == t.getParentId())
+			childTList = treeList.stream().filter(t -> node.getId().compareTo(t.getParentId()) == 0)
 			.sorted(Comparator.comparing(T::getSortNum)).collect(Collectors.toList());
 		}else {
-			childTList = treeList.stream().filter(t -> node.getId() == t.getParentId())
+			childTList = treeList.stream().filter(t -> node.getId().compareTo(t.getParentId()) == 0)
 			.sorted(Comparator.comparing(T::getSortNum).reversed()).collect(Collectors.toList());
 		}
 		// node 塞入child
