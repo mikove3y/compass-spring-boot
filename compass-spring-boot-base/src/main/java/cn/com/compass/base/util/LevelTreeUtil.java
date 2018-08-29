@@ -31,16 +31,19 @@ public class LevelTreeUtil {
 	 * @throws Exception
 	 */
 	public static <T extends BaseLevelTreeEntity, V extends BaseLevelTreeResponseVo<V>> List<V> transform(
-			List<T> treeList, boolean isSortAsc, Class<V> treeRsClassz) throws Exception {
+			V rootNode,List<T> treeList, boolean isSortAsc, Class<V> treeRsClassz) throws Exception {
 		// 从root根节点一直循环到最底层
-		V rootNode = treeRsClassz.newInstance();
-		List<V> rootChild = new ArrayList<>();
-		rootNode.setChild(rootChild);
-		rootNode.setParentId(0L);
-		rootNode.setLevel(0);
-		rootNode.setSortNum(0);
-		rootNode.setCode("root");
-		rootNode.setName("根节点");
+		if(rootNode==null) {
+			rootNode = treeRsClassz.newInstance();
+			List<V> rootChild = new ArrayList<>();
+			rootNode.setChild(rootChild);
+			rootNode.setParentId(0L);
+			rootNode.setId(0L);
+			rootNode.setLevel(0);
+			rootNode.setSortNum(0);
+			rootNode.setCode("root");
+			rootNode.setName("根节点");
+		}
 		// 循环获取
 		if (CollectionUtils.isNotEmpty(treeList)) {
 			push(rootNode, treeRsClassz, isSortAsc, treeList);
