@@ -222,6 +222,7 @@ var KisBpmAssignmentPopupCtrl = [ '$scope','$modal', function($scope, $modal) {
     });
 }];
 
+// 代理人以及候选人
 var KisBpmChoseAssignmentCtrl = ['$scope', '$http', function($scope, $http) {
 
     $scope.paginationConf = {
@@ -234,51 +235,69 @@ var KisBpmChoseAssignmentCtrl = ['$scope', '$http', function($scope, $http) {
 
         }
     };
-    //初始化左边菜单栏数据，并触发第一个菜单的点击事件
-    var roles = [];
-    var initId;
+    
+    // 获取角色列表,初始化左边菜单栏数据，并触发第一个菜单的点击事件
     $scope.getAllRoles = function (successCallback) {
         $http({
             method: 'get',
             headers: {'Accept': 'application/json',
-                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
-            url: '../role/showaLLRoleList'})
-
+                'Content-Type': 'application/json; charset=UTF-8'},
+            url: '../flow/user/role'})
             .success(function (data, status, headers, config) {
-                var obj = data;
-                for (var i=0; i<obj.length; i++) {
-                    if (i==0) {
-                        initId = obj[i].id + "";
-                        $scope.getAllAccountByRole(initId);
-                    }
-                    roles.push({id:obj[i].id,name:obj[i].remark});
+                var roles = data;
+                var accounts = [];
+                if(roles!=null){
+                	for (var i=0; i< roles.length; i++) {
+                		var temp = {
+                				'id': roles[i].roleId,
+                				'name': roles[i].roleName
+                		};
+                		// 初始化第一个角色的用户列表
+                		if (i==0) {
+                			$scope.getAllAccountByRole(temp.id);
+                		}
+                		accounts.push(temp);
+                	}
+                	$scope.roles = accounts;
                 }
-                $scope.roles = roles;
             })
             .error(function (data, status, headers, config) {
             });
     };
     $scope.getAllRoles(function(){});
-
+    
+    // 通过角色查用户分页
     function getDetail(value,page,limit)
-    {
-
+    {	
+    	var params = {
+    		'roleId':value,
+    		'pageNo':page,
+    		'pageSize':limit
+    	};
+    	
         $http({
-            method: 'get',
+            method: 'POST',
+            data:params,
             headers: {'Accept': 'application/json',
-                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
-            url: '../user/listByRoleId?roleId='+value+"&page="+page+"&limit="+limit})
+                'Content-Type': 'application/json; charset=UTF-8'},
+            url: '../flow/user/page'})
             .success(function (data, status, headers, config) {
                 //封装数据
-                var obj = data.users;
-                if (data != null) {
+                var records = data.records;
+                if (records != null) {
                     var accounts = [];
-                    for (var i=0; i<obj.length; i++) {
-                        accounts.push({id:obj[i].id, code : obj[i].username, name : obj[i].realName, index:i});
+                    for (var i=0; i<records.length; i++) {
+                    	var user = {
+                    		'id': records[i].userId,
+                    		'code': records[i].account,
+                    		'name': records[i].userName,
+                    		'index':i
+                    	};
+                        accounts.push(user);
                     }
                     $scope.accounts=accounts;
                 }
-                refreshPage(value,page,limit,data.totals);
+                refreshPage(value,page,limit,data.total);
             })
             .error(function (data, status, headers, config) {
             });
@@ -358,21 +377,31 @@ var KisBpmChoseAssignmentCtrl = ['$scope', '$http', function($scope, $http) {
     }
 }];
 
+// 候选人分组
 var KisBpmChoseCandidateGroupsCtrl = ['$scope', '$http', function($scope, $http) {
 
-    var candidateGroups = [];
+    // 获取所有角色
     $scope.getAllRoles = function (successCallback) {
         $http({
             method: 'get',
             headers: {'Accept': 'application/json',
-                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
-            url: '../role/showaLLRoleList'})
+                'Content-Type': 'application/json; charset=UTF-8'},
+            url: '../flow/user/role'})
+            
             .success(function (data, status, headers, config) {
-                var obj = data;
-                for (var i=0; i<obj.length; i++) {
-                    candidateGroups.push({id:obj[i].id,name:obj[i].name,description:obj[i].remark});
+            	var roles = data;
+                var candidateGroups = [];
+                if(roles!=null){
+                	for (var i=0; i< roles.length; i++) {
+                		var temp = {
+                			'id': roles[i].roleId,
+                			'name': roles[i].roleCode,
+                			'description': roles[i].roleName
+                		};
+                		candidateGroups.push(temp);
+                	}
+                	$scope.candidateGroups = candidateGroups;
                 }
-                $scope.candidateGroups = candidateGroups;
             })
             .error(function (data, status, headers, config) {
             });

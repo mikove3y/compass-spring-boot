@@ -334,6 +334,7 @@ var SaveModelCtrl = [ '$rootScope', '$scope', '$http', '$route', '$location',
     $scope.save = function (successCallback) {
 
         if (!$scope.saveDialog.name || $scope.saveDialog.name.length == 0) {
+        	alert("模型名称不能为空!");
             return;
         }
 
@@ -369,20 +370,19 @@ var SaveModelCtrl = [ '$rootScope', '$scope', '$http', '$route', '$location',
 
         // Parse dom to string
         var svgDOM = DataManager.serialize(svgClone);
-
         var params = {
-            json_xml: json,
-            svg_xml: svgDOM,
+            jsonXml: json,
+            svgXml: svgDOM,
             name: $scope.saveDialog.name,
             description: $scope.saveDialog.description
         };
-        console.info('json_xml:'+json);
+        console.info('params:'+JSON.stringify(params));
         // Update
-        $http({    method: 'POST',
+        $http({    method: 'PUT',
             data:params,
             ignoreErrors: true,
             headers: {'Accept': 'application/json',
-                      'Content-Type': 'application/x-www-form-urlencoded'},
+                      'Content-Type': 'application/json'},
         ransformRequest: function (obj) {
                 var str = [];
                 for (var p in obj) {

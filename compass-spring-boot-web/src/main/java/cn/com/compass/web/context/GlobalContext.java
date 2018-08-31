@@ -1,5 +1,7 @@
 package cn.com.compass.web.context;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -84,13 +86,30 @@ public class GlobalContext {
 		}
 	}
 	
+	/**
+	 * 获取用户Id
+	 * @return
+	 */
 	public Long getCurrentUserId() {
 		BaseSubject sub = this.getGlobalSubject();
 		return sub!=null?sub.getUserId():null;
 	}
 	
+	/**
+	 * 获取公司Id
+	 * @return
+	 */
 	public Long getCurrentUserOrgId() {
 		BaseSubject sub = this.getGlobalSubject();
 		return sub!=null?sub.getOrgId():null;
+	}
+	
+	/**
+	 * 获取角色
+	 * @return
+	 */
+	public List<String> getCurrentUserAuthorities() {
+		BaseSubject sub = this.getGlobalSubject();
+		return sub!=null?sub.getAuthorities():null;
 	}
 }

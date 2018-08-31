@@ -73,6 +73,7 @@
 		<common-lang3.version>3.7</common-lang3.version>
 		<common-beanutils.version>1.9.3</common-beanutils.version>
 		<kryo.version>3.0.3</kryo.version>
+		<pinyin.version>2.5.0</pinyin.version>
 		<!-- drools -->
 		<drools.version>7.6.0.Final</drools.version>
 		<!-- activiti -->
@@ -180,6 +181,12 @@
 				<artifactId>kryo-shaded</artifactId>
 				<version>${kryo.version}</version>
 			</dependency>
+			<!-- pinyin -->
+			<dependency>
+		    	<groupId>com.belerweb</groupId>
+		    	<artifactId>pinyin4j</artifactId>
+		    	<version>${pinyin.version}</version>
+			</dependency>
 			<!-- jwt -->
 			<dependency>
 				<groupId>io.jsonwebtoken</groupId>
@@ -242,11 +249,6 @@
 						<artifactId>spring-context</artifactId>
 					</exclusion>
 				</exclusions>
-			</dependency>
-			<dependency>
-				<groupId>org.drools</groupId>
-				<artifactId>drools-compiler</artifactId>
-				<version>${drools.version}</version>
 			</dependency>
 			<!-- activit -->
 			<dependency>

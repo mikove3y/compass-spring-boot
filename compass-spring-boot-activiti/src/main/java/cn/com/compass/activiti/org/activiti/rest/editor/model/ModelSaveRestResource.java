@@ -15,10 +15,9 @@ package cn.com.compass.activiti.org.activiti.rest.editor.model;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.activiti.editor.constants.ModelDataJsonConstants;
 import org.activiti.engine.ActivitiException;
@@ -33,7 +32,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,7 +41,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import cn.com.compass.util.JacksonUtil;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -60,36 +59,36 @@ public class ModelSaveRestResource implements ModelDataJsonConstants {
 	@Autowired
 	private ObjectMapper objectMapper;
 
-	@PostMapping(value = "/model/{modelId}/save")
+	@PutMapping(value = "/model/{modelId}/save")
 	@ResponseStatus(value = HttpStatus.OK)
 	@Transactional(rollbackFor = Exception.class)// 增加事务控制
-	public void saveModel(@PathVariable String modelId, HttpServletRequest request) {
+	public void saveModel(@PathVariable String modelId,HttpServletRequest request, @Valid @RequestBody ModelSaveRequestVo vo) {
 		try {
-			Map<String, String[]> map = request.getParameterMap();
-			Map<String, Object> params = new HashMap<>();
-			// 全跑到key了，可取方案
-			for (Map.Entry<String, String[]> entry : map.entrySet()) {
-				String data = entry.getKey() + "=" + (entry.getValue()[0]);
-				params = JacksonUtil.json2map(data);
-			}
-			String name = (String) params.get("name");// 模型名
-			String description = (String) params.get("description");// 模型描述
-			String json_xml = (String) params.get("json_xml");// 流程明细
-			String svg_xml = (String) params.get("svg_xml");// 流程矢量图
+//			Map<String, String[]> map = request.getParameterMap();
+//			Map<String, Object> params = new HashMap<>();
+//			// 全跑到key了，可取方案
+//			for (Map.Entry<String, String[]> entry : map.entrySet()) {
+//				String data = entry.getKey() + "=" + (entry.getValue()[0]);
+//				params = JacksonUtil.json2map(data);
+//			}
+//			String name = (String) params.get("name");// 模型名
+//			String description = (String) params.get("description");// 模型描述
+//			String json_xml = (String) params.get("json_xml");// 流程明细
+//			String svg_xml = (String) params.get("svg_xml");// 流程矢量图
 
 			Model model = repositoryService.getModel(modelId);
 			
 			ObjectNode modelJson = (ObjectNode) objectMapper.readTree(model.getMetaInfo());
-			modelJson.put(MODEL_NAME, name);
-			modelJson.put(MODEL_DESCRIPTION, description);
+			modelJson.put(MODEL_NAME, vo.getName());
+			modelJson.put(MODEL_DESCRIPTION, vo.getDescription());
 			model.setMetaInfo(modelJson.toString());
-			model.setName(name);
+			model.setName(vo.getName());
 			
 			repositoryService.saveModel(model);
 
-			repositoryService.addModelEditorSource(model.getId(), json_xml.getBytes("utf-8"));
+			repositoryService.addModelEditorSource(model.getId(), vo.getJsonXml().getBytes("utf-8"));
 
-			InputStream svgStream = new ByteArrayInputStream(svg_xml.getBytes("utf-8"));
+			InputStream svgStream = new ByteArrayInputStream(vo.getSvgXml().getBytes("utf-8"));
 			TranscoderInput input = new TranscoderInput(svgStream);
 
 			PNGTranscoder transcoder = new PNGTranscoder();

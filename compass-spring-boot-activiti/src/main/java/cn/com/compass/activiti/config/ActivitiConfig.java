@@ -1,5 +1,8 @@
 package cn.com.compass.activiti.config;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.sql.DataSource;
 
 import org.activiti.engine.DynamicBpmnService;
@@ -12,8 +15,10 @@ import org.activiti.engine.ProcessEngineConfiguration;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
-import org.activiti.engine.impl.cfg.IdGenerator;
+import org.activiti.engine.delegate.event.ActivitiEventListener;
 import org.activiti.engine.impl.cfg.ProcessEngineConfigurationImpl;
+import org.activiti.engine.impl.persistence.deploy.Deployer;
+import org.activiti.engine.impl.rules.RulesDeployer;
 import org.activiti.spring.ProcessEngineFactoryBean;
 import org.activiti.spring.SpringProcessEngineConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -21,6 +26,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import cn.com.compass.activiti.id.UUIDGenerator;
+import cn.com.compass.activiti.listener.AutoCompleteFirstTaskEventListener;
+import cn.com.compass.activiti.org.activiti.image.HMProcessDiagramGenerator;
+import cn.com.compass.activiti.org.activiti.image.impl.DefaultProcessDiagramGenerator;
 
 /**
  * 
@@ -38,27 +46,32 @@ public class ActivitiConfig {
 	@Bean
     public ProcessEngineConfiguration processEngineConfiguration(DataSource dataSource, PlatformTransactionManager transactionManager){
         SpringProcessEngineConfiguration processEngineConfiguration = new SpringProcessEngineConfiguration();
-        processEngineConfiguration.setDataSource(dataSource);
-        processEngineConfiguration.setDatabaseSchemaUpdate("true");
-        processEngineConfiguration.setDatabaseType("mysql");
-        processEngineConfiguration.setJobExecutorActivate(false);
-        processEngineConfiguration.setTransactionManager(transactionManager);
-        //流程图字体
+        processEngineConfiguration.setDataSource(dataSource);// 数据源
+        processEngineConfiguration.setDatabaseSchemaUpdate("true");// 是否自定生成脚本
+        processEngineConfiguration.setDatabaseType("mysql");// 数据库类型
+        processEngineConfiguration.setJobExecutorActivate(false);// 任务执行关闭
+        processEngineConfiguration.setTransactionManager(transactionManager);// 是否控制器
+        // 流程字体
         processEngineConfiguration.setActivityFontName("宋体");
         processEngineConfiguration.setAnnotationFontName("宋体");
         processEngineConfiguration.setLabelFontName("宋体");
         // 主键生成策略
-        processEngineConfiguration.setIdGenerator(idGenerator());
-
+        processEngineConfiguration.setIdGenerator(new UUIDGenerator());
+        // 监听器
+        List<ActivitiEventListener> listener = new ArrayList<>();
+		AutoCompleteFirstTaskEventListener acfte = new AutoCompleteFirstTaskEventListener();// 自动完成第一个节点监听器
+		listener.add(acfte);
+        processEngineConfiguration.setEventListeners(listener);
+        // 流程图生成器
+        HMProcessDiagramGenerator diagramGenerator = new DefaultProcessDiagramGenerator();
+        processEngineConfiguration.setProcessDiagramGenerator(diagramGenerator);
+        // 自定义部署器
+        List<Deployer> deployers = new ArrayList<>();
+        deployers.add(new RulesDeployer());// 规则引擎drools
+        processEngineConfiguration.setCustomPostDeployers(deployers);
         return processEngineConfiguration;
     }
 	
-	// 自定义uuid 
-	@Bean("ActivitiUUIDGenerator")
-	public IdGenerator idGenerator() {
-		return new UUIDGenerator();
-	}
-
     //流程引擎，与spring整合使用factoryBean
     @Bean
     public ProcessEngineFactoryBean processEngine(ProcessEngineConfiguration processEngineConfiguration){

@@ -45,17 +45,22 @@ public class BaseSubject implements Serializable {
 	 * 授权类型
 	 */
 	private String grantType;
+	/**
+	 * 数据权限对象,在相应的模块自行定义
+	 */
+	private Object dataFilter;
 	
 	public BaseSubject() {
 		
 	}
 	
-	public BaseSubject(Long userId,Long orgId,String account,Integer clientType,List<String> authorities) {
+	public BaseSubject(Long userId,Long orgId,String account,Integer clientType,List<String> authorities,Object dataFilter) {
 		this.userId = userId;
 		this.orgId = orgId;
 		this.account = account;
 		this.clientType = clientType;
 		this.authorities = authorities;
+		this.dataFilter = dataFilter;
 	}
 	
 	/**
