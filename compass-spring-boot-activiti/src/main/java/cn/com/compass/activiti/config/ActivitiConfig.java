@@ -16,19 +16,23 @@ import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.delegate.event.ActivitiEventListener;
+import org.activiti.engine.impl.cfg.IdGenerator;
 import org.activiti.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import org.activiti.engine.impl.persistence.deploy.Deployer;
-import org.activiti.engine.impl.rules.RulesDeployer;
 import org.activiti.spring.ProcessEngineFactoryBean;
 import org.activiti.spring.SpringProcessEngineConfiguration;
+import org.apache.commons.collections.CollectionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 
-import cn.com.compass.activiti.id.UUIDGenerator;
-import cn.com.compass.activiti.listener.AutoCompleteFirstTaskEventListener;
 import cn.com.compass.activiti.org.activiti.image.HMProcessDiagramGenerator;
-import cn.com.compass.activiti.org.activiti.image.impl.DefaultProcessDiagramGenerator;
+import cn.com.compass.base.constant.BaseConstant;
+import cn.com.compass.base.exception.BaseException;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 
@@ -40,36 +44,61 @@ import cn.com.compass.activiti.org.activiti.image.impl.DefaultProcessDiagramGene
  *
  */
 @Configuration
+@EnableConfigurationProperties(ActivitiProperties.class)
+@ConditionalOnProperty(name = "activiti.enabled", matchIfMissing = true)
+@Slf4j
 public class ActivitiConfig {
+	
+	@Autowired
+	private ActivitiProperties properties;
 	
 	//流程配置，与spring整合采用SpringProcessEngineConfiguration这个实现
 	@Bean
     public ProcessEngineConfiguration processEngineConfiguration(DataSource dataSource, PlatformTransactionManager transactionManager){
-        SpringProcessEngineConfiguration processEngineConfiguration = new SpringProcessEngineConfiguration();
-        processEngineConfiguration.setDataSource(dataSource);// 数据源
-        processEngineConfiguration.setDatabaseSchemaUpdate("true");// 是否自定生成脚本
-        processEngineConfiguration.setDatabaseType("mysql");// 数据库类型
-        processEngineConfiguration.setJobExecutorActivate(false);// 任务执行关闭
-        processEngineConfiguration.setTransactionManager(transactionManager);// 是否控制器
-        // 流程字体
-        processEngineConfiguration.setActivityFontName("宋体");
-        processEngineConfiguration.setAnnotationFontName("宋体");
-        processEngineConfiguration.setLabelFontName("宋体");
-        // 主键生成策略
-        processEngineConfiguration.setIdGenerator(new UUIDGenerator());
-        // 监听器
-        List<ActivitiEventListener> listener = new ArrayList<>();
-		AutoCompleteFirstTaskEventListener acfte = new AutoCompleteFirstTaskEventListener();// 自动完成第一个节点监听器
-		listener.add(acfte);
-        processEngineConfiguration.setEventListeners(listener);
-        // 流程图生成器
-        HMProcessDiagramGenerator diagramGenerator = new DefaultProcessDiagramGenerator();
-        processEngineConfiguration.setProcessDiagramGenerator(diagramGenerator);
-        // 自定义部署器
-        List<Deployer> deployers = new ArrayList<>();
-        deployers.add(new RulesDeployer());// 规则引擎drools
-        processEngineConfiguration.setCustomPostDeployers(deployers);
-        return processEngineConfiguration;
+        try {
+        	SpringProcessEngineConfiguration processEngineConfiguration = new SpringProcessEngineConfiguration();
+            processEngineConfiguration.setDataSource(dataSource);// 数据源
+            processEngineConfiguration.setDatabaseSchemaUpdate(properties.getDatabaseSchemaUpdate());// 是否自定生成脚本
+            processEngineConfiguration.setDatabaseType(properties.getDatabase());// 数据库类型
+            processEngineConfiguration.setJobExecutorActivate(properties.isJobExecutorActivate());// 任务执行关闭
+            processEngineConfiguration.setTransactionManager(transactionManager);// 是否控制器
+            // 流程字体
+            processEngineConfiguration.setActivityFontName(properties.getFont());
+            processEngineConfiguration.setAnnotationFontName(properties.getFont());
+            processEngineConfiguration.setLabelFontName(properties.getFont());
+            
+            // 主键生成策略
+            if(properties.getIdGenerator()!=null) {
+            	processEngineConfiguration.setIdGenerator((IdGenerator) Class.forName(properties.getIdGenerator()).newInstance());
+            }
+            
+            // 监听器
+            if(CollectionUtils.isNotEmpty(properties.getEventListeners())) {
+            	List<ActivitiEventListener> listeners = new ArrayList<>();
+            	for(String el : properties.getEventListeners()) {
+            		listeners.add((ActivitiEventListener) Class.forName(el).newInstance());
+            	}
+            	processEngineConfiguration.setEventListeners(listeners);
+            }
+            
+            // 流程图生成器
+            if(properties.getProcessDiagramGenerator()!=null) {
+            	processEngineConfiguration.setProcessDiagramGenerator((HMProcessDiagramGenerator) Class.forName(properties.getProcessDiagramGenerator()).newInstance());
+            }
+            
+            // 自定义部署器
+            if(CollectionUtils.isNotEmpty(properties.getDeployers())) {
+            	List<Deployer> deployers = new ArrayList<>();
+            	for(String d : properties.getDeployers()) {
+            		deployers.add((Deployer) Class.forName(d).newInstance());
+            	}
+            	processEngineConfiguration.setCustomPostDeployers(deployers);
+            }
+            return processEngineConfiguration;
+		} catch (Exception e) {
+			log.error("init ProcessEngineConfiguration erro:{}",e);
+			throw new BaseException(BaseConstant.INNER_ERRO, e);
+		}
     }
 	
     //流程引擎，与spring整合使用factoryBean

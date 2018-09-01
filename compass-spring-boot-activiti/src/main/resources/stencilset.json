@@ -278,7 +278,7 @@
         "properties" : [ {
             "id" : "ruletask_variables_input",
             "type" : "String",
-            "title" : "输入变量",
+            "title" : "输入变量(保持与ExtActmodel对应ActKey一致)",
             "value" : "",
             "description" : "Input variables of the rule task.",
             "popular" : true
@@ -298,7 +298,7 @@
         "properties" : [ {
             "id" : "ruletask_result",
             "type" : "String",
-            "title" : "返回变量",
+            "title" : "返回变量(保持与ExtActmodel对应ActKey一致)",
             "value" : "",
             "description" : "Result variable of the rule task.",
             "popular" : true
@@ -458,7 +458,7 @@
         "properties" : [ {
             "id" : "muletaskresultvariable",
             "type" : "String",
-            "title" : "返回变量",
+            "title" : "返回变量(保持与ExtActmodel对应ActKey一致)",
             "value" : "",
             "description" : "An optional result variable for the payload returned.",
             "popular" : true
