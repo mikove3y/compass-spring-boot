@@ -6,12 +6,13 @@ import java.lang.reflect.InvocationTargetException;
 import org.apache.commons.beanutils.BeanUtilsBean;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.IntNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 /**
  * 
@@ -34,9 +35,9 @@ public class BaseBizStatusEnumDeserializer extends JsonDeserializer<IBaseBizStat
 		try {
 			Class findPropertyType = BeanUtilsBean.getInstance().getPropertyUtils().getPropertyType(currentValue, currentName);
 			JsonFormat annotation = (JsonFormat) findPropertyType.getAnnotation(JsonFormat.class);
-			if(annotation == null || annotation.shape() != Shape.OBJECT) {
+			if(node instanceof IntNode) {
 				valueOf = IBaseBizStatusEnum.fromCode(findPropertyType, node.asInt());
-			}else {
+			}else if(node instanceof ObjectNode) {
 				valueOf = IBaseBizStatusEnum.fromCode(findPropertyType, node.get(IBaseBizStatusEnum.CODE).asInt());
 			}
 		} catch (IllegalAccessException e) {

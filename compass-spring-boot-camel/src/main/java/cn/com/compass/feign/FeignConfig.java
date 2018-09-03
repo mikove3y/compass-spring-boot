@@ -3,6 +3,7 @@ package cn.com.compass.feign;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -22,9 +23,18 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 import org.springframework.format.support.DefaultFormattingConversionService;
 import org.springframework.format.support.FormattingConversionService;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import com.netflix.hystrix.HystrixCommand;
 
+import cn.com.compass.base.constant.BaseBizStatusEnumDeserializer;
+import cn.com.compass.base.constant.BaseBizStatusEnumSerializer;
+import cn.com.compass.base.constant.IBaseBizStatusEnum;
+import cn.com.compass.util.JacksonObjectMapperWrapper;
 import cn.com.compass.web.convert.UniversalEnumConverterFactory;
 import feign.Contract;
 import feign.Feign;
@@ -67,29 +77,37 @@ public class FeignConfig {
 //	public Logger.Level logLevel(){
 //		return Logger.Level.FULL;
 //	}
-//	
-//	@Bean
-//	@ConditionalOnMissingBean
-//	public HttpMessageConverters jacksonHttpMessageConverters(){
-//		HttpMessageConverter<?> converter = new MappingJackson2HttpMessageConverter(JacksonObjectMapperWrapper.getInstance());
-//        return new HttpMessageConverters(converter);
-//    }
-//	
-//	/**
-//	 * 消息转化器
-//	 * @return
-//	 */
-//	@Bean
-//	@ConditionalOnMissingBean
-//    public ObjectFactory<HttpMessageConverters> httpMessageConverters() {
-//		ObjectFactory<HttpMessageConverters> factory = new ObjectFactory<HttpMessageConverters>() {
-//			@Override
-//			public HttpMessageConverters getObject() throws BeansException {
-//				return jacksonHttpMessageConverters();
-//			}
-//		};
-//        return factory;
-//    }
+	
+	@Bean
+	@ConditionalOnMissingBean
+	public HttpMessageConverters jacksonHttpMessageConverters(){
+		JacksonObjectMapperWrapper objectMapper = JacksonObjectMapperWrapper.getInstance();
+		// 注册IBaseBizStatusEnum序列化和反序列化
+		SimpleModule simpleModule = new SimpleModule();
+		JsonDeserializer<IBaseBizStatusEnum> deserialize = new BaseBizStatusEnumDeserializer();
+		simpleModule.addDeserializer(IBaseBizStatusEnum.class, deserialize);
+		StdSerializer<IBaseBizStatusEnum> serialize = new BaseBizStatusEnumSerializer();
+		simpleModule.addSerializer(IBaseBizStatusEnum.class, serialize);
+		objectMapper.registerModule(simpleModule);
+		HttpMessageConverter<?> converter = new MappingJackson2HttpMessageConverter(objectMapper);
+        return new HttpMessageConverters(converter);
+    }
+	
+	/**
+	 * 消息转化器
+	 * @return
+	 */
+	@Bean
+	@ConditionalOnMissingBean
+    public ObjectFactory<HttpMessageConverters> httpMessageConverters() {
+		ObjectFactory<HttpMessageConverters> factory = new ObjectFactory<HttpMessageConverters>() {
+			@Override
+			public HttpMessageConverters getObject() throws BeansException {
+				return jacksonHttpMessageConverters();
+			}
+		};
+        return factory;
+    }
 //	
 //	/**
 //	 * fegin 解码
@@ -110,11 +128,11 @@ public class FeignConfig {
 //	public Encoder encoder() {
 //	    return new SpringEncoder(httpMessageConverters());
 //	}
-	/**
-	 * 消息转换器
-	 */
-	@Autowired
-	private ObjectFactory<HttpMessageConverters> messageConverters;
+//	/**
+//	 * 消息转换器
+//	 */
+//	@Autowired
+//	private ObjectFactory<HttpMessageConverters> messageConverters;
 	
 	@Autowired(required = false)
 	private List<AnnotatedParameterProcessor> parameterProcessors = new ArrayList<>();
@@ -132,7 +150,7 @@ public class FeignConfig {
 	@Bean
 	@ConditionalOnMissingBean
 	public Decoder feignDecoder() {
-		return new ResponseEntityDecoder(new SpringDecoder(this.messageConverters));
+		return new ResponseEntityDecoder(new SpringDecoder(httpMessageConverters()));
 	}
 	
 	/**
@@ -142,7 +160,7 @@ public class FeignConfig {
 	@Bean
 	@ConditionalOnMissingBean
 	public Encoder feignEncoder() {
-		return new SpringEncoder(this.messageConverters);
+		return new SpringEncoder(httpMessageConverters());
 	}
 	
 	/**
