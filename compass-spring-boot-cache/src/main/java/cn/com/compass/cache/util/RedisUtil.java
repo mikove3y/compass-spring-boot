@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
@@ -25,12 +26,10 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 @Slf4j
 public class RedisUtil {
-
+	
+	@Autowired
 	private RedisTemplate<String, Object> redisTemplate;
 	
-	public void setRedisTemplate(RedisTemplate<String, Object> redisTemplate) {
-		this.redisTemplate = redisTemplate;
-	}
 	//=============================common============================
 	/**
 	 * 指定缓存失效时间

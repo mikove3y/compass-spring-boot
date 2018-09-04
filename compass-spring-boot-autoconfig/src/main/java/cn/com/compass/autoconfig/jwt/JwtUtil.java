@@ -116,6 +116,19 @@ public class JwtUtil {
     public String buildJWT(String sub) {
         return buildJWT(JWT_ALG, generateKey(JWT_ALG,properties.getSecret()),sub,properties.getAud(), properties.getJti(), properties.getIss(), DateTime.now().toDate(),properties.getExpire());
     }
+    
+    /**
+     * 构建JWT
+     * <p>使用 UUID 作为 jti 唯一身份标识</p>
+     * <p>JWT有效时间 600 秒，即 10 分钟</p>
+     *
+     * @param sub jwt 面向的用户
+     * @param expire 失效时间
+     * @return JWT字符串
+     */
+    public String buildJWT(String sub,long expire) {
+    	return buildJWT(JWT_ALG, generateKey(JWT_ALG,properties.getSecret()),sub,properties.getAud(), properties.getJti(), properties.getIss(), DateTime.now().toDate(),expire);
+    }
 
     /**
      * 解析JWT

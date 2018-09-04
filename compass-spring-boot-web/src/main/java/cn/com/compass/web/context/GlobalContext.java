@@ -73,6 +73,19 @@ public class GlobalContext {
 		this.getRequest().removeAttribute(attr);
 	}
 	
+	
+	/**
+	 * 获取用户token
+	 * @return
+	 */
+	public String getCurrentUserToken() {
+		return this.getRequest().getHeader(BaseConstant.AUTHORIZATION_KEY);
+	}
+	
+	/**
+	 * 获取subject
+	 * @return
+	 */
 	public BaseSubject getGlobalSubject() {
 		try {
 			String suject = this.getRequest().getHeader(BaseConstant.REQUEST_SUBJECT_ATTRIBUTE_KEY);
@@ -111,5 +124,14 @@ public class GlobalContext {
 	public List<String> getCurrentUserAuthorities() {
 		BaseSubject sub = this.getGlobalSubject();
 		return sub!=null?sub.getAuthorities():null;
+	}
+	
+	/**
+	 * 获取数据权限
+	 * @return
+	 */
+	public Object getCurrentUserDataScop() {
+		BaseSubject sub = this.getGlobalSubject();
+		return sub!=null?sub.getDataScop():null;
 	}
 }
