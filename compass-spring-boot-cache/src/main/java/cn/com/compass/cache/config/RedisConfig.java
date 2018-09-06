@@ -1,6 +1,8 @@
 package cn.com.compass.cache.config;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.cache.interceptor.KeyGenerator;
+import org.springframework.cache.interceptor.SimpleKeyGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -77,6 +79,16 @@ public class RedisConfig {
         container.addMessageListener(messageListener, ChannelTopicEnum.REDIS_CACHE_DELETE_TOPIC.getChannelTopic());
         container.addMessageListener(messageListener, ChannelTopicEnum.REDIS_CACHE_CLEAR_TOPIC.getChannelTopic());
         return container;
+    }
+    
+    /**
+     * 显示声明缓存key生成器
+     *
+     * @return
+     */
+    @Bean
+    public KeyGenerator keyGenerator() {
+        return new SimpleKeyGenerator();
     }
 
 }
