@@ -30,7 +30,7 @@ public class JacksonObjectMapperWrapper extends ObjectMapper {
 	static {
 		objectMapper = new JacksonObjectMapperWrapper();
 		objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);//忽略无法转换的对象
-		objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);//格式化输出
+//		objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);//格式化输出
 		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);//允许对象忽略json中不存在的属性
 		objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_CONTROL_CHARS, true);//允许出现特殊字符和转义符
 		objectMapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);//允许出现单引号
