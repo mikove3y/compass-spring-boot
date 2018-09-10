@@ -43,7 +43,7 @@ public class DataXUtil {
 			// Collection集合映射
 			Object[] sc = ((Collection<?>) source).toArray(new Object[0]);
 			Object[] tc = ((Collection<?>) target).toArray(new Object[0]);
-			if (sc == null || tc == null || sc.length != sc.length)
+			if (sc == null || tc == null || sc.length != tc.length)
 				return;
 			for (int i = 0; i < sc.length; i++) {
 				Object s = sc[i];

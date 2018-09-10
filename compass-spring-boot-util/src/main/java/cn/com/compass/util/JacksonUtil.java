@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JacksonUtil {
@@ -77,6 +78,16 @@ public class JacksonUtil {
     	return objectMapper.readValue(jsonString, 
                 new TypeReference<HashMap<String,Object>>(){});
     }
+	
+	/**
+	 * json字符串转JsonNode
+	 * @param jsonString
+	 * @return
+	 * @throws Exception
+	 */
+	public static JsonNode json2JsonNode(String jsonString) throws Exception {
+		return objectMapper.readValue(jsonString, JsonNode.class);
+	}
 
     /**
      * json字符串转换为map
@@ -90,7 +101,7 @@ public class JacksonUtil {
         }
         return result;
     }
-
+    
     /**
      * 深度转换json成map
      *
