@@ -1,9 +1,15 @@
 package cn.com.compass.camel.config;
 
+import java.util.HashMap;
+
 import org.apache.camel.CamelContext;
+import org.apache.camel.component.jackson.JacksonDataFormat;
 import org.apache.camel.spring.boot.CamelContextConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
+
+import cn.com.compass.util.JacksonObjectMapperWrapper;
 
 @Configuration
 public class CamelConfig {
@@ -25,17 +31,21 @@ public class CamelConfig {
 //        camelContext.addRoutes(systemServiceRouter());
 //        return camelContext;
 //    }
-//
-//    @Bean
-//    public RouteBuilder restApiRouter() {
-//        return new RestApiRouter();
-//    }
-//    
-//    public RouteBuilder systemServiceRouter() {
-//    	return new SystemServiceRouter();
-//    }
 	
+	/**
+	 * camel配置json转换器
+	 * @return
+	 */
+	@Bean
+	@Scope("prototype")
+	public JacksonDataFormat jacksonDataFormat() {
+	 return new JacksonDataFormat(JacksonObjectMapperWrapper.getInstance(), HashMap.class);
+	}
 	
+	/**
+	 * camelContext配置
+	 * @return
+	 */
 	@Bean
 	public CamelContextConfiguration contextConfiguration() {
 		return new CamelContextConfiguration() {

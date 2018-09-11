@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>cn.com.compass</groupId>
 	<artifactId>compass-spring-boot</artifactId>
-	<version>1.1.6-SNAPSHOT</version>
+	<version>1.1.7-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>compass-spring-boot</name>
 	<description>compass 基础boot架构</description>
@@ -42,11 +42,11 @@
 
 	<properties>
 		<!-- compass -->
-		<compss-boot.version>1.1.6-SNAPSHOT</compss-boot.version>
+		<compss-boot.version>1.1.7-SNAPSHOT</compss-boot.version>
 		<!-- spring boot -->
-		<spring-boot.version>1.5.13.RELEASE</spring-boot.version>
+		<spring-boot.version>1.5.15.RELEASE</spring-boot.version>
 		<!-- spring cloud -->
-		<spring-cloud.version>Edgware.SR3</spring-cloud.version>
+		<spring-cloud.version>Edgware.SR4</spring-cloud.version>
 		<!-- apache camel -->
 		<apache-camel.version>2.21.1</apache-camel.version>
 		<!-- 编码格式 -->

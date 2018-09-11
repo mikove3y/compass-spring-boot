@@ -30,11 +30,11 @@ public class DefineErrorDecoder extends ErrorDecoder.Default{
 		}
 		// 这里只封装4开头的请求异常
 		if (400 <= response.status() || response.status() < 500){
-			exception = new HystrixBadRequestException("request exception wrapper:" + resEntity, exception);
+			return new HystrixBadRequestException("request exception wrapper:" + resEntity, exception);
 		}else{
 			log.error(exception.getMessage(), exception);
 		}
-		return exception;
+		return feign.FeignException.errorStatus(methodKey, response);
 	}
 
 }
