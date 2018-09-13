@@ -78,6 +78,10 @@ public class FeignConfig {
 //		return Logger.Level.FULL;
 //	}
 	
+	/**
+	 * jackson消息转换器
+	 * @return
+	 */
 	@Bean
 	@ConditionalOnMissingBean
 	public HttpMessageConverters jacksonHttpMessageConverters(){
@@ -203,13 +207,13 @@ public class FeignConfig {
 	 */
 	@Configuration
 	@ConditionalOnClass({ HystrixCommand.class, HystrixFeign.class })
-	protected static class HystrixFeignConfiguration {
+	protected class HystrixFeignConfiguration {
 		@Bean
 		@Scope("prototype")
 		@ConditionalOnMissingBean
 		@ConditionalOnProperty(name = "feign.hystrix.enabled", matchIfMissing = false)
 		public Feign.Builder feignHystrixBuilder() {
-			return HystrixFeign.builder();
+			return HystrixFeign.builder();//.requestInterceptor(new HeadInterceptor());
 		}
 	}
 	

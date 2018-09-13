@@ -19,8 +19,9 @@ public class BaseErrorProcessor implements Processor {
 	public void process(Exchange exchange) throws Exception {
 		ConstantUtil constant = AppContext.getInstance().getBean(ConstantUtil.class);
 		Exception e = exchange.getProperty(Exchange.EXCEPTION_CAUGHT, Exception.class);
-		log.error(ExceptionUtil.stackTraceToString(e,BaseErrorProcessor.class.getName()));
-		exchange.getOut().setBody(new BaseResponseVo(BaseConstant.INNER_ERRO, constant.getValue(BaseConstant.INNER_ERRO),e));
+		String errorMsg  = ExceptionUtil.stackTraceToString(e.getCause(),BaseErrorProcessor.class.getName());
+		log.error(errorMsg);
+		exchange.getOut().setBody(new BaseResponseVo(BaseConstant.INNER_ERRO, constant.getValue(BaseConstant.INNER_ERRO),errorMsg));
 	}
 
 }

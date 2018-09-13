@@ -20,7 +20,7 @@ import com.codingapi.tx.config.service.TxManagerTxUrlService;
 public class TxManagerTxUrlServiceImpl implements TxManagerTxUrlService {
 	
 	@Value("${tm.manager.url}")
-    private String url;
+	private String url;
 	
 	/* (non-Javadoc)
 	 * @see com.codingapi.tx.config.service.TxManagerTxUrlService#getTxUrl()
