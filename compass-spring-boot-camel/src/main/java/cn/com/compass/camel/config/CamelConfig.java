@@ -1,6 +1,7 @@
 package cn.com.compass.camel.config;
 
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.camel.CamelContext;
 import org.apache.camel.component.jackson.JacksonDataFormat;
@@ -9,7 +10,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
+
+import cn.com.compass.camel.interceptor.CamelHeadInterceptor;
 import cn.com.compass.util.JacksonObjectMapperWrapper;
+import feign.RequestInterceptor;
 
 @Configuration
 public class CamelConfig {
@@ -43,6 +49,18 @@ public class CamelConfig {
 	}
 	
 	/**
+	 * Caffeine cache 非常好的方案用于塞入feign RequestTemplate头参，threadLocal不方便在多个线程间传递参数
+	 * 默认2分钟失效
+	 * @return
+	 */
+	@Bean
+	public Cache<Object, Object> cache() {
+		return Caffeine.newBuilder()
+				.expireAfterAccess(2, TimeUnit.MINUTES).initialCapacity(5)
+				.maximumSize(1_000).build();
+	}
+	
+	/**
 	 * camelContext配置
 	 * @return
 	 */
@@ -61,5 +79,13 @@ public class CamelConfig {
 				System.out.println("-------------------- after CAMEL init-------------------");
 			}
 		};
+	}
+	/**
+	 * camel请求头拦截器->头参塞入feign RequestTemplate
+	 * @return
+	 */
+	@Bean
+	public RequestInterceptor camelHeadInterceptor() {
+		return new CamelHeadInterceptor();
 	}
 }

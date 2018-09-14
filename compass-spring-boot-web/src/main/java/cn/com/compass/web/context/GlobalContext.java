@@ -28,6 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class GlobalContext {
 	
+	
 	@Resource
 	private HttpServletRequest request;
 	
@@ -126,12 +127,4 @@ public class GlobalContext {
 		return sub!=null?sub.getAuthorities():null;
 	}
 	
-	/**
-	 * 获取数据权限
-	 * @return
-	 */
-	public Object getCurrentUserDataScop() {
-		BaseSubject sub = this.getGlobalSubject();
-		return sub!=null?sub.getDataScop():null;
-	}
 }

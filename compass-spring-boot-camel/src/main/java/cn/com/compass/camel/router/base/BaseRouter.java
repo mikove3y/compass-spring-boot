@@ -41,7 +41,7 @@ public abstract class BaseRouter extends RouteBuilder{
         .maximumRedeliveries(0)              // 路由尝试返还1次  
         .redeliveryDelay(500)               // 每次返还间隔0.5秒  
         .retryAttemptedLogLevel(LoggingLevel.INFO)   // 返还时日志级别设为INFO  
-        .retriesExhaustedLogLevel(LoggingLevel.INFO) // 返还失败时日志级别设为INFO  
+        .retriesExhaustedLogLevel(LoggingLevel.DEBUG) // 返还失败时日志级别设为INFO  
         .process(new BaseErrorProcessor()) // 最终异常发生时处理
         .end();  // 处理结束
 		

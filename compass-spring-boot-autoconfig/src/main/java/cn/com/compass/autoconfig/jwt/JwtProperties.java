@@ -30,9 +30,9 @@ public class JwtProperties {
      */
     private long expire = 2*60*60*1000L; 
     /**
-     * 默认二个半小时
+     * 默认两天
      */
-    private long refreshExpire = expire + 30*60*1000L;
+    private long refreshExpire = 2*24*60*1000L;
     
     /**
      * 签发方

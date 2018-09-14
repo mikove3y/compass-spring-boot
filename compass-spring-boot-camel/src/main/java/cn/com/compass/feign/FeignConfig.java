@@ -213,7 +213,7 @@ public class FeignConfig {
 		@ConditionalOnMissingBean
 		@ConditionalOnProperty(name = "feign.hystrix.enabled", matchIfMissing = false)
 		public Feign.Builder feignHystrixBuilder() {
-			return HystrixFeign.builder();//.requestInterceptor(new HeadInterceptor());
+			return HystrixFeign.builder();
 		}
 	}
 	

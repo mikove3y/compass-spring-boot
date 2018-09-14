@@ -32,6 +32,11 @@
 			<groupId>cn.com.compass</groupId>
 			<artifactId>compass-spring-boot-web</artifactId>
 		</dependency>
+		<!-- caffeine -->
+		<dependency>
+			<groupId>com.github.ben-manes.caffeine</groupId>
+			<artifactId>caffeine</artifactId>
+		</dependency>
 		<!-- Camel -->
 		<dependency>
 			<groupId>org.apache.camel</groupId>

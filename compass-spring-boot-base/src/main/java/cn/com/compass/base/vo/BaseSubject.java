@@ -45,22 +45,17 @@ public class BaseSubject implements Serializable {
 	 * 客户端类型
 	 */
 	private Integer clientType;
-	/**
-	 * 数据权限对象,在相应的模块自行定义
-	 */
-	private Object dataScop;
 	
 	public BaseSubject() {
 		
 	}
 	
-	public BaseSubject(Long userId,Long orgId,String account,Integer clientType,List<String> authorities,Object dataScop) {
+	public BaseSubject(Long userId,Long orgId,String account,Integer clientType,List<String> authorities) {
 		this.userId = userId;
 		this.orgId = orgId;
 		this.account = account;
 		this.clientType = clientType;
 		this.authorities = authorities;
-		this.dataScop = dataScop;
 	}
 	
 	/**

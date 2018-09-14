@@ -1,5 +1,6 @@
 package cn.com.compass.util;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -224,6 +225,21 @@ public class JacksonUtil {
      */
     public static <T> T obj2pojo(Object obj, Class<T> clazz) {
         return objectMapper.convertValue(obj, clazz);
+    }
+    
+    /**
+     * 判断是否是json
+     * @param jsonString
+     * @return
+     */
+    public static boolean isJSONValid(String jsonString ) {
+        try {
+            final ObjectMapper mapper = new ObjectMapper();
+            mapper.readTree(jsonString);
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
     }
 
 }

@@ -18,7 +18,7 @@ public interface BaseConstant {
 	/**
 	 * 业务数据权限
 	 */
-	public static final String REQUEST_DATA_PERMISSION = "DataFilter";
+	public static final String REQUEST_DATA_PERMISSION = "DataScop";
 	/**
 	 * 放在request头中的权限key
 	 */
@@ -31,6 +31,10 @@ public interface BaseConstant {
 	 * auth2.0方式鉴权，匹配jwt-token
 	 */
 	public static final String AUTHORIZATION_VALUE_BEARER_PREFIX = "Bearer ";
+	/**
+	 * 全局消息Id
+	 */
+	public static final String MESSAGEID = "messageId";
 	
 	// yml constant 配置
 	
