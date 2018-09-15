@@ -5,10 +5,12 @@ package cn.com.compass.camel.local;
 
 import org.apache.commons.lang3.StringUtils;
 
+import cn.com.compass.autoconfig.jwt.JwtUtil;
 import cn.com.compass.base.constant.BaseConstant;
 import cn.com.compass.base.exception.BaseException;
 import cn.com.compass.base.vo.BaseSubject;
 import cn.com.compass.util.JacksonUtil;
+import cn.com.compass.web.context.AppContext;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
@@ -85,12 +87,23 @@ public class LocalCamel {
 			String subject = this.getSubject();
 			if(StringUtils.isNotEmpty(subject)&&JacksonUtil.isJSONValid(subject)) {
 				return JacksonUtil.json2pojo(subject, BaseSubject.class);
+			}else {
+				// 从头参中解析出BaseSubject
+				String authorization = this.getAuthorization();
+				if(StringUtils.isEmpty(authorization)) {
+					throw new BaseException(BaseConstant.TOKEN_GET_ERRO, "authorization is null");
+				}
+				JwtUtil jwt = AppContext.getInstance().getBean(JwtUtil.class);
+				subject = jwt.parseSubject(authorization);
+				return JacksonUtil.json2pojo(subject, BaseSubject.class);
 			}
 		} catch (Exception e) {
+			if(e instanceof BaseException){
+				throw (BaseException)e;
+			}
 			log.error("parseSubject,error:{}", e);
 			throw new BaseException(BaseConstant.INNER_ERRO,e);
 		}
-		return null;
 	}
 	
 }

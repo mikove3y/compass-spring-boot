@@ -62,7 +62,7 @@ public class BaseSubject implements Serializable {
 	 * 客户端类型枚举
 	 */
 	public enum ClientType implements IBaseBizStatusEnum{
-		ANDRIOD(1, "ANDRIOD"), IOS(2, "IOS"), PC(2, "PC");
+		APP(1, "APP"), PC(2, "PC");
 		private final Integer code;
 
 		private final String des;
