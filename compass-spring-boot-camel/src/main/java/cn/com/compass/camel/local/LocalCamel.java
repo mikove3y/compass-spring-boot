@@ -5,6 +5,8 @@ package cn.com.compass.camel.local;
 
 import org.apache.commons.lang3.StringUtils;
 
+import cn.com.compass.base.constant.BaseConstant;
+import cn.com.compass.base.exception.BaseException;
 import cn.com.compass.base.vo.BaseSubject;
 import cn.com.compass.util.JacksonUtil;
 import lombok.Data;
@@ -22,6 +24,9 @@ import lombok.extern.slf4j.Slf4j;
 @Data
 public class LocalCamel {
 	
+	/**
+	 * 线程缓存
+	 */
 	private static ThreadLocal<LocalCamel> local =new ThreadLocal<>(); 	
 	
 	/**
@@ -44,10 +49,19 @@ public class LocalCamel {
 		local.remove();
 	}
 	
+	/**
+	 * 用户信息
+	 */
 	private String subject;
 	
+	/**
+	 * 授权码
+	 */
 	private String authorization;
 	
+	/**
+	 * 数据权限
+	 */
 	private String dataScop;
 	
 	/**
@@ -74,6 +88,7 @@ public class LocalCamel {
 			}
 		} catch (Exception e) {
 			log.error("parseSubject,error:{}", e);
+			throw new BaseException(BaseConstant.INNER_ERRO,e);
 		}
 		return null;
 	}

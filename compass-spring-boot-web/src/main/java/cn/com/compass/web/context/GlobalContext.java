@@ -74,6 +74,21 @@ public class GlobalContext {
 		this.getRequest().removeAttribute(attr);
 	}
 	
+	/**
+	 * 获取当前用户消息Id
+	 * @return
+	 */
+	public String getCurentUserMessageId() {
+		return this.getRequest().getHeader(BaseConstant.MESSAGEID);
+	}
+	
+	/**
+	 * 获取当前用户数据权限
+	 * @return
+	 */
+	public String getCurrentUserDataScop() {
+		return this.getRequest().getHeader(BaseConstant.REQUEST_DATA_PERMISSION);
+	}
 	
 	/**
 	 * 获取用户token
