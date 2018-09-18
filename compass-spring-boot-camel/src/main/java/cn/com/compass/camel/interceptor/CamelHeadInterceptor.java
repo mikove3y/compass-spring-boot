@@ -25,7 +25,13 @@ import feign.RequestTemplate;
  * 
  */
 public class CamelHeadInterceptor implements RequestInterceptor{
-
+	
+	/**
+	 * hystrix.command.default.execution.isolation.strategy = SEMAPHORE | THREAD </br>
+	 * 属性strategy = SEMAPHORE会在同一个线程中 </br>
+	 *    	strategy = THREAD 会开启多个线程 </br>
+	 * 为兼容以上两种模式，还是使用caffeine作为缓存跨越线程隔离问题 </br>
+	 */
 	@Override
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void apply(RequestTemplate template) {

@@ -18,7 +18,7 @@ import java.lang.annotation.Target;
 @Documented
 @Retention(RUNTIME)
 @Target(METHOD)
-public @interface BaseControllerLog {
+public @interface BaseLog {
 
 	String code();
 

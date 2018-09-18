@@ -90,11 +90,10 @@ public class LocalCamel {
 			}else {
 				// 从头参中解析出BaseSubject
 				String authorization = this.getAuthorization();
-				if(StringUtils.isEmpty(authorization)) {
-					throw new BaseException(BaseConstant.TOKEN_GET_ERRO, "authorization is null");
-				}
 				JwtUtil jwt = AppContext.getInstance().getBean(JwtUtil.class);
 				subject = jwt.parseSubject(authorization);
+				// subject塞入localCamel
+				this.setSubject(subject);
 				return JacksonUtil.json2pojo(subject, BaseSubject.class);
 			}
 		} catch (Exception e) {

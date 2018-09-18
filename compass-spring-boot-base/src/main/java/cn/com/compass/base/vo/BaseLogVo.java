@@ -2,7 +2,6 @@ package cn.com.compass.base.vo;
 
 import java.io.Serializable;
 
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,6 +10,14 @@ import lombok.Setter;
 public class BaseLogVo implements Serializable{
 
 	private static final long serialVersionUID = 1L;
+	/**
+	 * 应用名
+	 */
+	private String application;
+	/**
+	 * 应用地址+端口
+	 */
+	private String appAddress;
 	/**
 	 * logId 系统编号+时间戳
 	 */
@@ -26,7 +33,7 @@ public class BaseLogVo implements Serializable{
 	/**
 	 * 操作人信息subject
 	 */
-	private Object subject;
+//	private Object subject;
 	/**
 	 * 处理请求的handler类.方法
 	 */
@@ -34,7 +41,7 @@ public class BaseLogVo implements Serializable{
 	/**
 	 * 请求地址
 	 */
-	private String remoteAddress;
+//	private String remoteAddress;
 	/**
 	 * 请求参数
 	 */
