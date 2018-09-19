@@ -10,6 +10,7 @@ import cn.com.compass.autoconfig.constant.ConstantUtil;
 import cn.com.compass.base.constant.BaseConstant;
 import cn.com.compass.base.vo.BaseErroVo;
 import cn.com.compass.base.vo.BaseResponseVo;
+import cn.com.compass.camel.local.LocalCamel;
 import cn.com.compass.util.JacksonUtil;
 import cn.com.compass.web.context.AppContext;
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +38,8 @@ public class BaseErrorProcessor implements Processor {
 		// 清空缓存
 		Cache cache = AppContext.getInstance().getBean(Cache.class);
 		cache.invalidate(exchangeId);
+		// 清空localCamel
+		LocalCamel.getLocalCamel().clear();
 	}
 
 }
