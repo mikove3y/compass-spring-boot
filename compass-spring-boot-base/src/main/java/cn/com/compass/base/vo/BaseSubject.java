@@ -3,6 +3,8 @@ package cn.com.compass.base.vo;
 import java.io.Serializable;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import cn.com.compass.base.constant.IBaseBizStatusEnum;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,9 +24,9 @@ public class BaseSubject implements Serializable {
 
 	private static final long serialVersionUID = -5471963320229357457L;
 	
-	public static final String GREANT_ACCESS_TOKEN = "access_token";
+	public static final String GREANT_ACCESS_TOKEN = "accessToken";
 	
-	public static final String GRANT_REFRESH_TOKEN = "refresh_token";
+	public static final String GRANT_REFRESH_TOKEN = "refreshToken";
 	/**
 	 * 用户Id
 	 */
@@ -45,17 +47,22 @@ public class BaseSubject implements Serializable {
 	 * 客户端类型
 	 */
 	private Integer clientType;
+	/**
+	 * 授权类型
+	 */
+	private String grantType;
 	
 	public BaseSubject() {
 		
 	}
 	
-	public BaseSubject(Long userId,Long orgId,String account,Integer clientType,List<String> authorities) {
+	public BaseSubject(Long userId,Long orgId,String account,Integer clientType,List<String> authorities,String grantType) {
 		this.userId = userId;
 		this.orgId = orgId;
 		this.account = account;
 		this.clientType = clientType;
 		this.authorities = authorities;
+		this.grantType = grantType;
 	}
 	
 	/**
@@ -87,6 +94,7 @@ public class BaseSubject implements Serializable {
 	 * 获取AccessToken 缓存key
 	 * @return
 	 */
+	@JsonIgnore
 	public String getAccessTokenCacheKey() {
 		return this.getAccount()+":"+this.getClientType()+":"+GREANT_ACCESS_TOKEN;
 	}
@@ -95,6 +103,7 @@ public class BaseSubject implements Serializable {
 	 * 获取RefreshToken 缓存key
 	 * @return
 	 */
+	@JsonIgnore
 	public String getRefreshTokenCacheKey() {
 		return this.getAccount()+":"+this.getClientType()+":"+GRANT_REFRESH_TOKEN;
 	}
