@@ -1,8 +1,5 @@
 package cn.com.compass.base.constant;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
-
 /**
  * 
  * @author wanmk
@@ -25,14 +22,14 @@ public class BaseBizeStatusEnum {
 
 		private final String des;
 
-		@JsonCreator
+//		@JsonCreator
 		private YesOrNo(Integer code, String des) {
 			this.code = code;
 			this.des = des;
 		}
 
 		@Override
-		@JsonValue
+//		@JsonValue
 		public Integer getCode() {
 			return this.code;
 		}

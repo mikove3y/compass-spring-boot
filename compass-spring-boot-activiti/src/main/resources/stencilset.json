@@ -38,7 +38,7 @@
         "properties" : [ {
             "id" : "action_code",
             "type" : "String",
-            "title" : "动作编码",
+            "title" : "动作编码(多个动作请用英文逗号,隔开)",
             "value" : "",
             "description" : "动作编码",
             "popular" : true

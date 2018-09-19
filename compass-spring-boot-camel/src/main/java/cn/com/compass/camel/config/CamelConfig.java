@@ -6,19 +6,26 @@ import java.util.concurrent.TimeUnit;
 import org.apache.camel.CamelContext;
 import org.apache.camel.component.jackson.JacksonDataFormat;
 import org.apache.camel.spring.boot.CamelContextConfiguration;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 
+import cn.com.compass.base.constant.BaseBizStatusEnumDeserializer;
+import cn.com.compass.base.constant.BaseBizStatusEnumSerializer;
+import cn.com.compass.base.constant.IBaseBizStatusEnum;
 import cn.com.compass.camel.interceptor.CamelHeadInterceptor;
 import cn.com.compass.util.JacksonObjectMapperWrapper;
 import feign.RequestInterceptor;
 
 @Configuration
-public class CamelConfig {
+public class CamelConfig implements CamelContextConfiguration {
 	
 //	private static final String CAMEL_URL_MAPPING = "/camel/*";
 //    private static final String CAMEL_SERVLET_NAME = "CamelServlet";
@@ -42,10 +49,18 @@ public class CamelConfig {
 	 * camel配置json转换器
 	 * @return
 	 */
-	@Bean
-	@Scope("prototype")
+	@Bean(name = "json-jackson")
+	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 	public JacksonDataFormat jacksonDataFormat() {
-	 return new JacksonDataFormat(JacksonObjectMapperWrapper.getInstance(), HashMap.class);
+		JacksonObjectMapperWrapper wrapper = JacksonObjectMapperWrapper.getInstance();
+		// 注册IBaseBizStatusEnum序列化和反序列化
+		SimpleModule simpleModule = new SimpleModule();
+		JsonDeserializer<IBaseBizStatusEnum> deserialize = new BaseBizStatusEnumDeserializer();
+		simpleModule.addDeserializer(IBaseBizStatusEnum.class, deserialize);
+		StdSerializer<IBaseBizStatusEnum> serialize = new BaseBizStatusEnumSerializer();
+		simpleModule.addSerializer(IBaseBizStatusEnum.class, serialize);
+		wrapper.registerModule(simpleModule);
+		return new JacksonDataFormat(wrapper, HashMap.class);
 	}
 	
 	/**
@@ -61,31 +76,24 @@ public class CamelConfig {
 	}
 	
 	/**
-	 * camelContext配置
-	 * @return
-	 */
-	@Bean
-	public CamelContextConfiguration contextConfiguration() {
-		return new CamelContextConfiguration() {
-			// 启动前检查FeignClients是否已经启动
-			@Override
-			public void beforeApplicationStart(CamelContext camelContext) {
-				System.out.println("-------------------- before CAMEL init-------------------");
-			}
-			
-			// 启动后再查一遍
-			@Override
-			public void afterApplicationStart(CamelContext camelContext) {
-				System.out.println("-------------------- after CAMEL init-------------------");
-			}
-		};
-	}
-	/**
 	 * camel请求头拦截器->头参塞入feign RequestTemplate
 	 * @return
 	 */
 	@Bean
 	public RequestInterceptor camelHeadInterceptor() {
 		return new CamelHeadInterceptor();
+	}
+
+	@Override
+	public void beforeApplicationStart(CamelContext camelContext) {
+		System.out.println("-------------------- before CAMEL init-------------------");
+	}
+
+	@Override
+	public void afterApplicationStart(CamelContext camelContext) {
+		System.out.println("-------------------- after CAMEL init-------------------");
+		jacksonDataFormat()
+		.getObjectMapper()
+		.findAndRegisterModules();
 	}
 }

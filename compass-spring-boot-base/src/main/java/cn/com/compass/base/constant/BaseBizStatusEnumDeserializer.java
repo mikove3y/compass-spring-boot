@@ -13,6 +13,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.IntNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.node.TextNode;
 
 /**
  * 
@@ -35,7 +36,7 @@ public class BaseBizStatusEnumDeserializer extends JsonDeserializer<IBaseBizStat
 		try {
 			Class findPropertyType = BeanUtilsBean.getInstance().getPropertyUtils().getPropertyType(currentValue, currentName);
 			JsonFormat annotation = (JsonFormat) findPropertyType.getAnnotation(JsonFormat.class);
-			if(node instanceof IntNode) {
+			if(node instanceof IntNode || node instanceof TextNode) {
 				valueOf = IBaseBizStatusEnum.fromCode(findPropertyType, node.asInt());
 			}else if(node instanceof ObjectNode) {
 				valueOf = IBaseBizStatusEnum.fromCode(findPropertyType, node.get(IBaseBizStatusEnum.CODE).asInt());
