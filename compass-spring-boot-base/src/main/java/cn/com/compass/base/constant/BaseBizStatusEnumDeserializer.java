@@ -39,7 +39,9 @@ public class BaseBizStatusEnumDeserializer extends JsonDeserializer<IBaseBizStat
 			if(node instanceof IntNode || node instanceof TextNode) {
 				valueOf = IBaseBizStatusEnum.fromCode(findPropertyType, node.asInt());
 			}else if(node instanceof ObjectNode) {
-				valueOf = IBaseBizStatusEnum.fromCode(findPropertyType, node.get(IBaseBizStatusEnum.CODE).asInt());
+				if(node.has(IBaseBizStatusEnum.CODE)) {
+					valueOf = IBaseBizStatusEnum.fromCode(findPropertyType, node.get(IBaseBizStatusEnum.CODE).asInt());
+				}
 			}
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();

@@ -43,8 +43,8 @@ public class JacksonObjectMapperWrapper extends ObjectMapper {
 						SerializerFeature.WriteNullListAsEmpty,
 						SerializerFeature.WriteNullStringAsEmpty,
 						SerializerFeature.WriteNullNumberAsZero,
-						SerializerFeature.WriteNullBooleanAsFalse,
-						SerializerFeature.WriteNullObjectAsEmpty
+						SerializerFeature.WriteNullBooleanAsFalse
+//						SerializerFeature.WriteNullObjectAsEmpty
 						)));
 		// 设置空 null 转 ''
 		objectMapper.getSerializerProvider().setNullValueSerializer(new JsonSerializer<Object>() {

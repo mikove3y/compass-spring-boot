@@ -29,7 +29,7 @@ final public class FastJsonSerializerFeatureCompatibleForJackson extends BeanSer
 	final private JsonSerializer<Object> nullNumberJsonSerializer;// 空Number序列化
 	final private JsonSerializer<Object> nullListJsonSerializer;// 空List序列化
 	final private JsonSerializer<Object> nullStringJsonSerializer;// 空String序列化
-	final private JsonSerializer<Object> nullObjectJsonSerializer;// 空Object序列化
+//	final private JsonSerializer<Object> nullObjectJsonSerializer;// 空Object序列化
 
 	FastJsonSerializerFeatureCompatibleForJackson(SerializerFeature... features) {
 		int config = 0;
@@ -40,7 +40,7 @@ final public class FastJsonSerializerFeatureCompatibleForJackson extends BeanSer
 		nullNumberJsonSerializer = (config & SerializerFeature.WriteNullNumberAsZero.mask) != 0 ? new NullNumberSerializer() : null;
 		nullListJsonSerializer = (config & SerializerFeature.WriteNullListAsEmpty.mask) != 0 ? new NullListJsonSerializer() : null;
 		nullStringJsonSerializer = (config & SerializerFeature.WriteNullStringAsEmpty.mask) != 0 ? new NullStringSerializer() : null;
-		nullObjectJsonSerializer = (config & SerializerFeature.WriteNullObjectAsEmpty.mask) != 0 ? new NullObjectSerializer() : null;
+//		nullObjectJsonSerializer = (config & SerializerFeature.WriteNullObjectAsEmpty.mask) != 0 ? new NullObjectSerializer() : null;
 	}
 
 	@Override
@@ -57,9 +57,11 @@ final public class FastJsonSerializerFeatureCompatibleForJackson extends BeanSer
 				writer.assignNullSerializer(nullBooleanJsonSerializer);
 			} else if (String.class.equals(rawClass)) {
 				writer.assignNullSerializer(nullStringJsonSerializer);
-			} else if (/*javaType.isEnumType() ||*/ javaType.isMapLikeType() || Object.class.equals(rawClass)) {
-				writer.assignNullSerializer(nullObjectJsonSerializer);
 			}
+			// 不能穷举所有空对象
+			/* else if (javaType.isEnumType() || javaType.isMapLikeType() || Object.class.equals(rawClass)) {
+				writer.assignNullSerializer(nullObjectJsonSerializer);
+			}*/
 		}
 		return beanProperties;
 	}
