@@ -1,17 +1,12 @@
 package cn.com.compass.util;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 
-import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 
@@ -44,16 +39,43 @@ public class JacksonObjectMapperWrapper extends ObjectMapper {
 						SerializerFeature.WriteNullStringAsEmpty,
 						SerializerFeature.WriteNullNumberAsZero,
 						SerializerFeature.WriteNullBooleanAsFalse
-//						SerializerFeature.WriteNullObjectAsEmpty
 						)));
-		// 设置空 null 转 ''
-		objectMapper.getSerializerProvider().setNullValueSerializer(new JsonSerializer<Object>() {
-			@Override
-			public void serialize(Object arg0, JsonGenerator arg1, SerializerProvider arg2)
-					throws IOException, JsonProcessingException {
-				arg1.writeString("");
-			}
-		});
+		// 设置空对象 null 转 ''
+//		objectMapper.getSerializerProvider().setNullValueSerializer(new JsonSerializer<Object>() {
+//			@Override
+//			public void serialize(Object arg0, JsonGenerator arg1, SerializerProvider arg2)
+//					throws IOException, JsonProcessingException {
+//				try {
+//					Object bean = arg1.getOutputContext().getCurrentValue();
+//					String name = arg1.getOutputContext().getCurrentName();
+//					Class<?> proType = BeanUtilsBean2.getInstance().getPropertyUtils().getPropertyType(bean, name);
+//					// 判断proType是否存在public的空构造器
+//					Constructor<?>[] constructors = proType.getConstructors();
+//					if(ArrayUtils.isNotEmpty(constructors)) {
+//						Constructor<?> nullConstructor = null;
+//						for(Constructor<?> c : constructors) {
+//							Class<?>[] paraTypes = c.getParameterTypes();
+//							if(ArrayUtils.isEmpty(paraTypes)) {
+//								c.setAccessible(true);
+//								nullConstructor = c;
+//								break;
+//							}
+//						}
+//						if(nullConstructor!=null) {
+//							Object proBean = nullConstructor.newInstance();
+//							arg1.writeStartObject(proBean);
+//							arg1.writeEndObject();
+//						}else {
+//							arg1.writeNull();
+//						}
+//					}else {
+//						arg1.writeNull();
+//					}
+//				} catch (Exception e) {
+//					arg1.writeNull();
+//				}
+//			}
+//		});
 		// 时间格式化
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		objectMapper.setDateFormat(dateFormat);// 格式化时间
@@ -67,5 +89,5 @@ public class JacksonObjectMapperWrapper extends ObjectMapper {
 	public static JacksonObjectMapperWrapper getInstance() {
 		return objectMapper;
 	}
-
+	
 }

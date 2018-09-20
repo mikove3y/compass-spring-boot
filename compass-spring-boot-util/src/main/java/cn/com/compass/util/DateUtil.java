@@ -52,46 +52,13 @@ public class DateUtil {
 		WEEK_DAY.put(7, "星期六");
 	}
 
-	// 注意SimpleDateFormat不是线程安全的
-	private static ThreadLocal<SimpleDateFormat> ThreadDateTime = new ThreadLocal<SimpleDateFormat>();
-	private static ThreadLocal<SimpleDateFormat> ThreadDate = new ThreadLocal<SimpleDateFormat>();
-	private static ThreadLocal<SimpleDateFormat> ThreadTime = new ThreadLocal<SimpleDateFormat>();
-
-	private static SimpleDateFormat DateTimeInstance() {
-		SimpleDateFormat df = ThreadDateTime.get();
-		if (df == null) {
-			df = new SimpleDateFormat(DATETIME_FORMAT);
-			ThreadDateTime.set(df);
-		}
-		return df;
-	}
-
-	private static SimpleDateFormat DateInstance() {
-		SimpleDateFormat df = ThreadDate.get();
-		if (df == null) {
-			df = new SimpleDateFormat(DATE_FORMAT);
-			ThreadDate.set(df);
-		}
-		return df;
-	}
-
-	private static SimpleDateFormat TimeInstance() {
-		SimpleDateFormat df = ThreadTime.get();
-		if (df == null) {
-			df = new SimpleDateFormat(TIME_FORMAT);
-			ThreadTime.set(df);
-		}
-		return df;
-	}
-
-
 	/**
 	 * 获取当前的时间
 	 *
 	 * @return
 	 */
 	public static String getCurrentTime() {
-		return TimeInstance().format(new Date());
+		return new SimpleDateFormat(TIME_FORMAT).format(new Date());
 	}
 
 	/**
@@ -101,7 +68,7 @@ public class DateUtil {
 	 * @return
 	 */
 	public static String getTimeOfDate(Date date) {
-		return TimeInstance().format(date);
+		return new SimpleDateFormat(TIME_FORMAT).format(date);
 	}
 
 	/**
@@ -112,7 +79,7 @@ public class DateUtil {
 	 * @throws ParseException
 	 */
 	public static Date getTimeOfDateStr(String dateStr) throws ParseException {
-		return TimeInstance().parse(dateStr);
+		return new SimpleDateFormat(TIME_FORMAT).parse(dateStr);
 	}
 
 	/**
@@ -259,7 +226,7 @@ public class DateUtil {
 	 */
 	public static boolean isDate(String date) {
 		try {
-			DateTimeInstance().parse(date);
+			new SimpleDateFormat(DATETIME_FORMAT).parse(date);
 			return true;
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -289,8 +256,8 @@ public class DateUtil {
 	public static long subtract(String startDate, String endDate) {
 		long rs = 0;
 		try {
-			Date start = DateTimeInstance().parse(startDate);
-			Date end = DateTimeInstance().parse(endDate);
+			Date start = new SimpleDateFormat(DATETIME_FORMAT).parse(startDate);
+			Date end = new SimpleDateFormat(DATETIME_FORMAT).parse(endDate);
 			long cha = (end.getTime() - start.getTime()) / 1000;
 			rs = cha;
 		} catch (ParseException e) {
@@ -309,8 +276,8 @@ public class DateUtil {
 	public static int subtractMinute(String startDate, String endDate) {
 		int rs = 0;
 		try {
-			Date start = DateTimeInstance().parse(startDate);
-			Date end = DateTimeInstance().parse(endDate);
+			Date start = new SimpleDateFormat(DATETIME_FORMAT).parse(startDate);
+			Date end = new SimpleDateFormat(DATETIME_FORMAT).parse(endDate);
 			long cha = (end.getTime() - start.getTime()) / 1000;
 			rs = (int) cha / (60);
 		} catch (ParseException e) {
@@ -353,8 +320,8 @@ public class DateUtil {
 	public static int subtractHour(String startDate, String endDate) {
 		int rs = 0;
 		try {
-			Date start = DateTimeInstance().parse(startDate);
-			Date end = DateTimeInstance().parse(endDate);
+			Date start = new SimpleDateFormat(DATETIME_FORMAT).parse(startDate);
+			Date end = new SimpleDateFormat(DATETIME_FORMAT).parse(endDate);
 			long cha = (end.getTime() - start.getTime()) / 1000;
 			rs = (int) cha / (60 * 60);
 		} catch (ParseException e) {
@@ -373,8 +340,8 @@ public class DateUtil {
 	public static int subtractDay(String startDate, String endDate) {
 		int rs = 0;
 		try {
-			Date start = DateTimeInstance().parse(startDate);
-			Date end = DateTimeInstance().parse(endDate);
+			Date start = new SimpleDateFormat(DATETIME_FORMAT).parse(startDate);
+			Date end = new SimpleDateFormat(DATETIME_FORMAT).parse(endDate);
 			long sss = (end.getTime() - start.getTime()) / 1000;
 			rs = (int) sss / (60 * 60 * 24);
 		} catch (ParseException e) {
@@ -407,8 +374,8 @@ public class DateUtil {
 		Calendar c1 = Calendar.getInstance();
 		Calendar c2 = Calendar.getInstance();
 		try {
-			c1.setTime(DateInstance().parse(startDate));
-			c2.setTime(DateInstance().parse(endDate));
+			c1.setTime(new SimpleDateFormat(DATE_FORMAT).parse(startDate));
+			c2.setTime(new SimpleDateFormat(DATE_FORMAT).parse(endDate));
 			int year1 = c1.get(Calendar.YEAR);
 			int month1 = c1.get(Calendar.MONTH);
 			int year2 = c2.get(Calendar.YEAR);
@@ -462,8 +429,8 @@ public class DateUtil {
 		Calendar c1 = Calendar.getInstance();
 		Calendar c2 = Calendar.getInstance();
 		try {
-			c1.setTime(DateInstance().parse(startDate));
-			c2.setTime(DateInstance().parse(endDate));
+			c1.setTime(new SimpleDateFormat(DATE_FORMAT).parse(startDate));
+			c2.setTime(new SimpleDateFormat(DATE_FORMAT).parse(endDate));
 			int year1 = c1.get(Calendar.YEAR);
 			int year2 = c2.get(Calendar.YEAR);
 			result = year2 - year1;
@@ -504,8 +471,8 @@ public class DateUtil {
 	public static String subtractTime(String startDate, String endDate) {
 		String result = "";
 		try {
-			Date start = DateTimeInstance().parse(startDate);
-			Date end = DateTimeInstance().parse(endDate);
+			Date start = new SimpleDateFormat(DATETIME_FORMAT).parse(startDate);
+			Date end = new SimpleDateFormat(DATETIME_FORMAT).parse(endDate);
 			long sss = (end.getTime() - start.getTime()) / 1000;
 			int hh = (int) sss / (60 * 60);
 			int mm = (int) (sss - hh * 60 * 60) / (60);
@@ -528,8 +495,8 @@ public class DateUtil {
 	public static String subtractDate(String startDate, String endDate) {
 		String result = "";
 		try {
-			Date start = DateTimeInstance().parse(startDate);
-			Date end = DateTimeInstance().parse(endDate);
+			Date start = new SimpleDateFormat(DATETIME_FORMAT).parse(startDate);
+			Date end = new SimpleDateFormat(DATETIME_FORMAT).parse(endDate);
 			long sss = (end.getTime() - start.getTime()) / 1000;
 			int dd = (int) sss / (60 * 60 * 24);
 			int hh = (int) (sss - dd * 60 * 60 * 24) / (60 * 60);
@@ -588,8 +555,8 @@ public class DateUtil {
 	public static int subDay(String startTime, String endTime) {
 		int days = 0;
 		try {
-			Date date1 = DateInstance().parse(DateInstance().format(DateTimeInstance().parse(startTime)));
-			Date date2 = DateInstance().parse(DateInstance().format(DateTimeInstance().parse(endTime)));
+			Date date1 = new SimpleDateFormat(DATE_FORMAT).parse(new SimpleDateFormat(DATE_FORMAT).format(new SimpleDateFormat(DATETIME_FORMAT).parse(startTime)));
+			Date date2 = new SimpleDateFormat(DATE_FORMAT).parse(new SimpleDateFormat(DATE_FORMAT).format(new SimpleDateFormat(DATETIME_FORMAT).parse(endTime)));
 			Calendar can1 = Calendar.getInstance();
 			can1.setTime(date1);
 			Calendar can2 = Calendar.getInstance();
@@ -630,8 +597,8 @@ public class DateUtil {
 	 * @summary 格式错误返回0
 	 */
 	public static long subtimeBurst(String startDate, String endDate, String timeBurst) throws ParseException {
-		Date start = DateTimeInstance().parse(startDate);
-		Date end = DateTimeInstance().parse(endDate);
+		Date start = new SimpleDateFormat(DATETIME_FORMAT).parse(startDate);
+		Date end = new SimpleDateFormat(DATETIME_FORMAT).parse(endDate);
 		return subtimeBurst(start, end, timeBurst);
 	}
 
@@ -663,18 +630,18 @@ public class DateUtil {
 				long firstMintues = 0;
 				long lastMintues = 0;
 				long daySecond = 0;
-				String strDayStart = DateInstance().format(startDate) + " " + a[0] + ":00";
-				String strDayEnd = DateInstance().format(startDate) + " " + a[1] + ":00";
-				Date dayStart = DateTimeInstance().parse(strDayStart);
-				Date dayEnd = DateTimeInstance().parse(strDayEnd);
+				String strDayStart = new SimpleDateFormat(DATE_FORMAT).format(startDate) + " " + a[0] + ":00";
+				String strDayEnd = new SimpleDateFormat(DATE_FORMAT).format(startDate) + " " + a[1] + ":00";
+				Date dayStart = new SimpleDateFormat(DATETIME_FORMAT).parse(strDayStart);
+				Date dayEnd = new SimpleDateFormat(DATETIME_FORMAT).parse(strDayEnd);
 				daySecond = subtract(dayStart, dayEnd);
 				if ((startDate.after(dayStart) || startDate.equals(dayStart)) && startDate.before(dayEnd)) {
 					firstMintues = (dayEnd.getTime() - startDate.getTime()) / 1000;
 				} else if (startDate.before(dayStart)) {
 					firstMintues = (dayEnd.getTime() - dayStart.getTime()) / 1000;
 				}
-				dayStart = DateTimeInstance().parse(DateInstance().format(endDate) + " " + a[0] + ":00");
-				dayEnd = DateTimeInstance().parse(DateInstance().format(endDate) + " " + a[1] + ":00");
+				dayStart = new SimpleDateFormat(DATETIME_FORMAT).parse(new SimpleDateFormat(DATE_FORMAT).format(endDate) + " " + a[0] + ":00");
+				dayEnd = new SimpleDateFormat(DATETIME_FORMAT).parse(new SimpleDateFormat(DATE_FORMAT).format(endDate) + " " + a[1] + ":00");
 				if (endDate.after(dayStart) && (endDate.before(dayEnd) || endDate.equals(dayEnd))) {
 					lastMintues = (endDate.getTime() - dayStart.getTime()) / 1000;
 				} else if (endDate.after(dayEnd)) {
@@ -684,10 +651,10 @@ public class DateUtil {
 				second = firstMintues + lastMintues;
 				second += (day - 1) * daySecond;
 			} else {
-				String strDayStart = DateInstance().format(startDate) + " " + a[0] + ":00";
-				String strDayEnd = DateInstance().format(startDate) + " " + a[1] + ":00";
-				Date dayStart = DateTimeInstance().parse(strDayStart);
-				Date dayEnd = DateTimeInstance().parse(strDayEnd);
+				String strDayStart = new SimpleDateFormat(DATE_FORMAT).format(startDate) + " " + a[0] + ":00";
+				String strDayEnd = new SimpleDateFormat(DATE_FORMAT).format(startDate) + " " + a[1] + ":00";
+				Date dayStart = new SimpleDateFormat(DATETIME_FORMAT).parse(strDayStart);
+				Date dayEnd = new SimpleDateFormat(DATETIME_FORMAT).parse(strDayEnd);
 				if ((startDate.after(dayStart) || startDate.equals(dayStart)) && startDate.before(dayEnd)
 						&& endDate.after(dayStart) && (endDate.before(dayEnd) || endDate.equals(dayEnd))) {
 					second = (endDate.getTime() - startDate.getTime()) / 1000;
@@ -733,7 +700,7 @@ public class DateUtil {
 	public static Date calculate(String date, int second, String timeBurst) {
 		Date start = null;
 		try {
-			start = DateTimeInstance().parse(date);
+			start = new SimpleDateFormat(DATETIME_FORMAT).parse(date);
 			return calculate(start, second, timeBurst);
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -757,8 +724,8 @@ public class DateUtil {
 		if (m.matches()) {
 			String[] a = timeBurst.split("-");
 			try {
-				Date dayStart = DateTimeInstance().parse(DateInstance().format(date) + " " + a[0] + ":00");
-				Date dayEnd = DateTimeInstance().parse(DateInstance().format(date) + " " + a[1] + ":00");
+				Date dayStart = new SimpleDateFormat(DATETIME_FORMAT).parse(new SimpleDateFormat(DATE_FORMAT).format(date) + " " + a[0] + ":00");
+				Date dayEnd = new SimpleDateFormat(DATETIME_FORMAT).parse(new SimpleDateFormat(DATE_FORMAT).format(date) + " " + a[1] + ":00");
 				int DaySecond = (int) subtract(dayStart, dayEnd);
 				int toDaySecond = (int) subtract(dayStart, dayEnd);
 				if (second >= 0) {
@@ -1047,7 +1014,8 @@ public class DateUtil {
         if (date == null) {  
             return null;  
         }  
-        return DateTimeInstance().format(date);  
+        new SimpleDateFormat(DATETIME_FORMAT).format(date);
+        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);  
     }  
   
     /** 
@@ -1092,7 +1060,7 @@ public class DateUtil {
         if (date == null) {  
             return null;  
         }  
-        return DateTimeInstance().parse(date);  
+        return new SimpleDateFormat(DATETIME_FORMAT).parse(date);  
     }  
   
     /** 
