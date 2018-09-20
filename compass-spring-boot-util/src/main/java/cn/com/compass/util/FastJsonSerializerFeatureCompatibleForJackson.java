@@ -57,7 +57,7 @@ final public class FastJsonSerializerFeatureCompatibleForJackson extends BeanSer
 				writer.assignNullSerializer(nullBooleanJsonSerializer);
 			} else if (String.class.equals(rawClass)) {
 				writer.assignNullSerializer(nullStringJsonSerializer);
-			} else if (javaType.isEnumType() || javaType.isMapLikeType() || Object.class.equals(rawClass)) {
+			} else if (/*javaType.isEnumType() ||*/ javaType.isMapLikeType() || Object.class.equals(rawClass)) {
 				writer.assignNullSerializer(nullObjectJsonSerializer);
 			}
 		}
