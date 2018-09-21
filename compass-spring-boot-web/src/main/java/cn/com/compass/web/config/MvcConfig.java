@@ -8,6 +8,7 @@ import org.springframework.format.FormatterRegistry;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.filter.HttpPutFormContentFilter;
+import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
@@ -23,26 +24,23 @@ import cn.com.compass.web.convert.UniversalEnumConverterFactory;
 
 @Configuration
 public class MvcConfig extends WebMvcConfigurerAdapter {
-	
+
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/**").addResourceLocations(
-                "classpath:/static/");
-        registry.addResourceHandler("swagger-ui.html").addResourceLocations(
-                "classpath:/META-INF/resources/");
-        registry.addResourceHandler("/webjars/**").addResourceLocations(
-                "classpath:/META-INF/resources/webjars/");
-        super.addResourceHandlers(registry);
+		registry.addResourceHandler("/**").addResourceLocations("classpath:/static/");
+		registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
+		registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+		super.addResourceHandlers(registry);
 	}
-	
+
 	/**
 	 * 注册枚举转换器
 	 */
-	@Override  
-    public void addFormatters(FormatterRegistry registry) {  
-        registry.addConverterFactory(new UniversalEnumConverterFactory());  
-    }  
-	
+	@Override
+	public void addFormatters(FormatterRegistry registry) {
+		registry.addConverterFactory(new UniversalEnumConverterFactory());
+	}
+
 	/**
 	 * form表单过滤器
 	 */
@@ -50,9 +48,9 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
 	public HttpPutFormContentFilter httpPutFormContentFilter() {
 		return new HttpPutFormContentFilter();
 	}
-	
+
 	/**
-	 * 配置消息转换器 
+	 * 配置消息转换器
 	 */
 	@Override
 	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
@@ -68,13 +66,25 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
 		objectMapper.registerModule(simpleModule);
 		HttpMessageConverter<?> converter = new MappingJackson2HttpMessageConverter(objectMapper);
 		converters.add(converter);
-		
+
 	}
 	
-//	@Bean
-//    public HttpMessageConverters jacksonHttpMessageConverters(){
-//		HttpMessageConverter<?> converter = new MappingJackson2HttpMessageConverter(JacksonObjectMapperWrapper.getInstance());
-//        return new HttpMessageConverters(converter);
-//    }
-	
+	/**
+	 * 1、 extends WebMvcConfigurationSupport </br>
+     * 2、重写下面方法; </br>
+     * setUseSuffixPatternMatch : 设置是否是后缀模式匹配，如“/user”是否匹配/user.*，默认真即匹配； </br>
+     * setUseTrailingSlashMatch : 设置是否自动后缀路径模式匹配，如“/user”是否匹配“/user/”，默认真即匹配； </br>
+	 */
+	@Override
+	public void configurePathMatch(PathMatchConfigurer configurer) {
+		configurer.setUseSuffixPatternMatch(false).setUseTrailingSlashMatch(true);
+
+	}
+	// @Bean
+	// public HttpMessageConverters jacksonHttpMessageConverters(){
+	// HttpMessageConverter<?> converter = new
+	// MappingJackson2HttpMessageConverter(JacksonObjectMapperWrapper.getInstance());
+	// return new HttpMessageConverters(converter);
+	// }
+
 }
