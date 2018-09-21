@@ -4,6 +4,7 @@
 package cn.com.compass.util;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -55,7 +56,7 @@ final public class FastJsonSerializerFeatureCompatibleForJackson extends BeanSer
 				writer.assignNullSerializer(nullNumberJsonSerializer);
 			} else if (Boolean.class.equals(rawClass)) {
 				writer.assignNullSerializer(nullBooleanJsonSerializer);
-			} else if (String.class.equals(rawClass)) {
+			} else if (String.class.equals(rawClass)||Date.class.isAssignableFrom(rawClass)) {
 				writer.assignNullSerializer(nullStringJsonSerializer);
 			}
 			// 不能穷举所有空对象

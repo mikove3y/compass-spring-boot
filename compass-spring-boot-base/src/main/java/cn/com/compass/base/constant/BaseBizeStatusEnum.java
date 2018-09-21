@@ -41,11 +41,11 @@ public class BaseBizeStatusEnum {
 	}
 	
 	/**
-	 * 文件类型（ 0-图片，1-音频，2-视频，3-其他）
+	 * 文件类型（ 1-图片，2-音频，3-视频，4-文件，5-其他）
 	 */
 	public enum FileType implements IBaseBizStatusEnum {
 
-		PIC(1, "图片"), AUDIO(2, "音频"), VIDEO(3,"视频"), OTHER(4,"其他");
+		PIC(1, "图片"), AUDIO(2, "音频"), VIDEO(3,"视频"), FILE(4,"文件"), OTHER(5,"其他");
 
 		private final Integer code;
 
