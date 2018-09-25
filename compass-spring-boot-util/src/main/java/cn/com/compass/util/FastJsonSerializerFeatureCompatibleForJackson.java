@@ -52,7 +52,8 @@ final public class FastJsonSerializerFeatureCompatibleForJackson extends BeanSer
 			final Class<?> rawClass = javaType.getRawClass();
 			if (javaType.isArrayType() || javaType.isCollectionLikeType()) {
 				writer.assignNullSerializer(nullListJsonSerializer);
-			} else if (Number.class.isAssignableFrom(rawClass) && rawClass.getName().startsWith("java.lang")) {
+			} else if (Number.class.isAssignableFrom(rawClass) /*&& rawClass.getName().startsWith("java.lang")*/) {
+				// BigDecimal
 				writer.assignNullSerializer(nullNumberJsonSerializer);
 			} else if (Boolean.class.equals(rawClass)) {
 				writer.assignNullSerializer(nullBooleanJsonSerializer);
