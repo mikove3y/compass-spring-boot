@@ -138,20 +138,18 @@ public class ReflectionUtils {
      */
 
     public static Object getFieldValue(Object object, String fieldName) {
-
-        //根据 对象和属性名通过反射 调用上面的方法获取 Field对象  
-        Field field = getDeclaredField(object, fieldName);
-
-        //抑制Java对其的检查  
-        field.setAccessible(true);
-
         try {
-            //获取 object 中 field 所代表的属性值  
-            return field.get(object);
+        	//根据 对象和属性名通过反射 调用上面的方法获取 Field对象  
+        	Field field = getDeclaredField(object, fieldName);
+        	//抑制Java对其的检查  
+        	if(field!=null) {
+        		field.setAccessible(true);
+        		//获取 object 中 field 所代表的属性值  
+        		return field.get(object);
+        	}
         } catch (Exception e) {
             logger.info(e.getMessage(), e);
         }
-
         return null;
     }
 

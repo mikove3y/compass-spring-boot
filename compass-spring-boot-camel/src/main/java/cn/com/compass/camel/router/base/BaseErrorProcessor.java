@@ -34,6 +34,7 @@ public class BaseErrorProcessor implements Processor {
 			errorMsg = bev.getError();
 		}
 		log.error(errorMsg);
+		exchange.getOut().setHeader("content-type", "application/json");
 		exchange.getOut().setBody(new BaseResponseVo(status, constant.getValue(status), errorMsg));
 		// 清空缓存
 		Cache cache = AppContext.getInstance().getBean(Cache.class);

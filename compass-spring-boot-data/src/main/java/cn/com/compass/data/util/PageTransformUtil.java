@@ -2,10 +2,13 @@ package cn.com.compass.data.util;
 
 import org.apache.commons.beanutils.BeanUtilsBean2;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 
 import cn.com.compass.base.constant.BaseConstant;
 import cn.com.compass.base.exception.BaseException;
 import cn.com.compass.base.vo.AppPage;
+import cn.com.compass.base.vo.BaseDataX;
+import cn.com.compass.base.vo.BaseRequestAppPageVo;
 import cn.com.compass.base.vo.PcPage;
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,19 +29,27 @@ public class PageTransformUtil {
 	 * @return
 	 */
 	public static <T> AppPage<T> transformJpaPage2AppPage(
-			org.springframework.data.domain.Page<T> jpaPage) {
+			org.springframework.data.domain.Page<T> jpaPage,BaseRequestAppPageVo pageVo) {
 		try {
 			AppPage<T> result = new AppPage<>();
 			result.setTotal(jpaPage.getTotalElements());
 			result.setRecords(jpaPage.getContent());
 			result.setSize(jpaPage.getSize());
 			if (CollectionUtils.isNotEmpty(jpaPage.getContent())) {
-				Object o = jpaPage.getContent().get(0);
+				Object o = null;
+				if(pageVo.getOrders().values().contains(BaseDataX.ORDER_DESC)) {
+					o = jpaPage.getContent().get(0);
+				}else {
+					o = jpaPage.getContent().get(jpaPage.getContent().size()-1);
+				}
 				String id = BeanUtilsBean2.getInstance().getProperty(o, "id");
 				if(id==null) {
 					id = BeanUtilsBean2.getInstance().getProperty(o, "dataId");
 				}
-				result.setDataId(Long.valueOf(id));
+				result.setDataId(NumberUtils.isCreatable(id)?Long.valueOf(id):-1L);
+			}
+			if(jpaPage.getContent()==null||jpaPage.getContent().size()<pageVo.getPageSize()) {
+				result.setDataId(-1L);
 			}
 			return result;
 		} catch (Exception e) {
@@ -68,17 +79,25 @@ public class PageTransformUtil {
 	 * @return
 	 */
 	public static <T> AppPage<T> transformMybtaisPage2AppPage(
-			com.github.pagehelper.Page<T> mybatisPage) {
+			com.github.pagehelper.Page<T> mybatisPage,BaseRequestAppPageVo pageVo) {
 		try {
 			AppPage<T> result = new AppPage<>();
 			result.setRecords(mybatisPage.getResult());
 			if(CollectionUtils.isNotEmpty(mybatisPage.getResult())) {
-				Object o = mybatisPage.getResult().get(0);
+				Object o = null;
+				if(pageVo.getOrders().values().contains(BaseDataX.ORDER_DESC)) {
+					o = mybatisPage.getResult().get(0);
+				}else {
+					o = mybatisPage.getResult().get(mybatisPage.getResult().size()-1);
+				}
 				String id = BeanUtilsBean2.getInstance().getProperty(o, "id");
 				if(id==null) {
 					id = BeanUtilsBean2.getInstance().getProperty(o, "dataId");
 				}
-				result.setDataId(Long.valueOf(id));
+				result.setDataId(NumberUtils.isCreatable(id)?Long.valueOf(id):-1L);
+			}
+			if(mybatisPage.getResult()==null||mybatisPage.getResult().size()<pageVo.getPageSize()) {
+				result.setDataId(-1L);
 			}
 			result.setSize(mybatisPage.getPageSize());
 			result.setTotal(mybatisPage.getTotal());

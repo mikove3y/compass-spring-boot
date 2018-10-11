@@ -39,7 +39,7 @@ public interface IBaseBizStatusEnum {
 	 * @param enumType
 	 * @return
 	 */
-	public static <T extends IBaseBizStatusEnum> T[] fromCode(Class<T> enumType) {
+	public static <T extends IBaseBizStatusEnum> T[] enums(Class<T> enumType) {
 		return enumType.getEnumConstants();
 	}
 	/**
@@ -49,12 +49,12 @@ public interface IBaseBizStatusEnum {
 	 * @return
 	 */
 	public static <T extends IBaseBizStatusEnum> T fromCode(Class<T> enumType, Integer code) {
-        for (T object : enumType.getEnumConstants()) {
+        for (T object : enums(enumType)) {
             if (Objects.equals(code, object.getCode())) {
                 return object;
             }
         }
-        throw new IllegalArgumentException("No enum code " + code + " of " + enumType.getCanonicalName());
+        return null;
     }
 	
 	/**
@@ -64,12 +64,12 @@ public interface IBaseBizStatusEnum {
 	 * @return
 	 */
 	public static <T extends IBaseBizStatusEnum> T fromDes(Class<T> enumType, String des) {
-        for (T object : enumType.getEnumConstants()) {
+        for (T object : enums(enumType)) {
             if (Objects.equals(des, object.getDes())) {
                 return object;
             }
         }
-        throw new IllegalArgumentException("No enum des " + des + " of " + enumType.getCanonicalName());
+        return null;
     }
 
 }

@@ -319,7 +319,7 @@ public class BaseEntityRepositoryImpl<T extends BaseEntity> extends SimpleJpaRep
 		// do query page
 		Pageable pageRequest = new PageRequest(0, pageVo.getPageSize(), sort);
 		// transform jpa page to frameWork app-page
-		return PageTransformUtil.transformJpaPage2AppPage(this.findAll(spec, pageRequest));
+		return PageTransformUtil.transformJpaPage2AppPage(this.findAll(spec, pageRequest),pageVo);
 	}
 
 	@Override

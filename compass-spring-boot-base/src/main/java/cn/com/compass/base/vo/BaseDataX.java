@@ -57,7 +57,7 @@ public class BaseDataX implements Serializable{
 	 * orders字段是否需要驼峰转下划线，针对mybatis xml 查询处理
 	 */
 	@JsonIgnore
-	private Boolean camel2Underline = false;
+	private Boolean camel2Underline = true;
 	
 	@JsonIgnore
 	public Boolean getCamel2Underline() {

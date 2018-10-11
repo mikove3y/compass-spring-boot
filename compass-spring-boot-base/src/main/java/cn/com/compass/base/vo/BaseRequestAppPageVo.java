@@ -13,7 +13,10 @@ import lombok.Setter;
 public class BaseRequestAppPageVo extends BaseDataX{
 
 	private static final long serialVersionUID = -2113556648016554107L;
-	
+	/**
+	 * 主键Id
+	 */
+	private Long dataId ;
 	/**
 	 * 页条数
 	 */

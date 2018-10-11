@@ -1014,8 +1014,7 @@ public class DateUtil {
         if (date == null) {  
             return null;  
         }  
-        new SimpleDateFormat(DATETIME_FORMAT).format(date);
-        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);  
+        return new SimpleDateFormat(DATETIME_FORMAT).format(date);  
     }  
   
     /** 

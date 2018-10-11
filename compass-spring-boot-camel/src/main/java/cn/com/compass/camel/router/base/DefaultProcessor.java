@@ -35,7 +35,9 @@ public class DefaultProcessor implements Processor {
 		ConstantUtil constant = AppContext.getInstance().getBean(ConstantUtil.class);
 		Object in = exchange.getIn().getBody();
 		if (in instanceof BaseResponseVo) {
-			
+			BaseResponseVo rv = (BaseResponseVo)in;
+			rv.setMsg(constant.getValue(rv.getStatus()));
+			exchange.getOut().setBody(in);
 		}else {
 			exchange.getOut().setBody(BaseResponseVo.success().setMsg(constant.getValue(BaseConstant.SUCCESS)).setData(in));
 		}
