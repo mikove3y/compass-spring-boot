@@ -45,6 +45,10 @@ public class BaseAttachmentEntity extends BaseEntity{
 	 * 文件类型
 	 */
 	private FileType fileType;
+	/**
+	 * 文件key
+	 */
+	private String fileKey;
 	
 	public static final String FILENAME = "fileName";
 	public static final String ORIGINALFILENAME = "originalFileName";
@@ -52,5 +56,5 @@ public class BaseAttachmentEntity extends BaseEntity{
 	public static final String FILESIZE = "fileSize";
 	public static final String FILEURL = "fileUrl";
 	public static final String FILETYPE = "fileType";
-
+	public static final String FILEKEY = "fileKey";
 }
