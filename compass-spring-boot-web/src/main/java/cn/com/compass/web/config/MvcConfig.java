@@ -17,8 +17,11 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 
 import cn.com.compass.base.constant.BaseBizStatusEnumDeserializer;
+import cn.com.compass.base.constant.BaseBizStatusEnumDeserializer2;
 import cn.com.compass.base.constant.BaseBizStatusEnumSerializer;
+import cn.com.compass.base.constant.BaseBizStatusEnumSerializer2;
 import cn.com.compass.base.constant.IBaseBizStatusEnum;
+import cn.com.compass.base.constant.IBaseBizStatusEnum2;
 import cn.com.compass.util.JacksonObjectMapperWrapper;
 import cn.com.compass.web.convert.UniversalEnumConverterFactory;
 
@@ -64,6 +67,13 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
 		StdSerializer<IBaseBizStatusEnum> serialize = new BaseBizStatusEnumSerializer();
 		simpleModule.addSerializer(IBaseBizStatusEnum.class, serialize);
 		objectMapper.registerModule(simpleModule);
+		// 注册IBaseBizStatusEnum2序列化和反序列化
+		SimpleModule simpleModule2 = new SimpleModule();
+		JsonDeserializer<IBaseBizStatusEnum2> deserialize2 = new BaseBizStatusEnumDeserializer2();
+		simpleModule.addDeserializer(IBaseBizStatusEnum2.class, deserialize2);
+		StdSerializer<IBaseBizStatusEnum2> serialize2 = new BaseBizStatusEnumSerializer2();
+		simpleModule.addSerializer(IBaseBizStatusEnum2.class, serialize2);
+		objectMapper.registerModule(simpleModule2);
 		HttpMessageConverter<?> converter = new MappingJackson2HttpMessageConverter(objectMapper);
 		converters.add(converter);
 

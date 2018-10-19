@@ -10,20 +10,20 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
  * @author wanmk
  * @git https://gitee.com/milkove
  * @email 524623302@qq.com
- * @todo 业务枚举接口 code:Integer类型
+ * @todo 业务枚举接口2 code:String类型
  * @date 2018年6月6日 下午2:51:29
  *
  */
 // enum json序列化为对象
 //@JsonFormat(shape = JsonFormat.Shape.OBJECT)
-@JsonSerialize(using=BaseBizStatusEnumSerializer.class)//BaseBizStatusEnumSerializer需要实例化
-@JsonDeserialize(using=BaseBizStatusEnumDeserializer.class)//BaseBizStatusEnumDeserializer需要实例化
-public interface IBaseBizStatusEnum {
+@JsonSerialize(using=BaseBizStatusEnumSerializer2.class)//BaseBizStatusEnumSerializer2需要实例化
+@JsonDeserialize(using=BaseBizStatusEnumDeserializer2.class)//BaseBizStatusEnumDeserializer2需要实例化
+public interface IBaseBizStatusEnum2 {
 	/**
 	 * code
 	 * @return
 	 */
-	public Integer getCode();
+	public String getCode();
 	/**
 	 * 描述
 	 * @return
@@ -39,7 +39,7 @@ public interface IBaseBizStatusEnum {
 	 * @param enumType
 	 * @return
 	 */
-	public static <T extends IBaseBizStatusEnum> T[] enums(Class<T> enumType) {
+	public static <T extends IBaseBizStatusEnum2> T[] enums(Class<T> enumType) {
 		return enumType.getEnumConstants();
 	}
 	/**
@@ -48,7 +48,7 @@ public interface IBaseBizStatusEnum {
 	 * @param code
 	 * @return
 	 */
-	public static <T extends IBaseBizStatusEnum> T fromCode(Class<T> enumType, Integer code) {
+	public static <T extends IBaseBizStatusEnum2> T fromCode(Class<T> enumType, String code) {
         for (T object : enums(enumType)) {
             if (Objects.equals(code, object.getCode())) {
                 return object;
@@ -63,7 +63,7 @@ public interface IBaseBizStatusEnum {
 	 * @param desc
 	 * @return
 	 */
-	public static <T extends IBaseBizStatusEnum> T fromDes(Class<T> enumType, String des) {
+	public static <T extends IBaseBizStatusEnum2> T fromDes(Class<T> enumType, String des) {
         for (T object : enums(enumType)) {
             if (Objects.equals(des, object.getDes())) {
                 return object;
