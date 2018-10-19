@@ -67,10 +67,17 @@ public class LocalCamelProcessor implements Processor {
 		headerCache.put(BaseConstant.AUTHORIZATION_KEY, authorization);
 		headerCache.put(BaseConstant.REQUEST_SUBJECT_ATTRIBUTE_KEY, subject);
 		headerCache.put(BaseConstant.REQUEST_DATA_PERMISSION, dataScop);
+//		headerCache.put("tx-group", exchangeId);
 		Cache cache = AppContext.getInstance().getBean(Cache.class);
 		cache.put(exchangeId, headerCache);
 		// 入参塞入exchangeId到头部，作为全服路由Id
 		exchange.getIn().setHeader(BaseConstant.MESSAGEID, exchangeId);
+		// lcn 事务控制 事务分组
+//		HttpServletRequest request = (HttpServletRequest) exchange.getIn().getHeader(Exchange.HTTP_SERVLET_REQUEST);
+//		CustomHttpServletRequestWrapper wrapper = new CustomHttpServletRequestWrapper(request);
+//		wrapper.setHeader("tx-group", exchangeId);
+//		ServletRequestAttributes rquestAttributes = new ServletRequestAttributes(wrapper);
+//		RequestContextHolder.setRequestAttributes(rquestAttributes);
 	}
 
 

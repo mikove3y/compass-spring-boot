@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Iterator;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.hibernate.CallbackException;
 import org.hibernate.EmptyInterceptor;
 import org.hibernate.type.Type;
@@ -68,6 +70,8 @@ public class JpaCommonMetaHanlder extends EmptyInterceptor {
 			BaseSubject sub = null;
 			if(appContext!=null) {
 				GlobalContext context = appContext.getBean(GlobalContext.class);
+				HttpServletRequest request = context.getRequest();
+				if(request!=null)
 				sub = context.getGlobalSubject();
 			}
 			for (int i = 0; i < propertyNames.length; i++) {

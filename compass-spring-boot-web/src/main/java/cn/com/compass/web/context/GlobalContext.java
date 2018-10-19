@@ -11,7 +11,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import cn.com.compass.base.constant.BaseConstant;
-import cn.com.compass.base.exception.BaseException;
 import cn.com.compass.base.vo.BaseSubject;
 import cn.com.compass.util.JacksonUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -105,14 +104,13 @@ public class GlobalContext {
 	public BaseSubject getGlobalSubject() {
 		try {
 			String suject = this.getRequest().getHeader(BaseConstant.REQUEST_SUBJECT_ATTRIBUTE_KEY);
-			if(StringUtils.isEmpty(suject)) {
-				return null;
-			}else
-			return JacksonUtil.json2pojo(suject, BaseSubject.class);
+			if(StringUtils.isNotEmpty(suject)&&JacksonUtil.isJSONValid(suject)) {
+				return JacksonUtil.json2pojo(suject, BaseSubject.class);
+			}
 		} catch (Exception e) {
 			log.error("get BaseSubject from request header erro:{}", e);
-			throw new BaseException(BaseConstant.TOKEN_GET_ERRO, e);
 		}
+		return null;
 	}
 	
 	/**
