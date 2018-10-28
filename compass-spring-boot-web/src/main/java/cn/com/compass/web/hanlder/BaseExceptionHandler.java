@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import cn.com.compass.base.constant.BaseConstant;
@@ -124,6 +125,18 @@ public class BaseExceptionHandler {
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public BaseErroVo handleException(HttpMessageConversionException exception) {
 		return new BaseErroVo(BaseConstant.REQUEST_PARAMS_VALID_ERRO,exception.getMessage());
+	}
+	
+	/**
+	 * 404 not found
+	 * @param exception
+	 * @return
+	 */
+	@ExceptionHandler(NoHandlerFoundException.class)
+	@ResponseBody
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public BaseErroVo handleException(NoHandlerFoundException exception) {
+		return new BaseErroVo(BaseConstant.API_NOT_FOUND,exception.getMessage());
 	}
 	
 }

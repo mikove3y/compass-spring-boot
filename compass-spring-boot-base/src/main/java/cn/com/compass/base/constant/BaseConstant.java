@@ -62,4 +62,8 @@ public interface BaseConstant {
 	 * token信息获取失败
 	 */
 	public static final String TOKEN_GET_ERRO = "base-0006";
+	/**
+	 * 请求 404
+	 */
+	public static final String API_NOT_FOUND = "base-0007";
 }
