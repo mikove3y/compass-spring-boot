@@ -52,7 +52,7 @@ public class BaseEntityRepositoryImpl<T extends BaseEntity> extends SimpleJpaRep
 	
 	private boolean isLogicDelete = false;
 	
-	@Value("${spring.jpa.open-logic-delete}")
+	@Value("${spring.jpa.open-logic-delete:false}")
 	private boolean openLogicDelete = false;
 
 	public BaseEntityRepositoryImpl(Class<T> domainClass, EntityManager entityManager) {

@@ -42,7 +42,7 @@ public class JpaCommonMetaHanlder extends EmptyInterceptor {
 
 	private static final long serialVersionUID = -5464568289140494842L;
 	
-	@Value("${spring.jpa.open-logic-delete}")
+	@Value("${spring.jpa.open-logic-delete:false}")
 	private boolean openLogicDelete = false;
 	
 	@Override
