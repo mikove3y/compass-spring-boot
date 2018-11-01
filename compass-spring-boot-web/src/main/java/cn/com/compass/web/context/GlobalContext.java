@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import cn.com.compass.base.constant.BaseConstant;
 import cn.com.compass.base.vo.BaseSubject;
+import cn.com.compass.base.vo.BaseSubject.ClientType;
 import cn.com.compass.util.JacksonUtil;
 import lombok.extern.slf4j.Slf4j;
 /**
@@ -172,6 +173,24 @@ public class GlobalContext {
 	public List<String> getCurrentUserAuthorities() {
 		BaseSubject sub = this.getGlobalSubject();
 		return sub!=null?sub.getAuthorities():null;
+	}
+	
+	/**
+	 * 获取客户端类型
+	 * @return
+	 */
+	public ClientType getCurrentUserClientType() {
+		BaseSubject sub = this.getGlobalSubject();
+		return sub!=null?sub.getClientType():null;
+	}
+	
+	/**
+	 * 获取授权类型
+	 * @return
+	 */
+	public String getCurrentUserGrantType() {
+		BaseSubject sub = this.getGlobalSubject();
+		return sub!=null?sub.getGrantType():null;
 	}
 	
 }
