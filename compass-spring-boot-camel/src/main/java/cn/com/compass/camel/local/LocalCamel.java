@@ -52,30 +52,41 @@ public class LocalCamel {
 	}
 	
 	/**
-	 * 用户信息
+	 * 当前用户-信息
 	 */
 	private String subject;
-	
 	/**
-	 * 授权码
+	 * 当前用户-授权码
 	 */
 	private String authorization;
-	
 	/**
-	 * 数据权限
+	 * 当前用户-数据权限
 	 */
 	private String dataScop;
+	
+	/**
+	 * 当前用户-子系统开发者账号
+	 */
+	private String sysDeveloper;
+	/**
+	 * 当前用户-权限
+	 */
+	private String power;
 	
 	/**
 	 * 初始化
 	 * @param subject
 	 * @param authorization
 	 * @param dataScop
+	 * @param sysDeveloper
+	 * @param power
 	 */
-	public void init(String subject,String authorization,String dataScop) {
+	public void init(String subject,String authorization,String dataScop,String sysDeveloper,String power) {
 		this.subject = subject;
 		this.authorization = authorization;
 		this.dataScop = dataScop;
+		this.sysDeveloper = sysDeveloper;
+		this.power = power;
 	}
 	
 	/**

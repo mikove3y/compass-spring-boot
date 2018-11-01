@@ -14,7 +14,7 @@ import lombok.Setter;
  * @author wanmk
  * @git https://gitee.com/milkove
  * @email 524623302@qq.com
- * @todo subject->jwt
+ * @todo 用户subject
  * @date 2018年6月27日 下午2:34:00
  *
  */
@@ -23,9 +23,13 @@ import lombok.Setter;
 public class BaseSubject implements Serializable {
 
 	private static final long serialVersionUID = -5471963320229357457L;
-	
+	/**
+	 * 授权码key
+	 */
 	public static final String GREANT_ACCESS_TOKEN = "accessToken";
-	
+	/**
+	 * 刷新码key
+	 */
 	public static final String GRANT_REFRESH_TOKEN = "refreshToken";
 	/**
 	 * 用户Id
@@ -40,26 +44,32 @@ public class BaseSubject implements Serializable {
 	 */
 	private String account;
 	/**
+	 * 用户名
+	 */
+	private String userName;
+	/**
 	 * 用户角色
 	 */
 	private List<String> authorities;
 	/**
 	 * 客户端类型
 	 */
-	private Integer clientType;
+	private ClientType clientType;
 	/**
 	 * 授权类型
 	 */
 	private String grantType;
 	
+	
 	public BaseSubject() {
 		
 	}
 	
-	public BaseSubject(Long userId,Long orgId,String account,Integer clientType,List<String> authorities,String grantType) {
+	public BaseSubject(Long userId,Long orgId,String account,String userName,ClientType clientType,List<String> authorities,String grantType) {
 		this.userId = userId;
 		this.orgId = orgId;
 		this.account = account;
+		this.userName = userName;
 		this.clientType = clientType;
 		this.authorities = authorities;
 		this.grantType = grantType;
@@ -69,7 +79,7 @@ public class BaseSubject implements Serializable {
 	 * 客户端类型枚举
 	 */
 	public enum ClientType implements IBaseBizStatusEnum{
-		APP(1, "APP"), PC(2, "PC");
+		APP(1, "APP"), PC(2, "PC"),ALL(3,"ALL");
 		private final Integer code;
 
 		private final String des;

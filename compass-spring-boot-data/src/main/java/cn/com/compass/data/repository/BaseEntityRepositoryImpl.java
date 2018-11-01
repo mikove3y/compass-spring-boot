@@ -1,5 +1,6 @@
 package cn.com.compass.data.repository;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -7,6 +8,7 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -17,6 +19,7 @@ import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import cn.com.compass.base.annotation.LogicDelete;
 import cn.com.compass.base.constant.BaseConstant;
 import cn.com.compass.base.entity.BaseEntity;
 import cn.com.compass.base.exception.BaseException;
@@ -46,12 +49,27 @@ public class BaseEntityRepositoryImpl<T extends BaseEntity> extends SimpleJpaRep
 	private EntityManager entityManager;
 
 	private Class<T> entityClass;
+	
+	private boolean isLogicDelete = false;
+	
+	@Value("${spring.jpa.open-logic-delete}")
+	private boolean openLogicDelete = false;
 
 	public BaseEntityRepositoryImpl(Class<T> domainClass, EntityManager entityManager) {
 		super(domainClass, entityManager);
 		this.entityManager = entityManager;
 		this.entityClass = domainClass;
+		// 判断是否逻辑删除
+		Field[] fields = entityClass.getFields();
+		for(Field f : fields) {
+			f.setAccessible(true);
+			LogicDelete ld = f.getAnnotation(LogicDelete.class);
+			this.isLogicDelete = ld != null;
+			if(this.isLogicDelete)break;
+		}
 	}
+	
+	
 
 	/*
 	 * (non-Javadoc)
@@ -90,7 +108,11 @@ public class BaseEntityRepositoryImpl<T extends BaseEntity> extends SimpleJpaRep
 	@Transactional(rollbackFor = Exception.class)
 	public boolean deleteOne(T entity) {
 		Assert.notNull(entity, "deleteOne->The given entity not be null!");
-		this.delete(entity);
+		if(this.isLogicDelete&&this.openLogicDelete) {
+			this.updateOne(entity);
+		}else {
+			this.delete(entity);
+		}
 		return true;
 	}
 
@@ -103,7 +125,11 @@ public class BaseEntityRepositoryImpl<T extends BaseEntity> extends SimpleJpaRep
 	@Transactional(rollbackFor = Exception.class)
 	public boolean deleteById(Long id) {
 		Assert.notNull(id, "deleteById->The given id not be null!");
-		this.delete(id);
+		if(this.isLogicDelete&&this.openLogicDelete) {
+			this.updateOne(this.findById(id));
+		}else {
+			this.delete(id);
+		}
 		return true;
 	}
 	
@@ -115,8 +141,13 @@ public class BaseEntityRepositoryImpl<T extends BaseEntity> extends SimpleJpaRep
 	@Transactional(rollbackFor = Exception.class)
 	public boolean deleteByIds(List<Long> ids) {
 		Assert.notEmpty(ids, "deleteByIds->The given ids not be empty!");
-		this.deleteInBatch(this.findByIds(ids));
-		return false;
+		List<T> ts = this.findByIds(ids);
+		if(this.isLogicDelete&&this.openLogicDelete) {
+			this.updateBatch(ts);
+		}else {
+			this.deleteInBatch(ts);
+		}
+		return true;
 	}
 	
 	/*
@@ -129,7 +160,12 @@ public class BaseEntityRepositoryImpl<T extends BaseEntity> extends SimpleJpaRep
 	public boolean deletBySpec(Specification<T> spec) {
 		Assert.notNull(spec, "deletBySpec->The given spec not be null!");
 		List<T> entities = this.findListBySpec(spec);
-		return this.deleteBatch(entities);
+		if(this.isLogicDelete&&this.openLogicDelete) {
+			this.updateBatch(entities);
+		}else {
+			this.deleteBatch(entities);
+		}
+		return true;
 	}
 
 	/*
@@ -141,7 +177,11 @@ public class BaseEntityRepositoryImpl<T extends BaseEntity> extends SimpleJpaRep
 	@Transactional(rollbackFor = Exception.class)
 	public boolean deleteBatch(List<T> entities) {
 		Assert.notEmpty(entities, "deleteBatch->The given entities not be null!");
-		this.delete(entities);
+		if(this.isLogicDelete&&this.openLogicDelete) {
+			this.updateBatch(entities);
+		}else {
+			this.delete(entities);
+		}
 		return true;
 	}
 

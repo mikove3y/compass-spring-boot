@@ -1,6 +1,7 @@
 package cn.com.compass.starter.hanlder;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.Iterator;
 
@@ -9,10 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import org.hibernate.CallbackException;
 import org.hibernate.EmptyInterceptor;
 import org.hibernate.type.Type;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
-import cn.com.compass.base.constant.BaseBizeStatusEnum.YesOrNo;
+import cn.com.compass.base.annotation.LogicDelete;
 import cn.com.compass.base.entity.BaseEntity;
 import cn.com.compass.base.vo.BaseSubject;
 import cn.com.compass.web.context.AppContext;
@@ -40,6 +42,9 @@ public class JpaCommonMetaHanlder extends EmptyInterceptor {
 
 	private static final long serialVersionUID = -5464568289140494842L;
 	
+	@Value("${spring.jpa.open-logic-delete}")
+	private boolean openLogicDelete = false;
+	
 	@Override
 	public void onDelete(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
 		super.onDelete(entity, id, state, propertyNames, types);
@@ -50,24 +55,30 @@ public class JpaCommonMetaHanlder extends EmptyInterceptor {
 			String[] propertyNames, Type[] types) {
 		try {
 			if (entity instanceof BaseEntity) {
-				ApplicationContext appContext = AppContext.getInstance();
-				BaseSubject sub = null;
-				if(appContext!=null) {
-					GlobalContext context = appContext.getBean(GlobalContext.class);
-					HttpServletRequest request = context.getRequest();
-					if(request!=null)
-						sub = context.getGlobalSubject();
-				}
+				Field df = this.getLogicDeleteField(((BaseEntity)entity).getClass());
+				BaseSubject sub = this.getCurrentUserSubject();
 				for (int i = 0; i < propertyNames.length; i++) {
 					if (sub != null) {
-						// 创建人
+						// 更新人Id
 						if (propertyNames[i].equals(BaseEntity.LASTUPDATERID)) {
 							currentState[i] = sub.getUserId();
+						}
+						// 更新人名
+						if (propertyNames[i].equals(BaseEntity.LASTUPDATERNAME)) {
+							currentState[i] = sub.getUserName();
+						}
+						// 更新人账号
+						if (propertyNames[i].equals(BaseEntity.LASTUPDATERACCOUNT)) {
+							currentState[i] = sub.getAccount();
 						}
 					}
 					// 更新时间
 					if (propertyNames[i].equals(BaseEntity.LASTUPDATETIME)) {
 						currentState[i] = new Date();
+					}
+					// 逻辑删除字段
+					if(df!=null&&propertyNames[i].equals(df.getName())&&openLogicDelete) {
+						currentState[i] = df.getAnnotation(LogicDelete.class).deleteValue();
 					}
 				}
 			}
@@ -82,19 +93,21 @@ public class JpaCommonMetaHanlder extends EmptyInterceptor {
 	public boolean onSave(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
 		try {
 			if (entity instanceof BaseEntity) {
-				ApplicationContext appContext = AppContext.getInstance();
-				BaseSubject sub = null;
-				if(appContext!=null) {
-					GlobalContext context = appContext.getBean(GlobalContext.class);
-					HttpServletRequest request = context.getRequest();
-					if(request!=null)
-						sub = context.getGlobalSubject();
-				}
+				Field df = this.getLogicDeleteField(((BaseEntity)entity).getClass());
+				BaseSubject sub = this.getCurrentUserSubject();
 				for (int i = 0; i < propertyNames.length; i++) {
 					if (sub != null) {
-						// 创建人
+						// 创建人Id
 						if (propertyNames[i].equals(BaseEntity.CREATERID)) {
 							state[i] = sub.getUserId();
+						}
+						// 创建人名
+						if (propertyNames[i].equals(BaseEntity.CREATERNAME)) {
+							state[i] = sub.getUserName();
+						}
+						// 创建人账号
+						if (propertyNames[i].equals(BaseEntity.CREATERACCOUNT)) {
+							state[i] = sub.getAccount();
 						}
 					}
 					// 创建时间
@@ -102,8 +115,8 @@ public class JpaCommonMetaHanlder extends EmptyInterceptor {
 						state[i] = new Date();
 					}
 					// 逻辑删除字段
-					if (propertyNames[i].equals(BaseEntity.ENABLED)) {
-						state[i] = YesOrNo.NO.getCode();
+					if(df!=null&&propertyNames[i].equals(df.getName())) {
+						state[i] = df.getAnnotation(LogicDelete.class).notDeleteValue();
 					}
 				}
 			}
@@ -149,6 +162,37 @@ public class JpaCommonMetaHanlder extends EmptyInterceptor {
 	@Override
 	public void preFlush(Iterator entities) {
 		super.preFlush(entities);
+	}
+	
+	/**
+	 * 获取当前用户信息
+	 * @return
+	 */
+	private BaseSubject getCurrentUserSubject() {
+		ApplicationContext appContext = AppContext.getInstance();
+		BaseSubject sub = null;
+		if(appContext!=null) {
+			GlobalContext context = appContext.getBean(GlobalContext.class);
+			HttpServletRequest request = context.getRequest();
+			if(request!=null)
+				sub = context.getGlobalSubject();
+		}
+		return sub;
+	}
+	
+	/**
+	 * 获取逻辑删除字段
+	 * @param clazz
+	 * @return
+	 */
+	private Field getLogicDeleteField(Class<? extends BaseEntity> clazz) {
+		Field[] fields = clazz.getFields();
+		for(Field f : fields) {
+			f.setAccessible(true);
+			LogicDelete ld = f.getAnnotation(LogicDelete.class);
+			if(ld!=null)return f;
+		}
+		return null;
 	}
 
 }

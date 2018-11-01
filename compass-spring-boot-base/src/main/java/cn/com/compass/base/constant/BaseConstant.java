@@ -16,13 +16,21 @@ public interface BaseConstant {
 	 */
 	public static final String REQUEST_SUBJECT_ATTRIBUTE_KEY = "BaseSubject";
 	/**
-	 * 业务数据权限
+	 * 放在request头中的业务数据权限Key
 	 */
 	public static final String REQUEST_DATA_PERMISSION = "DataScop";
 	/**
 	 * 放在request头中的权限key
 	 */
 	public static final String AUTHORIZATION_KEY = "Authorization";
+	/**
+	 * 放在request头中的权限key
+	 */
+	public static final String POWER_KEY = "Power";
+	/**
+	 * 放在request头中的子系统开发者key
+	 */
+	public static final String SYSDEVELOPER_KEY = "SysDeveloper";
 	/**
 	 * basicAuth方式鉴权，匹配base64
 	 */

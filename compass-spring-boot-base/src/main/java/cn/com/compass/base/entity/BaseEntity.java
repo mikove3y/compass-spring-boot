@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Version;
 
+import cn.com.compass.base.annotation.LogicDelete;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -77,18 +78,47 @@ public class BaseEntity implements Serializable {
 	// initialValue = 1,allocationSize = 1)
 	@Id
 	private Long id;
-	
+	/**
+	 * 创建人Id
+	 */
 	private Long createrId;
-	
+	/**
+	 * 创建人名
+	 */
+	private String createrName;
+	/**
+	 * 创建人账号
+	 */
+	private String createrAccount;
+	/**
+	 * 创建时间
+	 */
 	private Date createTime;
-
+	/**
+	 * 更新人Id
+	 */
 	private Long lastUpdaterId;
-	
+	/**
+	 * 更新人名
+	 */
+	private String lastUpdaterName;
+	/**
+	 * 更新人账号
+	 */
+	private String lastUpdaterAccount;
+	/**
+	 * 更新时间
+	 */
 	private Date lastUpdateTime;
-	
+	/**
+	 * 版本号
+	 */
 	@Version
 	private Integer version;
-	
+	/**
+	 * 逻辑删除字段
+	 */
+	@LogicDelete(deleteValue=1,notDeleteValue=0)
 	private Integer enabled;
 
 	public static final String ID = "id";
@@ -98,10 +128,18 @@ public class BaseEntity implements Serializable {
 	public static final String CREATETIME = "createTime";
 
 	public static final String CREATERID = "createrId";
+	
+	public static final String CREATERNAME = "createrName";
+	
+	public static final String CREATERACCOUNT = "createrAccount";
 
 	public static final String LASTUPDATETIME = "lastUpdateTime";
 
 	public static final String LASTUPDATERID = "lastUpdaterId";
+	
+	public static final String LASTUPDATERNAME = "lastUpdaterName";
+	
+	public static final String LASTUPDATERACCOUNT = "lastUpdaterAccount";
 
 	public static final String ENABLED = "enabled";
 

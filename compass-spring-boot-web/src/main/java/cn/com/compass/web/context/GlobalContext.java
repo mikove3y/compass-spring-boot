@@ -98,6 +98,22 @@ public class GlobalContext {
 	}
 	
 	/**
+	 * 获取当前用户power
+	 * @return
+	 */
+	public String getCurrentUserPower() {
+		return this.getRequest().getHeader(BaseConstant.POWER_KEY);
+	}
+	
+	/**
+	 * 获取子系统开发者账号
+	 * @return
+	 */
+	public String getCurrentSysDeveloper() {
+		return this.getRequest().getHeader(BaseConstant.SYSDEVELOPER_KEY);
+	}
+	
+	/**
 	 * 获取subject
 	 * @return
 	 */
@@ -120,6 +136,24 @@ public class GlobalContext {
 	public Long getCurrentUserId() {
 		BaseSubject sub = this.getGlobalSubject();
 		return sub!=null?sub.getUserId():null;
+	}
+	
+	/**
+	 * 获取用户账号
+	 * @return
+	 */
+	public String getCurrentUserAccount() {
+		BaseSubject sub = this.getGlobalSubject();
+		return sub!=null?sub.getAccount():null;
+	}
+	
+	/**
+	 * 获取用户名
+	 * @return
+	 */
+	public String getCurrentUserName() {
+		BaseSubject sub = this.getGlobalSubject();
+		return sub!=null?sub.getUserName():null;
 	}
 	
 	/**
