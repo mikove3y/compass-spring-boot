@@ -121,7 +121,7 @@ public class GlobalContext {
 	public BaseSubject getGlobalSubject() {
 		try {
 			String suject = this.getRequest().getHeader(BaseConstant.REQUEST_SUBJECT_ATTRIBUTE_KEY);
-			if(StringUtils.isNotEmpty(suject)&&JacksonUtil.isJSONValid(suject)) {
+			if(StringUtils.isNotEmpty(suject)/*&&JacksonUtil.isJSONValid(suject)*/) {
 				return JacksonUtil.json2pojo(suject, BaseSubject.class);
 			}
 		} catch (Exception e) {
