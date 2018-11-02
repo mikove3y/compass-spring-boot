@@ -1,5 +1,6 @@
 package cn.com.compass.web.context;
 
+import java.net.URLDecoder;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -120,9 +121,12 @@ public class GlobalContext {
 	 */
 	public BaseSubject getGlobalSubject() {
 		try {
-			String suject = this.getRequest().getHeader(BaseConstant.REQUEST_SUBJECT_ATTRIBUTE_KEY);
-			if(StringUtils.isNotEmpty(suject)/*&&JacksonUtil.isJSONValid(suject)*/) {
-				return JacksonUtil.json2pojo(suject, BaseSubject.class);
+			String subject = this.getRequest().getHeader(BaseConstant.REQUEST_SUBJECT_ATTRIBUTE_KEY);
+			if(StringUtils.isNotEmpty(subject)) {
+				subject = URLDecoder.decode(subject, "UTF-8");
+				if(JacksonUtil.isJSONValid(subject)) {
+					return JacksonUtil.json2pojo(subject, BaseSubject.class);
+				}
 			}
 		} catch (Exception e) {
 			log.error("get BaseSubject from request header erro:{}", e);

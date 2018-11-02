@@ -3,6 +3,8 @@
  */
 package cn.com.compass.camel.local;
 
+import java.net.URLDecoder;
+
 import org.apache.commons.lang3.StringUtils;
 
 import cn.com.compass.autoconfig.jwt.JwtUtil;
@@ -96,8 +98,13 @@ public class LocalCamel {
 	public BaseSubject parseSubject() {
 		try {
 			String subject = this.getSubject();
-			if(StringUtils.isNotEmpty(subject)&&JacksonUtil.isJSONValid(subject)) {
-				return JacksonUtil.json2pojo(subject, BaseSubject.class);
+			if(StringUtils.isNotEmpty(subject)) {
+				subject = URLDecoder.decode(subject, "UTF-8");
+				if(JacksonUtil.isJSONValid(subject)) {
+					return JacksonUtil.json2pojo(subject, BaseSubject.class);
+				}else {
+					throw new BaseException(BaseConstant.TOKEN_GET_ERRO,"parse token error,token is empty");
+				}
 			}else {
 				// 从头参中解析出BaseSubject
 				String authorization = this.getAuthorization();
