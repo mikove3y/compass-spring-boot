@@ -1,6 +1,7 @@
 package cn.com.compass.base.entity;
 
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 
 import cn.com.compass.base.constant.BaseBizeStatusEnum.FileType;
 import lombok.Getter;
@@ -44,6 +45,7 @@ public class BaseAttachmentEntity extends BaseEntity{
 	/**
 	 * 文件类型
 	 */
+	@Transient
 	private FileType fileType;
 	/**
 	 * 文件key
