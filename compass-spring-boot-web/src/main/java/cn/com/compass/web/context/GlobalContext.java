@@ -174,7 +174,7 @@ public class GlobalContext {
 	 * 获取角色
 	 * @return
 	 */
-	public List<String> getCurrentUserAuthorities() {
+	public List<Long> getCurrentUserAuthorities() {
 		BaseSubject sub = this.getGlobalSubject();
 		return sub!=null?sub.getAuthorities():null;
 	}
