@@ -50,7 +50,7 @@ public class BaseSubject implements Serializable {
 	/**
 	 * 用户角色
 	 */
-	private List<String> authorities;
+	private List<Long> authorities;
 	/**
 	 * 客户端类型
 	 */
@@ -65,7 +65,7 @@ public class BaseSubject implements Serializable {
 		
 	}
 	
-	public BaseSubject(Long userId,Long orgId,String account,String userName,ClientType clientType,List<String> authorities,String grantType) {
+	public BaseSubject(Long userId,Long orgId,String account,String userName,ClientType clientType,List<Long> authorities,String grantType) {
 		this.userId = userId;
 		this.orgId = orgId;
 		this.account = account;
