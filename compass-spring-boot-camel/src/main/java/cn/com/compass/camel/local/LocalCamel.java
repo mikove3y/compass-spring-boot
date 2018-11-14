@@ -64,16 +64,16 @@ public class LocalCamel {
 	/**
 	 * 当前用户-数据权限
 	 */
-	private String dataScop;
+//	private String dataScop;
 	
 	/**
 	 * 当前用户-子系统开发者账号
 	 */
-	private String sysDeveloper;
+//	private String sysDeveloper;
 	/**
 	 * 当前用户-权限
 	 */
-	private String power;
+//	private String power;
 	
 	/**
 	 * 初始化
@@ -83,12 +83,12 @@ public class LocalCamel {
 	 * @param sysDeveloper
 	 * @param power
 	 */
-	public void init(String subject,String authorization,String dataScop,String sysDeveloper,String power) {
+	public void init(String subject,String authorization/*,String dataScop,String sysDeveloper,String power*/) {
 		this.subject = subject;
 		this.authorization = authorization;
-		this.dataScop = dataScop;
-		this.sysDeveloper = sysDeveloper;
-		this.power = power;
+//		this.dataScop = dataScop;
+//		this.sysDeveloper = sysDeveloper;
+//		this.power = power;
 	}
 	
 	/**

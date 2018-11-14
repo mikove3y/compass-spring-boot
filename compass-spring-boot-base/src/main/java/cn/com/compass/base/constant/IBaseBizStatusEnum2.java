@@ -29,10 +29,18 @@ public interface IBaseBizStatusEnum2 {
 	 * @return
 	 */
 	public String getDes();
+
+	/**
+	 * 是否消极
+	 * @return
+	 */
+	public Boolean isNegative();
 	
 	public static final String CODE = "code";
 	
 	public static final String DES = "des";
+
+	public static final String NEGATIVE = "negative";
 	
 	/**
 	 * 获取枚举类的所有枚举值
