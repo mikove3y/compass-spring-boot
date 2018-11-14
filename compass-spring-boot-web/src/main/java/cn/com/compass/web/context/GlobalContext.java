@@ -87,9 +87,9 @@ public class GlobalContext {
 	 * 获取当前用户数据权限
 	 * @return
 	 */
-	public String getCurrentUserDataScop() {
-		return this.getRequest().getHeader(BaseConstant.REQUEST_DATA_PERMISSION);
-	}
+//	public String getCurrentUserDataScop() {
+//		return this.getRequest().getHeader(BaseConstant.REQUEST_DATA_PERMISSION);
+//	}
 	
 	/**
 	 * 获取用户token
@@ -103,9 +103,9 @@ public class GlobalContext {
 	 * 获取当前用户power
 	 * @return
 	 */
-	public String getCurrentUserPower() {
-		return this.getRequest().getHeader(BaseConstant.POWER_KEY);
-	}
+//	public String getCurrentUserPower() {
+//		return this.getRequest().getHeader(BaseConstant.POWER_KEY);
+//	}
 	
 	/**
 	 * 获取子系统开发者账号
