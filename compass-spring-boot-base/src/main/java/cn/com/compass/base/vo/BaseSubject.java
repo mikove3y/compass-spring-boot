@@ -3,6 +3,7 @@ package cn.com.compass.base.vo;
 import java.io.Serializable;
 import java.util.List;
 
+import cn.com.compass.base.constant.BaseConstant;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import cn.com.compass.base.constant.IBaseBizStatusEnum;
@@ -116,6 +117,23 @@ public class BaseSubject implements Serializable {
 	@JsonIgnore
 	public String getRefreshTokenCacheKey() {
 		return this.getAccount()+":"+this.getClientType()+":"+GRANT_REFRESH_TOKEN;
+	}
+
+	/**
+	 * 获取DataScop 缓存key
+	 * @return
+	 */
+	@JsonIgnore
+	public String getDataScopCacheKey(){
+		return this.getAccount()+":"+this.getClientType()+":"+ BaseConstant.REQUEST_DATA_PERMISSION;
+	}
+
+	/**
+	 * 获取power  缓存key
+	 * @return
+	 */
+	public String getPowerCacheKey(){
+		return this.getAccount()+":"+this.getClientType()+":"+ BaseConstant.POWER_KEY;
 	}
 	
 }
