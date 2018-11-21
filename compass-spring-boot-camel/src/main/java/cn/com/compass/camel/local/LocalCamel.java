@@ -61,15 +61,20 @@ public class LocalCamel {
 	 * 当前用户-授权码
 	 */
 	private String authorization;
+	/**
+	 * 系统编码
+	 */
+	private String systemCode;
 
 	/**
 	 * 初始化
 	 * @param subject
 	 * @param authorization
 	 */
-	public void init(String subject,String authorization) {
+	public void init(String subject,String authorization,String systemCode) {
 		this.subject = subject;
 		this.authorization = authorization;
+		this.systemCode = systemCode;
 	}
 
 	private BaseSubject baseSubject;
