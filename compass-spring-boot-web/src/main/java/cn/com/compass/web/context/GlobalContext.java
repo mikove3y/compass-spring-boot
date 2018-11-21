@@ -102,32 +102,29 @@ public class GlobalContext {
 		return this.getRequest().getHeader(BaseConstant.REQUEST_SUBJECT_ATTRIBUTE_KEY);
 	}
 
-	private BaseSubject baseSubject;
-
 	/**
 	 * 获取subject
 	 * @return
 	 */
 	public BaseSubject getGlobalSubject() {
-		if (baseSubject == null) {
-			try {
-				String subject = this.getCurrentUserSubject();
-				if (StringUtils.isNotEmpty(subject)) {
-					subject = URLDecoder.decode(subject, "UTF-8");
-					if (JacksonUtil.isJSONValid(subject)) {
-						baseSubject = JacksonUtil.json2pojo(subject, BaseSubject.class);
-					}
-				} else {
-					String authorization = this.getCurrentUserToken();
-					if (StringUtils.isNotEmpty(authorization)) {
-						JwtUtil jwt = AppContext.getInstance().getBean(JwtUtil.class);
-						subject = jwt.parseSubject(authorization);
-						baseSubject = JacksonUtil.json2pojo(subject, BaseSubject.class);
-					}
+		BaseSubject baseSubject = null;
+		try {
+			String subject = this.getCurrentUserSubject();
+			if (StringUtils.isNotEmpty(subject)) {
+				subject = URLDecoder.decode(subject, "UTF-8");
+				if (JacksonUtil.isJSONValid(subject)) {
+					baseSubject = JacksonUtil.json2pojo(subject, BaseSubject.class);
 				}
-			} catch (Exception e) {
-				log.error("get BaseSubject from request header erro:{}", e);
+			} else {
+				String authorization = this.getCurrentUserToken();
+				if (StringUtils.isNotEmpty(authorization)) {
+					JwtUtil jwt = AppContext.getInstance().getBean(JwtUtil.class);
+					subject = jwt.parseSubject(authorization);
+					baseSubject = JacksonUtil.json2pojo(subject, BaseSubject.class);
+				}
 			}
+		} catch (Exception e) {
+			log.error("get BaseSubject from request header erro:{}", e);
 		}
 		return baseSubject;
 	}
