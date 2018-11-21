@@ -36,12 +36,7 @@ public class PageTransformUtil {
 			result.setRecords(jpaPage.getContent());
 			result.setSize(jpaPage.getSize());
 			if (CollectionUtils.isNotEmpty(jpaPage.getContent())) {
-				Object o = null;
-				if(!pageVo.getIsAsc()) {
-					o = jpaPage.getContent().get(0);
-				}else {
-					o = jpaPage.getContent().get(jpaPage.getContent().size()-1);
-				}
+				Object o = jpaPage.getContent().get(jpaPage.getContent().size()-1);
 				String id = BeanUtilsBean2.getInstance().getProperty(o, "id");
 				if(id==null) {
 					id = BeanUtilsBean2.getInstance().getProperty(o, "dataId");
@@ -84,12 +79,7 @@ public class PageTransformUtil {
 			AppPage<T> result = new AppPage<>();
 			result.setRecords(mybatisPage.getResult());
 			if(CollectionUtils.isNotEmpty(mybatisPage.getResult())) {
-				Object o = null;
-				if(!pageVo.getIsAsc()) {
-					o = mybatisPage.getResult().get(0);
-				}else {
-					o = mybatisPage.getResult().get(mybatisPage.getResult().size()-1);
-				}
+				Object o = mybatisPage.getResult().get(mybatisPage.getResult().size()-1);
 				String id = BeanUtilsBean2.getInstance().getProperty(o, "id");
 				if(id==null) {
 					id = BeanUtilsBean2.getInstance().getProperty(o, "dataId");
