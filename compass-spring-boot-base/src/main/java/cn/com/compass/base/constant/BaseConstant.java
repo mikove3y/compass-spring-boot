@@ -16,33 +16,41 @@ public interface BaseConstant {
 	 */
 	public static final String REQUEST_SUBJECT_ATTRIBUTE_KEY = "BaseSubject";
 	/**
-	 * 放在request头中的业务数据权限Key
-	 */
-	public static final String REQUEST_DATA_PERMISSION = "DataScop";
-	/**
 	 * 放在request头中的权限key
 	 */
 	public static final String AUTHORIZATION_KEY = "Authorization";
 	/**
-	 * 放在request头中的权限key
+	 * 针对短信验证系统
+	 * captcha短信验证鉴权
 	 */
-	public static final String POWER_KEY = "Power";
+	public static final String AUTHORIZATION_VALUE_CAPTCHA_PREFIX = "Captcha ";
 	/**
-	 * 放在request头中的子系统开发者key
+	 * 针对架构内异构系统
+	 * archAtuh方式鉴权，匹配base64
 	 */
-	public static final String SYSDEVELOPER_KEY = "SysDeveloper";
+	public static final String AUTHORIZATION_VALUE_ARCH_PREFIX = "Arch ";
 	/**
+	 * 针对入驻公司异构系统
 	 * basicAuth方式鉴权，匹配base64
 	 */
 	public static final String AUTHORIZATION_VALUE_BASIC_PREFIX = "Basic ";
 	/**
+	 * 针对本平台系统
 	 * auth2.0方式鉴权，匹配jwt-token
 	 */
 	public static final String AUTHORIZATION_VALUE_BEARER_PREFIX = "Bearer ";
 	/**
+	 * 系统编码
+	 */
+	public static final String SYSTEMCODE = "SystemCode";
+	/**
 	 * 全局消息Id
 	 */
 	public static final String MESSAGEID = "messageId";
+	/**
+	 * 角色权限power 全局redis缓存
+	 */
+	public static final String ROLE_POWER_KEY = "rolePower";
 	
 	// yml constant 配置
 	

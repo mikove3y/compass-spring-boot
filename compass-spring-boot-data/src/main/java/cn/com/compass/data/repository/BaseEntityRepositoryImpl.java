@@ -345,13 +345,11 @@ public class BaseEntityRepositoryImpl<T extends BaseEntity> extends SimpleJpaRep
 	public AppPage<T> findAppPage(BaseRequestAppPageVo pageVo, Specification<T> spec) {
 		Assert.noNullElements(new Object[] { pageVo, spec }, "findPcPage->The given pageVo & spec not be null!");
 		// order columns
-		Map<String, String> om = pageVo.getOrders();
+		List<String> ors = pageVo.getOrderCols();
 		// build orders
 		List<Order> orders = new ArrayList<>();
-		for (Map.Entry<String, String> entry : om.entrySet()) {
-			String orderCol = entry.getKey();
-			String orderVal = entry.getValue();
-			Order order = new Order(BaseDataX.ORDER_ASC.equals(orderVal) ? Direction.ASC : Direction.DESC, orderCol);
+		for (String o : ors) {
+			Order order = new Order(pageVo.getIsAsc()?Direction.ASC : Direction.DESC, o);
 			orders.add(order);
 		}
 		// build sort

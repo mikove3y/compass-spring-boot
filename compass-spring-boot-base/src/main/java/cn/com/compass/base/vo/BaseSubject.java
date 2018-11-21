@@ -25,14 +25,6 @@ public class BaseSubject implements Serializable {
 
 	private static final long serialVersionUID = -5471963320229357457L;
 	/**
-	 * 授权码key
-	 */
-	public static final String GREANT_ACCESS_TOKEN = "accessToken";
-	/**
-	 * 刷新码key
-	 */
-	public static final String GRANT_REFRESH_TOKEN = "refreshToken";
-	/**
 	 * 用户Id
 	 */
 	private Long userId;
@@ -53,6 +45,10 @@ public class BaseSubject implements Serializable {
 	 */
 	private List<Long> authorities;
 	/**
+	 * 用户技能
+	 */
+	private List<Long> skills;
+	/**
 	 * 客户端类型
 	 */
 	private ClientType clientType;
@@ -66,13 +62,14 @@ public class BaseSubject implements Serializable {
 		
 	}
 	
-	public BaseSubject(Long userId,Long orgId,String account,String userName,ClientType clientType,List<Long> authorities,String grantType) {
+	public BaseSubject(Long userId,Long orgId,String account,String userName,ClientType clientType,List<Long> authorities,List<Long> skills,String grantType) {
 		this.userId = userId;
 		this.orgId = orgId;
 		this.account = account;
 		this.userName = userName;
 		this.clientType = clientType;
 		this.authorities = authorities;
+		this.skills = skills;
 		this.grantType = grantType;
 	}
 	
@@ -100,7 +97,14 @@ public class BaseSubject implements Serializable {
 		}
 		
 	}
-	
+	/**
+	 * 授权码key
+	 */
+	public static final String GREANT_ACCESS_TOKEN = "accessToken";
+	/**
+	 * 刷新码key
+	 */
+	public static final String GRANT_REFRESH_TOKEN = "refreshToken";
 	/**
 	 * 获取AccessToken 缓存key
 	 * @return
@@ -119,21 +123,29 @@ public class BaseSubject implements Serializable {
 		return this.getAccount()+":"+this.getClientType()+":"+GRANT_REFRESH_TOKEN;
 	}
 
-	/**
-	 * 获取DataScop 缓存key
-	 * @return
-	 */
+    /**
+     * 获取basic 缓存key
+     * @return
+     */
 	@JsonIgnore
-	public String getDataScopCacheKey(){
-		return this.getAccount()+":"+this.getClientType()+":"+ BaseConstant.REQUEST_DATA_PERMISSION;
-	}
+	public String getBasicTokenCacheKey() {
+	    return this.getAccount()+":"+this.getClientType()+":"+BaseConstant.AUTHORIZATION_VALUE_BASIC_PREFIX;
+    }
 
-	/**
-	 * 获取power  缓存key
-	 * @return
-	 */
-	public String getPowerCacheKey(){
-		return this.getAccount()+":"+this.getClientType()+":"+ BaseConstant.POWER_KEY;
-	}
-	
+    /**
+     * 获取arch 缓存key
+     * @return
+     */
+    @JsonIgnore
+    public String getArchTokenCacheKey() {
+        return this.getAccount()+":"+this.getClientType()+":"+BaseConstant.AUTHORIZATION_VALUE_ARCH_PREFIX;
+    }
+
+    /**
+     * 获取Captcha 缓存key
+     * @return
+     */
+    public String getCaptchaTokenCacheKey() {
+        return this.getAccount()+":"+this.getClientType()+":"+BaseConstant.AUTHORIZATION_VALUE_CAPTCHA_PREFIX;
+    }
 }

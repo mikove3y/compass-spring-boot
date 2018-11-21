@@ -37,7 +37,7 @@ public class PageTransformUtil {
 			result.setSize(jpaPage.getSize());
 			if (CollectionUtils.isNotEmpty(jpaPage.getContent())) {
 				Object o = null;
-				if(pageVo.getOrders().values().contains(BaseDataX.ORDER_DESC)) {
+				if(!pageVo.getIsAsc()) {
 					o = jpaPage.getContent().get(0);
 				}else {
 					o = jpaPage.getContent().get(jpaPage.getContent().size()-1);
@@ -85,7 +85,7 @@ public class PageTransformUtil {
 			result.setRecords(mybatisPage.getResult());
 			if(CollectionUtils.isNotEmpty(mybatisPage.getResult())) {
 				Object o = null;
-				if(pageVo.getOrders().values().contains(BaseDataX.ORDER_DESC)) {
+				if(!pageVo.getIsAsc()) {
 					o = mybatisPage.getResult().get(0);
 				}else {
 					o = mybatisPage.getResult().get(mybatisPage.getResult().size()-1);

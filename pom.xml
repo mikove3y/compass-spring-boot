@@ -480,5 +480,5 @@
 		<module>compass-spring-boot-drools</module>
 		<module>compass-spring-boot-activiti</module>
     	<module>compass-spring-boot-lcn</module>
-  </modules>
+    </modules>
 </project>

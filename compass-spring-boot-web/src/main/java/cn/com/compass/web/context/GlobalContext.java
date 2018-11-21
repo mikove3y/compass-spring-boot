@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import cn.com.compass.autoconfig.jwt.JwtUtil;
+import cn.com.compass.base.exception.BaseException;
+import com.fasterxml.jackson.databind.ser.Serializers;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
@@ -84,14 +87,6 @@ public class GlobalContext {
 	}
 	
 	/**
-	 * 获取当前用户数据权限
-	 * @return
-	 */
-//	public String getCurrentUserDataScop() {
-//		return this.getRequest().getHeader(BaseConstant.REQUEST_DATA_PERMISSION);
-//	}
-	
-	/**
 	 * 获取用户token
 	 * @return
 	 */
@@ -100,38 +95,41 @@ public class GlobalContext {
 	}
 	
 	/**
-	 * 获取当前用户power
+	 * 获取用户subject
 	 * @return
 	 */
-//	public String getCurrentUserPower() {
-//		return this.getRequest().getHeader(BaseConstant.POWER_KEY);
-//	}
-	
-	/**
-	 * 获取子系统开发者账号
-	 * @return
-	 */
-	public String getCurrentSysDeveloper() {
-		return this.getRequest().getHeader(BaseConstant.SYSDEVELOPER_KEY);
+	public String getCurrentUserSubject() {
+		return this.getRequest().getHeader(BaseConstant.REQUEST_SUBJECT_ATTRIBUTE_KEY);
 	}
-	
+
+	private BaseSubject baseSubject;
+
 	/**
 	 * 获取subject
 	 * @return
 	 */
 	public BaseSubject getGlobalSubject() {
-		try {
-			String subject = this.getRequest().getHeader(BaseConstant.REQUEST_SUBJECT_ATTRIBUTE_KEY);
-			if(StringUtils.isNotEmpty(subject)) {
-				subject = URLDecoder.decode(subject, "UTF-8");
-				if(JacksonUtil.isJSONValid(subject)) {
-					return JacksonUtil.json2pojo(subject, BaseSubject.class);
+		if (baseSubject == null) {
+			try {
+				String subject = this.getCurrentUserSubject();
+				if (StringUtils.isNotEmpty(subject)) {
+					subject = URLDecoder.decode(subject, "UTF-8");
+					if (JacksonUtil.isJSONValid(subject)) {
+						baseSubject = JacksonUtil.json2pojo(subject, BaseSubject.class);
+					}
+				} else {
+					String authorization = this.getCurrentUserToken();
+					if (StringUtils.isNotEmpty(authorization)) {
+						JwtUtil jwt = AppContext.getInstance().getBean(JwtUtil.class);
+						subject = jwt.parseSubject(authorization);
+						baseSubject = JacksonUtil.json2pojo(subject, BaseSubject.class);
+					}
 				}
+			} catch (Exception e) {
+				log.error("get BaseSubject from request header erro:{}", e);
 			}
-		} catch (Exception e) {
-			log.error("get BaseSubject from request header erro:{}", e);
 		}
-		return null;
+		return baseSubject;
 	}
 	
 	/**
@@ -195,6 +193,15 @@ public class GlobalContext {
 	public String getCurrentUserGrantType() {
 		BaseSubject sub = this.getGlobalSubject();
 		return sub!=null?sub.getGrantType():null;
+	}
+
+	/**
+	 * 获取当前用户技能
+	 * @return
+	 */
+	public List<Long> getCurrentUserSkills() {
+		BaseSubject sub = this.getGlobalSubject();
+		return sub!=null?sub.getSkills():null;
 	}
 	
 }
