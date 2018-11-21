@@ -61,7 +61,7 @@ public class EarthMapUtil {
      * @param localLng
      * @return
      */
-    public static double isInCircle(double targetLat,double targetLng,double localLat,double localLng){
+    public static double subDistance(double targetLat,double targetLng,double localLat,double localLng){
         //计算两点间的差距
         double lat = rad(targetLat)-rad(localLat);
         double lng = rad(targetLng)-rad(localLng);
