@@ -360,6 +360,17 @@ public class BaseEntityRepositoryImpl<T extends BaseEntity> extends SimpleJpaRep
 		return PageTransformUtil.transformJpaPage2AppPage(this.findAll(spec, pageRequest),pageVo);
 	}
 
+	/**
+	 * count by spec
+	 *
+	 * @param spec
+	 * @return
+	 */
+	@Override
+	public Long countNum(Specification<T> spec) {
+		return this.count(spec);
+	}
+
 	@Override
 	public Class<T> domainClass() {
 		return entityClass;

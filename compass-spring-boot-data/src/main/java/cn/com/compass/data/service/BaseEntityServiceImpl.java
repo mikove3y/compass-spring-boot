@@ -116,6 +116,11 @@ public class BaseEntityServiceImpl<T extends BaseEntity> implements IBaseEntityS
 	}
 
 	@Override
+	public Long countNum(Specification<T> spec) {
+		return repository.count(spec);
+	}
+
+	@Override
 	public PcPage<T> findPcPage(BaseRequestPcPageVo pageVo,Specification<T> spec) {
 		return repository.findPcPage(pageVo,spec);
 	}

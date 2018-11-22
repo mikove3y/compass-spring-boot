@@ -146,15 +146,23 @@ public interface IBaseEntityService<T extends BaseEntity> {
 	/**
 	 * find pc page 按照pageNo pageSize分页
 	 * @param pageVo
-	 * @param matcher
+	 * @param spec
 	 * @return
 	 */
 	public PcPage<T> findPcPage(BaseRequestPcPageVo pageVo,Specification<T> spec);
 	/**
 	 * find app page 按照dataId pageSize分页
 	 * @param pageVo
-	 * @param matcher
+	 * @param spec
 	 * @return
 	 */
 	public AppPage<T> findAppPage(BaseRequestAppPageVo pageVo,Specification<T> spec);
+
+	// count
+	/**
+	 * count by spec
+	 * @param spec
+	 * @return
+	 */
+	public Long countNum(Specification<T> spec);
 }
