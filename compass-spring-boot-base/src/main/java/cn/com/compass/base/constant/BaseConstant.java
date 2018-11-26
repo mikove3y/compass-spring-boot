@@ -51,6 +51,14 @@ public interface BaseConstant {
 	 * 角色权限power 全局redis缓存
 	 */
 	public static final String ROLE_POWER_KEY = "rolePower";
+	/**
+	 * 异构系统key 群居redis缓存
+	 */
+	public static final String ARCH_MODULE_KEY = "archModule";
+	/**
+	 * 子系统key 全局redis缓存
+	 */
+	public static final String SUB_SYSTEM_KEY = "subSystem";
 	
 	// yml constant 配置
 	

@@ -30,7 +30,8 @@ public class BaseErrorProcessor implements Processor {
 		Exception e = exchange.getProperty(Exchange.EXCEPTION_CAUGHT, Exception.class);
 		String status = BaseConstant.INNER_ERRO;
 		String errorMsg = e.getMessage();
-		if (e instanceof HystrixBadRequestException && JacksonUtil.isJSONValid(errorMsg)) {
+		// 优化错误提示信息
+		if (JacksonUtil.isJSONValid(errorMsg)) {
 			BaseErroVo bev = JacksonUtil.json2pojo(errorMsg, BaseErroVo.class);
 			status = bev.getStatus();
 			errorMsg = bev.getError();
