@@ -57,6 +57,7 @@ public class LocalCamelProcessor implements Processor {
 		String authorization = (String) exchange.getIn().getHeader(BaseConstant.AUTHORIZATION_KEY);
 		String subject = (String) exchange.getIn().getHeader(BaseConstant.REQUEST_SUBJECT_ATTRIBUTE_KEY);
 		String systemCode = (String) exchange.getIn().getHeader(BaseConstant.SYSTEMCODE);
+		String messageId = (String) exchange.getIn().getHeader(BaseConstant.MESSAGEID);
 		// 检验authorization和subject
 		if(this.isNeedAuth()&&StringUtils.isEmpty(authorization)&&StringUtils.isEmpty(subject)) {
 			throw new BaseException(BaseConstant.TOKEN_GET_ERRO, "Authorization & BaseSubject can't be both empty");
@@ -66,12 +67,12 @@ public class LocalCamelProcessor implements Processor {
 		// authorization不为空，subject为空重新给subject赋值
 		if(StringUtils.isNotEmpty(authorization)&&StringUtils.isEmpty(subject)) {
 			LocalCamel.getLocalCamel().parseSubject();
-			subject = LocalCamel.getLocalCamel().getSubject();
+//			subject = LocalCamel.getLocalCamel().getSubject();
 		}
 		// 放入caffeine缓存
 		Map<String,String> headerCache = new HashMap<>();
 		headerCache.put(BaseConstant.AUTHORIZATION_KEY, authorization);
-		headerCache.put(BaseConstant.REQUEST_SUBJECT_ATTRIBUTE_KEY, subject);
+		headerCache.put(BaseConstant.MESSAGEID, messageId);
 		headerCache.put(BaseConstant.SYSTEMCODE, systemCode);
 //		headerCache.put("tx-group", exchangeId);
 		Cache cache = AppContext.getInstance().getBean(Cache.class);
