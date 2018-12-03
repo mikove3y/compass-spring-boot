@@ -1,8 +1,19 @@
-package cn.com.compass.feign;
+package cn.com.compass.web.feign;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import cn.com.compass.base.constant.*;
+import cn.com.compass.util.JacksonObjectMapperWrapper;
+import cn.com.compass.web.convert.UniversalEnumConverterFactory;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.ser.std.StdSerializer;
+import com.netflix.hystrix.HystrixCommand;
+import feign.Contract;
+import feign.Feign;
+import feign.Logger;
+import feign.Retryer;
+import feign.codec.Decoder;
+import feign.codec.Encoder;
+import feign.hystrix.HystrixFeign;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,26 +37,8 @@ import org.springframework.format.support.FormattingConversionService;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-import com.netflix.hystrix.HystrixCommand;
-
-import cn.com.compass.base.constant.BaseBizStatusEnumDeserializer;
-import cn.com.compass.base.constant.BaseBizStatusEnumDeserializer2;
-import cn.com.compass.base.constant.BaseBizStatusEnumSerializer;
-import cn.com.compass.base.constant.BaseBizStatusEnumSerializer2;
-import cn.com.compass.base.constant.IBaseBizStatusEnum;
-import cn.com.compass.base.constant.IBaseBizStatusEnum2;
-import cn.com.compass.util.JacksonObjectMapperWrapper;
-import cn.com.compass.web.convert.UniversalEnumConverterFactory;
-import feign.Contract;
-import feign.Feign;
-import feign.Logger;
-import feign.Retryer;
-import feign.codec.Decoder;
-import feign.codec.Encoder;
-import feign.hystrix.HystrixFeign;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 
@@ -58,29 +51,6 @@ import feign.hystrix.HystrixFeign;
  */
 @Configuration
 public class FeignConfig {
-	/**
-	 * 	fegin.Builder 构造器</br>
-	 *  not annotated with HTTP method type (ex. GET, POST) 只能使用requestLine和requestMapping，不能使用GetMapping等 </br>
-	 *  使用SpringMvcContract </br>
-	 * @return
-	 */
-//	@Bean
-//	@Scope("prototype")
-//	@ConditionalOnMissingBean
-//	public Feign.Builder feignBuilder() {
-//		return Feign.builder().contract(new SpringMvcContract()).decoder(decoder()).encoder(encoder()).logLevel(logLevel()).errorDecoder(errorDecoder());
-//	}
-//	
-//	/**
-//	 * 日志
-//	 * @return
-//	 */
-//	@Bean
-//	@ConditionalOnMissingBean
-//	public Logger.Level logLevel(){
-//		return Logger.Level.FULL;
-//	}
-	
 	/**
 	 * jackson消息转换器
 	 * @return
@@ -122,32 +92,7 @@ public class FeignConfig {
 		};
         return factory;
     }
-//	
-//	/**
-//	 * fegin 解码
-//	 * @return
-//	 */
-//	@Bean
-//	@ConditionalOnMissingBean
-//	public Decoder decoder() {
-//	    return new ResponseEntityDecoder(new SpringDecoder(httpMessageConverters()));
-//	}
-//	
-//	/**
-//	 * fegin 编码
-//	 * @return
-//	 */
-//	@Bean
-//	@ConditionalOnMissingBean
-//	public Encoder encoder() {
-//	    return new SpringEncoder(httpMessageConverters());
-//	}
-//	/**
-//	 * 消息转换器
-//	 */
-//	@Autowired
-//	private ObjectFactory<HttpMessageConverters> messageConverters;
-	
+
 	@Autowired(required = false)
 	private List<AnnotatedParameterProcessor> parameterProcessors = new ArrayList<>();
  

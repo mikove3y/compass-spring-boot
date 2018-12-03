@@ -93,6 +93,14 @@ public class GlobalContext {
 	public String getCurrentUserToken() {
 		return this.getRequest().getHeader(BaseConstant.AUTHORIZATION_KEY);
 	}
+
+	/**
+	 * 获取
+	 * @return
+	 */
+	public String getCurrentUserSystemCode(){
+		return this.getRequest().getHeader(BaseConstant.SYSTEMCODE);
+	}
 	
 	/**
 	 * 获取用户subject

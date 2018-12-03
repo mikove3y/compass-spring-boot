@@ -19,8 +19,15 @@ import java.lang.annotation.Target;
 @Retention(RUNTIME)
 @Target(METHOD)
 public @interface BaseLog {
-
+	/**
+	 * 接口编码
+	 * @return
+	 */
 	String code();
 
+	/**
+	 * 接口描述
+	 * @return
+	 */
 	String desc();
 }

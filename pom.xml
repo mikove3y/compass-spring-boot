@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>cn.com.compass</groupId>
 	<artifactId>compass-spring-boot</artifactId>
-	<version>1.1.7-SNAPSHOT</version>
+	<version>1.1.8-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>compass-spring-boot</name>
 	<description>compass 基础boot架构</description>
@@ -42,7 +42,7 @@
 
 	<properties>
 		<!-- compass -->
-		<compss-boot.version>1.1.7-SNAPSHOT</compss-boot.version>
+		<compss-boot.version>1.1.8-SNAPSHOT</compss-boot.version>
 		<!-- spring boot -->
 		<spring-boot.version>1.5.15.RELEASE</spring-boot.version>
 		<!-- spring cloud -->
@@ -75,6 +75,7 @@
 		<common-beanutils.version>1.9.3</common-beanutils.version>
 		<kryo.version>3.0.3</kryo.version>
 		<pinyin.version>2.5.0</pinyin.version>
+		<javax.ws.rs-api.version>2.1</javax.ws.rs-api.version>
 		<!-- drools -->
 		<drools.version>7.6.0.Final</drools.version>
 		<!-- activiti -->
@@ -245,6 +246,11 @@
 				<groupId>com.google.zxing</groupId>
 				<artifactId>core</artifactId>
 				<version>${zxing.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.ws.rs</groupId>
+				<artifactId>javax.ws.rs-api</artifactId>
+				<version>${javax.ws.rs-api.version}</version>
 			</dependency>
 			<!-- drools -->
 			<dependency>

@@ -1,7 +1,12 @@
 package cn.com.compass.web.aop;
 
 import java.lang.reflect.Method;
+import java.util.UUID;
 
+import cn.com.compass.base.constant.BaseConstant;
+import cn.com.compass.web.annotation.BasePermission;
+import cn.com.compass.web.context.GlobalContext;
+import cn.com.compass.web.util.WebUtil;
 import org.apache.commons.lang3.ArrayUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -10,8 +15,10 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.Ordered;
+import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
 
 import cn.com.compass.base.vo.BaseLogVo;
@@ -19,6 +26,10 @@ import cn.com.compass.util.DateUtil;
 import cn.com.compass.util.JacksonUtil;
 import cn.com.compass.web.annotation.BaseLog;
 import lombok.extern.slf4j.Slf4j;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * 
  * @author wanmk
@@ -45,6 +56,11 @@ public class BaseLogAspect implements Ordered {
 	 */
 	@Value("${spring.cloud.client.ipAddress}:${server.port}")
 	private String appAddress;
+	/**
+	 * 全局上线文
+	 */
+	@Autowired
+	private GlobalContext context;
 	
 	/**
 	 * 定义日志切入点
@@ -54,7 +70,7 @@ public class BaseLogAspect implements Ordered {
 	}
 
 	/**
-	 * 后置通知 用于拦截service层记录用户的操作
+	 * 前置通知 用于拦截controller层记录用户的操作
 	 *
 	 * @param joinPoint
 	 *            切点
@@ -67,25 +83,26 @@ public class BaseLogAspect implements Ordered {
 			logV.setOperateStartTime(DateUtil.getCurrentDateTime());
 			// 请求方法全名
 			logV.setFullMethodName(getFullMethodName(joinPoint));
-			BaseLog anno = getMethodLogAnnotation(joinPoint);
+			BaseLog baseLog = getMethodLogAnnotation(joinPoint);
 			// 日志编码
-			logV.setLogCode(anno.code());
+			logV.setLogCode(baseLog.code());
 			// 日志描述
-			logV.setLogDes(anno.desc());
-			Object[] args = joinPoint.getArgs();
+			logV.setLogDes(baseLog.desc());
 			// 请求参数
-			logV.setRequestParams(JacksonUtil.obj2json(args));
+			logV.setRequestParams(joinPoint.getArgs());
 			// 请求日志Id
-			logV.setLogId("" + (ArrayUtils.isNotEmpty(args) && args.length >= 2 ? args[args.length - 1].toString()
-					: System.currentTimeMillis()));
+			logV.setLogId(context.getCurentUserMessageId());
+			// 请求地址
+			logV.setRemoteAddress(WebUtil.getIpAddr(context.getRequest()));
+			// 用户信息
+			logV.setSubject(context.getGlobalSubject());
 			// 应用名
 			logV.setApplication(application);
 			// 应用地址
 			logV.setAppAddress(appAddress);
 			logLocal.set(logV);
 		} catch (Exception e) {
-			log.error("==日志前置通知异常==");
-			log.error("异常信息:{}", e.getMessage());
+			log.error("日志前置通知异常:{}", e.getMessage());
 		}
 	}
 
@@ -105,18 +122,14 @@ public class BaseLogAspect implements Ordered {
 		// 请求耗时
 		logV.setUseTime(DateUtil.subtract(logV.getOperateStartTime(), logV.getOperateEndTime()) + "秒");
 		// 请求响应结果
-		if(ret!=null)
-		logV.setResponseData(JacksonUtil.obj2json(ret));
+		logV.setResponseData(ret);
 		// 请求状态
 		logV.setStatus(BaseLogVo.ResponseSatus.success.name());
-		if(log.isInfoEnabled())
-			log.info(JacksonUtil.obj2json(logV));
-		if(log.isDebugEnabled())
-			log.debug(JacksonUtil.obj2json(logV));
+		log.info(JacksonUtil.obj2json(logV));
 	}
 
 	/**
-	 * 异常通知 用于拦截service层记录异常日志
+	 * 异常通知 用于拦截controller层记录异常日志
 	 *
 	 * @param joinPoint
 	 * @param e
@@ -130,24 +143,8 @@ public class BaseLogAspect implements Ordered {
 		logV.setUseTime(DateUtil.subtract(logV.getOperateStartTime(), logV.getOperateEndTime()) + "秒");
 		logV.setErroMsg(e.getMessage());
 		logV.setStatus(BaseLogVo.ResponseSatus.fail.name());
-		if (log.isErrorEnabled())
-			log.error(JacksonUtil.obj2json(logV));
-		if (log.isDebugEnabled())
-			log.debug(JacksonUtil.obj2json(logV));
+		log.error(JacksonUtil.obj2json(logV));
 	}
-
-	/**
-	 * 环绕通知实现
-	 * 
-	 * @param pjp
-	 * @return
-	 * @throws Throwable
-	 */
-//	@Around("@annotation(cn.com.compass.web.annotation.BaseControllerLog)")
-//	public Object aroundLog(ProceedingJoinPoint pjp) throws Throwable {
-//		
-//		return null;
-//	}
 
 	/**
 	 * 获取注解中对方法的描述信息
@@ -160,7 +157,7 @@ public class BaseLogAspect implements Ordered {
 	private static BaseLog getMethodLogAnnotation(JoinPoint joinPoint) throws Exception {
 		MethodSignature signature = (MethodSignature) joinPoint.getSignature();
 		Method method = signature.getMethod();
-		return  method.getAnnotation(BaseLog.class);
+		return  AnnotationUtils.findAnnotation(signature.getMethod(), BaseLog.class);
 	}
 
 	/**

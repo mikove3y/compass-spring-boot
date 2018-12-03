@@ -1,12 +1,10 @@
 package cn.com.compass.web.hanlder;
 
-import java.util.Set;
-
-import javax.validation.ConstraintDeclarationException;
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
-import javax.validation.ValidationException;
-
+import cn.com.compass.autoconfig.constant.ConstantUtil;
+import cn.com.compass.base.constant.BaseConstant;
+import cn.com.compass.base.exception.BaseException;
+import cn.com.compass.base.vo.BaseResponseVo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageConversionException;
@@ -21,9 +19,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import cn.com.compass.base.constant.BaseConstant;
-import cn.com.compass.base.exception.BaseException;
-import cn.com.compass.base.vo.BaseErroVo;
+import javax.validation.ConstraintDeclarationException;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import javax.validation.ValidationException;
+import java.util.Set;
 
 /**
  * 
@@ -38,6 +38,9 @@ import cn.com.compass.base.vo.BaseErroVo;
 @EnableWebMvc
 @Configuration
 public class BaseExceptionHandler {
+
+	@Autowired
+	private ConstantUtil constantUtil;
 	
 	/**
 	 * 基类异常封装继承{@link cn.com.compass.base.constant.IBaseBizStatusEnum}接口的枚举
@@ -48,8 +51,8 @@ public class BaseExceptionHandler {
 	@ExceptionHandler(BaseException.class)
 	@ResponseBody
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	public BaseErroVo handleBaseException(BaseException exception) {
-		return new BaseErroVo(exception.getErrorCode(),exception.getMessage());
+	public BaseResponseVo handleBaseException(BaseException exception) {
+		return new BaseResponseVo(exception.getErrorCode(),constantUtil.getValue(exception.getErrorCode()),exception.getMessage());
 	}
 	
 	/**
@@ -59,8 +62,8 @@ public class BaseExceptionHandler {
 	@ExceptionHandler(IllegalArgumentException.class)
 	@ResponseBody
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	public BaseErroVo handleIllegalArgumentException(IllegalArgumentException exception) {
-		return new BaseErroVo(BaseConstant.ILLEGAL_ARGUMENT,exception.getMessage());
+	public BaseResponseVo handleIllegalArgumentException(IllegalArgumentException exception) {
+		return new BaseResponseVo(BaseConstant.ILLEGAL_ARGUMENT,constantUtil.getValue(BaseConstant.ILLEGAL_ARGUMENT),exception.getMessage());
 	}
 
 	/**
@@ -72,7 +75,7 @@ public class BaseExceptionHandler {
 	@ExceptionHandler(ValidationException.class)
 	@ResponseBody
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public BaseErroVo handleValidationException(ValidationException exception) {
+	public BaseResponseVo handleValidationException(ValidationException exception) {
 		String error = null;
 		if (exception instanceof ConstraintViolationException) {
 			ConstraintViolationException exs = (ConstraintViolationException) exception;
@@ -87,7 +90,7 @@ public class BaseExceptionHandler {
 			String solveScheme = "To solve the issue, add the constraints to the interface method instead of the implementation method.";
 			error = exception.getMessage()+","+solveScheme;
 		}
-		return new BaseErroVo(BaseConstant.REQUEST_PARAMS_VALID_ERRO,error);
+		return new BaseResponseVo(BaseConstant.REQUEST_PARAMS_VALID_ERRO,constantUtil.getValue(BaseConstant.REQUEST_PARAMS_VALID_ERRO),error);
 	}
 
 	/**
@@ -99,7 +102,7 @@ public class BaseExceptionHandler {
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	@ResponseBody
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public BaseErroVo handleException(MethodArgumentNotValidException exception) {
+	public BaseResponseVo handleException(MethodArgumentNotValidException exception) {
 		BindingResult validResult = exception.getBindingResult();
 		StringBuffer errorBuff = new StringBuffer();
 		for (ObjectError error : validResult.getAllErrors()) {
@@ -112,7 +115,7 @@ public class BaseExceptionHandler {
 			String message = error.getDefaultMessage();
 			errorBuff.append(field+":"+message+",");
 		}
-		return new BaseErroVo(BaseConstant.REQUEST_PARAMS_VALID_ERRO,errorBuff.substring(0, errorBuff.length()-1));
+		return new BaseResponseVo(BaseConstant.REQUEST_PARAMS_VALID_ERRO,constantUtil.getValue(BaseConstant.REQUEST_PARAMS_VALID_ERRO),errorBuff.substring(0, errorBuff.length()-1));
 	}
 	
 	/**
@@ -123,8 +126,8 @@ public class BaseExceptionHandler {
 	@ExceptionHandler(HttpMessageConversionException.class)
 	@ResponseBody
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public BaseErroVo handleException(HttpMessageConversionException exception) {
-		return new BaseErroVo(BaseConstant.REQUEST_PARAMS_VALID_ERRO,exception.getMessage());
+	public BaseResponseVo handleException(HttpMessageConversionException exception) {
+		return new BaseResponseVo(BaseConstant.REQUEST_PARAMS_VALID_ERRO,constantUtil.getValue(BaseConstant.REQUEST_PARAMS_VALID_ERRO),exception.getMessage());
 	}
 	
 	/**
@@ -135,8 +138,8 @@ public class BaseExceptionHandler {
 	@ExceptionHandler(NoHandlerFoundException.class)
 	@ResponseBody
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public BaseErroVo handleException(NoHandlerFoundException exception) {
-		return new BaseErroVo(BaseConstant.API_NOT_FOUND,exception.getMessage());
+	public BaseResponseVo handleException(NoHandlerFoundException exception) {
+		return new BaseResponseVo(BaseConstant.API_NOT_FOUND,constantUtil.getValue(BaseConstant.API_NOT_FOUND),exception.getMessage());
 	}
 	
 }

@@ -33,7 +33,7 @@ public class BaseLogVo implements Serializable{
 	/**
 	 * 操作人信息subject
 	 */
-//	private Object subject;
+	private Object subject;
 	/**
 	 * 处理请求的handler类.方法
 	 */
@@ -41,11 +41,11 @@ public class BaseLogVo implements Serializable{
 	/**
 	 * 请求地址
 	 */
-//	private String remoteAddress;
+	private String remoteAddress;
 	/**
 	 * 请求参数
 	 */
-	private String requestParams;
+	private Object requestParams;
 	/**
 	 * 操作开始时间
 	 */
@@ -61,13 +61,13 @@ public class BaseLogVo implements Serializable{
 	/**
 	 * 响应参数
 	 */
-	private String responseData;
+	private Object responseData;
 	/**
 	 * 错误详情
 	 */
 	private String erroMsg;
 	/**
-	 * 响应状态{@link cn.com.compass.core.vo.BaseLogVo.ResponseSatus}
+	 * 响应状态{@link ResponseSatus}
 	 */
 	private String status;
 	

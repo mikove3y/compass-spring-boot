@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>cn.com.compass</groupId>
 		<artifactId>compass-spring-boot</artifactId>
-		<version>1.1.7-SNAPSHOT</version>
+		<version>1.1.8-SNAPSHOT</version>
 	</parent>
 	<artifactId>compass-spring-boot-camel</artifactId>
 	<name>compass-spring-boot-camel</name>
@@ -19,14 +19,6 @@
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-ribbon</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-feign</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-hystrix</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>cn.com.compass</groupId>

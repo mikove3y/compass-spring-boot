@@ -1,11 +1,11 @@
-package cn.com.compass.ribbon;
-
-import org.springframework.context.annotation.Bean;
+package cn.com.compass.web.ribbon;
 
 import com.netflix.loadbalancer.BestAvailableRule;
 import com.netflix.loadbalancer.IPing;
 import com.netflix.loadbalancer.IRule;
 import com.netflix.loadbalancer.PingUrl;
+import org.springframework.context.annotation.Bean;
+
 /**
  * 
  * @author wanmk
@@ -49,7 +49,6 @@ public class RibboConfig {
 	 * WeightedResponseTimeRule  |  根据响应时间分配一个weight，响应时间越长，weight越小，被选中的可能性越低。  |  一 个后台线程定期的从status里面读取评价响应时间，为每个server计算一个weight。Weight的计算也比较简单responsetime 减去每个server自己平均的responsetime是server的权重。当刚开始运行，没有形成statas时，使用roubine策略选择 server。
 	 * RetryRule  |  对选定的负载均衡策略机上重试机制。 |  在一个配置时间段内当选择server不成功，则一直尝试使用subRule的方式选择一个可用的server
 	 * ZoneAvoidanceRule  |  复合判断server所在区域的性能和server的可用性选择server  |  使 用ZoneAvoidancePredicate和AvailabilityPredicate来判断是否选择某个server，前一个判断判定一个 zone的运行性能是否可用，剔除不可用的zone（的所有server），AvailabilityPredicate用于过滤掉连接数过多的 Server。
-	 * @param config
 	 * @return
 	 */
 	@Bean

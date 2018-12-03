@@ -52,10 +52,6 @@ public interface BaseConstant {
 	 */
 	public static final String ROLE_POWER_KEY = "rolePower";
 	/**
-	 * 异构系统key 群居redis缓存
-	 */
-	public static final String ARCH_MODULE_KEY = "archModule";
-	/**
 	 * 子系统key 全局redis缓存
 	 */
 	public static final String SUB_SYSTEM_KEY = "subSystem";
@@ -90,4 +86,8 @@ public interface BaseConstant {
 	 * 请求 404
 	 */
 	public static final String API_NOT_FOUND = "base-0007";
+	/**
+	 * 服务不可达
+	 */
+	public static final String SERVER_NOT_AVAILABLE= "base-0008";
 }
