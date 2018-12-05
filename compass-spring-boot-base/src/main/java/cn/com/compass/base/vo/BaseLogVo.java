@@ -19,10 +19,6 @@ public class BaseLogVo implements Serializable{
 	 */
 	private String appAddress;
 	/**
-	 * logId 系统编号+时间戳
-	 */
-	private String logId;
-	/**
 	 * 日志编码
 	 */
 	private String logCode;
@@ -47,6 +43,18 @@ public class BaseLogVo implements Serializable{
 	 */
 	private Object requestParams;
 	/**
+	 * 请求api路径
+	 */
+	private String apiPath;
+	/**
+	 * 请求api版本
+	 */
+	private String apiVersion;
+	/**
+	 * 是否api版本管理
+	 */
+	private boolean apiVersionManage;
+	/**
 	 * 操作开始时间
 	 */
 	private String operateStartTime;
@@ -69,7 +77,7 @@ public class BaseLogVo implements Serializable{
 	/**
 	 * 响应状态{@link ResponseSatus}
 	 */
-	private String status;
+	private ResponseSatus status;
 	
 	/**
 	 * 响应状态码 0 失败 1成功

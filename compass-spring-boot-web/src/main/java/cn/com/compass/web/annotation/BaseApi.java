@@ -5,10 +5,9 @@ import org.springframework.core.annotation.AliasFor;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
-import java.util.ArrayList;
-import java.util.List;
 
 import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
@@ -20,15 +19,15 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  */
 @Documented
 @Retention(RUNTIME)
-@Target(METHOD)
-public @interface BasePermission {
+@Target({METHOD})
+public @interface BaseApi {
     /**
      * false 不需要token鉴权
      * true 需要token鉴权
      * @return
      */
     @AliasFor("value")
-    boolean needAuth() default false;
+    boolean needAuth() default true;
 
     /**
      * false 不需要token鉴权
@@ -36,6 +35,35 @@ public @interface BasePermission {
      * @return
      */
     @AliasFor("needAuth")
-    boolean value() default false;
+    boolean value() default true;
+
+    /**
+     * 是否api版本管理
+     * @return
+     */
+    boolean versionManage() default true;
+    /**
+     *  0-99 最大值99
+     * api 版本
+     * @return
+     */
+    int version() default 1;
+    /**
+     * 接口编码
+     * @return
+     */
+    String code() default "";
+
+    /**
+     * 接口描述
+     * @return
+     */
+    String desc() default "";
+
+    /**
+     * 是否打印日志
+     * @return
+     */
+    boolean printLog() default true;
 
 }

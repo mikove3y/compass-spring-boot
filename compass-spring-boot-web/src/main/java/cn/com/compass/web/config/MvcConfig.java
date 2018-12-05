@@ -1,7 +1,12 @@
 package cn.com.compass.web.config;
 
-import java.util.List;
-
+import cn.com.compass.base.constant.*;
+import cn.com.compass.util.JacksonObjectMapperWrapper;
+import cn.com.compass.web.api.ApiVersionRequestHandlerMapping;
+import cn.com.compass.web.convert.UniversalEnumConverterFactory;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
@@ -10,23 +15,13 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.web.filter.HttpPutFormContentFilter;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-
-import cn.com.compass.base.constant.BaseBizStatusEnumDeserializer;
-import cn.com.compass.base.constant.BaseBizStatusEnumDeserializer2;
-import cn.com.compass.base.constant.BaseBizStatusEnumSerializer;
-import cn.com.compass.base.constant.BaseBizStatusEnumSerializer2;
-import cn.com.compass.base.constant.IBaseBizStatusEnum;
-import cn.com.compass.base.constant.IBaseBizStatusEnum2;
-import cn.com.compass.util.JacksonObjectMapperWrapper;
-import cn.com.compass.web.convert.UniversalEnumConverterFactory;
+import java.util.List;
 
 @Configuration
-public class MvcConfig extends WebMvcConfigurerAdapter {
+public class MvcConfig extends WebMvcConfigurationSupport {
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -88,13 +83,15 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
 	@Override
 	public void configurePathMatch(PathMatchConfigurer configurer) {
 		configurer.setUseSuffixPatternMatch(false).setUseTrailingSlashMatch(true);
-
 	}
-	// @Bean
-	// public HttpMessageConverters jacksonHttpMessageConverters(){
-	// HttpMessageConverter<?> converter = new
-	// MappingJackson2HttpMessageConverter(JacksonObjectMapperWrapper.getInstance());
-	// return new HttpMessageConverters(converter);
-	// }
+
+	/**
+	 * 请求处理映射器,api版本管理
+	 * @return
+	 */
+	@Override
+	protected RequestMappingHandlerMapping createRequestMappingHandlerMapping() {
+		return new ApiVersionRequestHandlerMapping();
+	}
 
 }

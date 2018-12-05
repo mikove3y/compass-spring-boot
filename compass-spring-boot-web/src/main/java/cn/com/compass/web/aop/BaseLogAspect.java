@@ -1,19 +1,14 @@
 package cn.com.compass.web.aop;
 
-import java.lang.reflect.Method;
-import java.util.UUID;
-
-import cn.com.compass.base.constant.BaseConstant;
-import cn.com.compass.web.annotation.BasePermission;
+import cn.com.compass.base.vo.BaseLogVo;
+import cn.com.compass.util.DateUtil;
+import cn.com.compass.util.JacksonUtil;
+import cn.com.compass.web.annotation.BaseLog;
 import cn.com.compass.web.context.GlobalContext;
 import cn.com.compass.web.util.WebUtil;
-import org.apache.commons.lang3.ArrayUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.AfterThrowing;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,14 +16,7 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
 
-import cn.com.compass.base.vo.BaseLogVo;
-import cn.com.compass.util.DateUtil;
-import cn.com.compass.util.JacksonUtil;
-import cn.com.compass.web.annotation.BaseLog;
-import lombok.extern.slf4j.Slf4j;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Method;
 
 /**
  * 
@@ -37,11 +25,11 @@ import javax.servlet.http.HttpServletRequest;
  * @email 524623302@qq.com
  * @todo 基础日志切面
  * @date 2018年6月6日 下午3:58:29
- *
  */
-@Aspect
-@Component
+//@Aspect
+//@Component
 @Slf4j
+@Deprecated
 public class BaseLogAspect implements Ordered {
 	
 	
@@ -78,20 +66,18 @@ public class BaseLogAspect implements Ordered {
 	@Before("logPointCut()")
 	public void doBefore(JoinPoint joinPoint) {
 		try {
+			BaseLog baseLog = getMethodLogAnnotation(joinPoint);
 			BaseLogVo logV = new BaseLogVo();
 			// 请求开始时间
 			logV.setOperateStartTime(DateUtil.getCurrentDateTime());
 			// 请求方法全名
 			logV.setFullMethodName(getFullMethodName(joinPoint));
-			BaseLog baseLog = getMethodLogAnnotation(joinPoint);
 			// 日志编码
 			logV.setLogCode(baseLog.code());
 			// 日志描述
 			logV.setLogDes(baseLog.desc());
 			// 请求参数
 			logV.setRequestParams(joinPoint.getArgs());
-			// 请求日志Id
-			logV.setLogId(context.getCurentUserMessageId());
 			// 请求地址
 			logV.setRemoteAddress(WebUtil.getIpAddr(context.getRequest()));
 			// 用户信息
@@ -100,7 +86,9 @@ public class BaseLogAspect implements Ordered {
 			logV.setApplication(application);
 			// 应用地址
 			logV.setAppAddress(appAddress);
-			logLocal.set(logV);
+			if(baseLog.printLog()){
+				logLocal.set(logV);
+			}
 		} catch (Exception e) {
 			log.error("日志前置通知异常:{}", e.getMessage());
 		}
@@ -115,17 +103,22 @@ public class BaseLogAspect implements Ordered {
 	@AfterReturning(returning = "ret", pointcut = "logPointCut()")
 	public void doAfterReturning(JoinPoint joinPoint,Object ret) throws Throwable {
 		BaseLogVo logV = logLocal.get();
+		if(logV!=null){
+			// 请求结束时间
+			logV.setOperateEndTime(DateUtil.getCurrentDateTime());
+			// 请求耗时
+			logV.setUseTime(DateUtil.subtract(logV.getOperateStartTime(), logV.getOperateEndTime()) + "秒");
+			// 请求响应结果
+			logV.setResponseData(ret);
+			// 请求状态
+			logV.setStatus(BaseLogVo.ResponseSatus.success);
+		}
+		BaseLog baseLog = getMethodLogAnnotation(joinPoint);
+		if(baseLog.printLog()){
+			log.info(JacksonUtil.obj2json(logV));
+		}
 		// 移除缓存
 		logLocal.remove();
-		// 请求结束时间
-		logV.setOperateEndTime(DateUtil.getCurrentDateTime());
-		// 请求耗时
-		logV.setUseTime(DateUtil.subtract(logV.getOperateStartTime(), logV.getOperateEndTime()) + "秒");
-		// 请求响应结果
-		logV.setResponseData(ret);
-		// 请求状态
-		logV.setStatus(BaseLogVo.ResponseSatus.success.name());
-		log.info(JacksonUtil.obj2json(logV));
 	}
 
 	/**
@@ -137,13 +130,18 @@ public class BaseLogAspect implements Ordered {
 	@AfterThrowing(pointcut = "logPointCut()", throwing = "e")
 	public void doAfterThrowing(JoinPoint joinPoint, Throwable e) throws Throwable {
 		BaseLogVo logV = logLocal.get();
+		if(logV!=null){
+			logV.setOperateEndTime(DateUtil.getCurrentDateTime());
+			logV.setUseTime(DateUtil.subtract(logV.getOperateStartTime(), logV.getOperateEndTime()) + "秒");
+			logV.setErroMsg(e.getMessage());
+			logV.setStatus(BaseLogVo.ResponseSatus.fail);
+		}
+		BaseLog baseLog = getMethodLogAnnotation(joinPoint);
+		if(baseLog.printLog()){
+			log.error(JacksonUtil.obj2json(logV));
+		}
 		// 移除缓存
 		logLocal.remove();
-		logV.setOperateEndTime(DateUtil.getCurrentDateTime());
-		logV.setUseTime(DateUtil.subtract(logV.getOperateStartTime(), logV.getOperateEndTime()) + "秒");
-		logV.setErroMsg(e.getMessage());
-		logV.setStatus(BaseLogVo.ResponseSatus.fail.name());
-		log.error(JacksonUtil.obj2json(logV));
 	}
 
 	/**

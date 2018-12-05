@@ -7,6 +7,9 @@ import feign.RequestTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * @author wanmk
  * @git https://gitee.com/milkove
@@ -16,7 +19,9 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class FeignRequestInterceptor implements RequestInterceptor {
-
+    /**
+     * 全局上线文
+     */
     @Autowired
     private GlobalContext context;
     /**
@@ -26,6 +31,10 @@ public class FeignRequestInterceptor implements RequestInterceptor {
      */
     @Override
     public void apply(RequestTemplate template) {
+        /**
+         * 规则:
+         * 1、服务间调用A->B B并不会把相应的api暴露出去的情况下，不要使用版本管理
+         */
         // 拦截三个参数 MessageId Authorization SystemCode
         template.header(BaseConstant.SYSTEMCODE, context.getCurrentUserSystemCode());
         template.header(BaseConstant.MESSAGEID, context.getCurentUserMessageId());
