@@ -1,4 +1,6 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 cn.com.compass.autoconfig.constant.ConstantAutoConfiguration,\
 cn.com.compass.autoconfig.jwt.JwtAutoConfiguration,\
-cn.com.compass.autoconfig.arch.ArchModuleAutoConfiguration
+cn.com.compass.autoconfig.arch.ArchModuleAutoConfiguration,\
+cn.com.compass.autoconfig.async.AsyncTaskAutoConfiguration,\
+cn.com.compass.autoconfig.schedule.SchedulingTaskAutoConfiguration

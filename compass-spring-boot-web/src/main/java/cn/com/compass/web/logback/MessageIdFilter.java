@@ -2,6 +2,7 @@ package cn.com.compass.web.logback;
 
 import cn.com.compass.base.constant.BaseConstant;
 import org.slf4j.MDC;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +20,18 @@ import java.util.UUID;
  */
 @Component
 public class MessageIdFilter implements Filter, Ordered {
+
+    /**
+     * 应用名
+     */
+    @Value("${spring.application.name}")
+    private String application;
+    /**
+     * 应用地址
+     */
+    @Value("${spring.cloud.client.ipAddress}:${server.port}")
+    private String appAddress;
+
     /**
      * Called by the web container to indicate to a filter that it is being
      * placed into service. The servlet container calls the init method exactly
@@ -105,7 +118,7 @@ public class MessageIdFilter implements Filter, Ordered {
      */
     private void initMDC(HttpServletRequest request) {
         String messageId = request.getHeader(BaseConstant.MESSAGEID)!=null?request.getHeader(BaseConstant.MESSAGEID):UUID.randomUUID().toString();
-        MDC.put(BaseConstant.MESSAGEID, BaseConstant.MESSAGEID + ": " +messageId);
+        MDC.put(BaseConstant.MESSAGEID, application +": "+appAddress+": " +messageId);
     }
 
     /**

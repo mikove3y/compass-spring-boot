@@ -11,14 +11,6 @@ public class BaseLogVo implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	/**
-	 * 应用名
-	 */
-	private String application;
-	/**
-	 * 应用地址+端口
-	 */
-	private String appAddress;
-	/**
 	 * 日志编码
 	 */
 	private String logCode;

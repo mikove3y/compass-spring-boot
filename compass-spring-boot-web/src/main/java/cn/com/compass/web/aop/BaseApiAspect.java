@@ -41,16 +41,6 @@ public class BaseApiAspect implements Ordered {
      */
     private ThreadLocal<BaseLogVo> logLocal = new ThreadLocal<>();
     /**
-     * 应用名
-     */
-    @Value("${spring.application.name}")
-    private String application;
-    /**
-     * 应用地址
-     */
-    @Value("${spring.cloud.client.ipAddress}:${server.port}")
-    private String appAddress;
-    /**
      * 全局上线文
      */
     @Autowired
@@ -93,10 +83,6 @@ public class BaseApiAspect implements Ordered {
             logV.setRemoteAddress(WebUtil.getIpAddr(context.getRequest()));
             // 用户信息
             logV.setSubject(context.getGlobalSubject());
-            // 应用名
-            logV.setApplication(application);
-            // 应用地址
-            logV.setAppAddress(appAddress);
             // apiPath
             logV.setApiPath(context.getRequest().getRequestURI());
             // apiVersion
