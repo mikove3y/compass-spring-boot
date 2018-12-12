@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>cn.com.compass</groupId>
 		<artifactId>compass-spring-boot</artifactId>
-		<version>1.1.8-SNAPSHOT</version>
+		<version>1.1.9-SNAPSHOT</version>
 	</parent>
 	<artifactId>compass-spring-boot-web</artifactId>
 	<name>compass-spring-boot-web</name>
@@ -65,23 +65,7 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		<!-- swagger -->
-		<dependency>
-			<groupId>com.spring4all</groupId>
-			<artifactId>swagger-spring-boot-starter</artifactId>
-			<exclusions>
-				<!-- 去掉spring4all swagger自动化配置冲突依赖 -->
-				<exclusion>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-starter-web</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-starter</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<!-- comapss base -->
+		<!-- compass base -->
 		<dependency>
 			<groupId>cn.com.compass</groupId>
 			<artifactId>compass-spring-boot-base</artifactId>
@@ -90,6 +74,11 @@
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjweaver</artifactId>
+		</dependency>
+		<!-- guava 覆盖swagger2的guava依赖，版本很低 -->
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
 		</dependency>
 		<!-- <dependency>
             <groupId>org.springframework.boot</groupId>

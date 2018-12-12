@@ -21,21 +21,14 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 import java.util.List;
 
 @Configuration
-public class MvcConfig extends WebMvcConfigurationSupport {
+public class BaseMvcConfig extends WebMvcConfigurationSupport {
 
-	@Override
-	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/**").addResourceLocations("classpath:/static/");
-		registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
-		registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
-		super.addResourceHandlers(registry);
-	}
 
 	/**
 	 * 注册枚举转换器
 	 */
 	@Override
-	public void addFormatters(FormatterRegistry registry) {
+	protected void addFormatters(FormatterRegistry registry) {
 		registry.addConverterFactory(new UniversalEnumConverterFactory());
 	}
 
@@ -51,7 +44,7 @@ public class MvcConfig extends WebMvcConfigurationSupport {
 	 * 配置消息转换器
 	 */
 	@Override
-	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+	protected void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
 		super.configureMessageConverters(converters);
 		// ... mapper
 		JacksonObjectMapperWrapper objectMapper = JacksonObjectMapperWrapper.getInstance();
@@ -81,7 +74,7 @@ public class MvcConfig extends WebMvcConfigurationSupport {
      * setUseTrailingSlashMatch : 设置是否自动后缀路径模式匹配，如“/user”是否匹配“/user/”，默认真即匹配； </br>
 	 */
 	@Override
-	public void configurePathMatch(PathMatchConfigurer configurer) {
+	protected void configurePathMatch(PathMatchConfigurer configurer) {
 		configurer.setUseSuffixPatternMatch(false).setUseTrailingSlashMatch(true);
 	}
 

@@ -105,7 +105,9 @@ public class GlobalContext {
 	/**
 	 * 获取用户subject
 	 * @return
+	 * @see GlobalContext#getGlobalSubject()
 	 */
+	@Deprecated
 	public String getCurrentUserSubject() {
 		return this.getRequest().getHeader(BaseConstant.REQUEST_SUBJECT_ATTRIBUTE_KEY);
 	}

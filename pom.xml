@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>cn.com.compass</groupId>
 	<artifactId>compass-spring-boot</artifactId>
-	<version>1.1.8-SNAPSHOT</version>
+	<version>1.1.9-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>compass-spring-boot</name>
 	<description>compass 基础boot架构</description>
@@ -42,7 +42,7 @@
 
 	<properties>
 		<!-- compass -->
-		<compss-boot.version>1.1.8-SNAPSHOT</compss-boot.version>
+		<compss-boot.version>1.1.9-SNAPSHOT</compss-boot.version>
 		<!-- spring boot -->
 		<spring-boot.version>1.5.15.RELEASE</spring-boot.version>
 		<!-- spring cloud -->
@@ -87,9 +87,13 @@
 		<!-- joda-time -->
 		<joda-time.version>2.9.9</joda-time.version>
 		<!-- swagger api -->
-		<swagger.version>1.7.1.RELEASE</swagger.version>
+		<swagger.version>2.9.2</swagger.version>
 		<!-- zxing -->
 		<zxing.version>3.3.3</zxing.version>
+		<!-- guava -->
+		<guava.verison>27.0.1-jre</guava.verison>
+		<!-- nekohtml -->
+		<nekohtml.version>1.9.22</nekohtml.version>
 	</properties>
 
 	<dependencies>
@@ -237,8 +241,8 @@
 			</dependency>
 			<!-- swagger -->
 			<dependency>
-				<groupId>com.spring4all</groupId>
-				<artifactId>swagger-spring-boot-starter</artifactId>
+				<groupId>io.springfox</groupId>
+				<artifactId>springfox-swagger2</artifactId>
 				<version>${swagger.version}</version>
 			</dependency>
 			<!-- zxing -->
@@ -251,6 +255,18 @@
 				<groupId>javax.ws.rs</groupId>
 				<artifactId>javax.ws.rs-api</artifactId>
 				<version>${javax.ws.rs-api.version}</version>
+			</dependency>
+			<!-- guava -->
+			<dependency>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+				<version>${guava.verison}</version>
+			</dependency>
+			<!-- nekohtml -->
+			<dependency>
+				<groupId>net.sourceforge.nekohtml</groupId>
+				<artifactId>nekohtml</artifactId>
+				<version>${nekohtml.version}</version>
 			</dependency>
 			<!-- drools -->
 			<dependency>
@@ -355,6 +371,11 @@
 			<dependency>
 				<groupId>cn.com.compass</groupId>
 				<artifactId>compass-spring-boot-lcn</artifactId>
+				<version>${compss-boot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.com.compass</groupId>
+				<artifactId>compass-spring-boot-swagger-ui</artifactId>
 				<version>${compss-boot.version}</version>
 			</dependency>
 		</dependencies>
@@ -486,5 +507,6 @@
 		<module>compass-spring-boot-drools</module>
 		<module>compass-spring-boot-activiti</module>
     	<module>compass-spring-boot-lcn</module>
-    </modules>
+		<module>compass-spring-boot-swagger-ui</module>
+	</modules>
 </project>

@@ -6,7 +6,7 @@ import cn.com.compass.base.constant.BaseConstant;
 import lombok.Getter;
 
 @Getter
-public class BaseResponseVo implements Serializable {
+public class BaseResponseVo<T> implements Serializable {
 
 	private static final long serialVersionUID = -4308759780635946860L;
 	
@@ -16,7 +16,7 @@ public class BaseResponseVo implements Serializable {
 
 	private String msg;
 
-	private Object data;
+	private T data;
 	
 	public BaseResponseVo() {
 		
@@ -31,7 +31,7 @@ public class BaseResponseVo implements Serializable {
 		this.msg = msg;
 	}
 	
-	public BaseResponseVo(String status,String msg,Object data) {
+	public BaseResponseVo(String status,String msg,T data) {
 		this.status = status;
 		this.msg = msg;
 		this.data = data;
@@ -47,7 +47,7 @@ public class BaseResponseVo implements Serializable {
 		return this;
 	}
 
-	public BaseResponseVo setData(Object data) {
+	public BaseResponseVo setData(T data) {
 		this.data = data;
 		return this;
 	}

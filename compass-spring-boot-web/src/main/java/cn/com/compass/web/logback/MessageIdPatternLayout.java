@@ -11,13 +11,13 @@ import ch.qos.logback.classic.PatternLayout;
  */
 public class MessageIdPatternLayout extends PatternLayout {
     /**
-     * 注册%msgId的两种方式:
+     * 注册%messageId的两种方式:
      * 1、defaultConverterMap.put
-     * logback.xml添加<layout class="com.cj.log.MyPatternLayout"> <pattern>%msgId <pattern/> </layout>
+     * logback.xml添加<layout class="com.cj.log.MyPatternLayout"> <pattern>%messageId <pattern/> </layout>
      * 2、logback.xml添加<conversionRule conversionWord="msgId" converterClass="cn.com.compass.web.logback.MessageIdConverter" />
-     * 并加入<pattern>%msgId <pattern/>
+     * 并加入<pattern>%messageId <pattern/>
      */
     static {
-        defaultConverterMap.put("msgId",MessageIdConverter.class.getName());
+        defaultConverterMap.put("messageId",MessageIdConverter.class.getName());
     }
 }
