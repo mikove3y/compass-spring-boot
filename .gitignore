@@ -1,2 +1,8 @@
 /.project
 *.iml
+compass-spring-boot-swagger-ui/target/compass-spring-boot-swagger-ui-1.1.9-SNAPSHOT-sources.jar
+compass-spring-boot-swagger-ui/target/compass-spring-boot-swagger-ui-1.1.9-SNAPSHOT.jar
+compass-spring-boot-swagger-ui/target/maven-archiver/pom.properties
+compass-spring-boot-swagger-ui/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
+compass-spring-boot-swagger-ui/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
+compass-spring-boot-swagger-ui/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst
