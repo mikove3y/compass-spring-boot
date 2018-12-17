@@ -41,7 +41,7 @@ public @interface BaseApi {
      * 是否api版本管理
      * @return
      */
-    boolean versionManage() default true;
+    boolean versionManage() default false;
     /**
      *  0-99 最大值99
      * api 版本
