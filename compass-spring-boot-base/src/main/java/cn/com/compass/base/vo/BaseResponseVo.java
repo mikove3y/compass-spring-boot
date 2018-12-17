@@ -37,23 +37,23 @@ public class BaseResponseVo<T> implements Serializable {
 		this.data = data;
 	}
 
-	public BaseResponseVo setStatus(String status) {
+	public BaseResponseVo<T> setStatus(String status) {
 		this.status = status;
 		return this;
 	}
 
-	public BaseResponseVo setMsg(String msg) {
+	public BaseResponseVo<T> setMsg(String msg) {
 		this.msg = msg;
 		return this;
 	}
 
-	public BaseResponseVo setData(T data) {
+	public BaseResponseVo<T> setData(T data) {
 		this.data = data;
 		return this;
 	}
 	
 	public static BaseResponseVo success() {
-		return new BaseResponseVo(BaseConstant.SUCCESS).setMsg(SUCCESS);
+		return new BaseResponseVo(BaseConstant.SUCCESS,SUCCESS);
 	}
 	
 }
