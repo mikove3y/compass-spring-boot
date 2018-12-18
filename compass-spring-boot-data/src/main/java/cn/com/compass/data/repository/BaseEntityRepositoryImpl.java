@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -343,13 +344,15 @@ public class BaseEntityRepositoryImpl<T extends BaseEntity> extends SimpleJpaRep
 	
 	@Override
 	public AppPage<T> findAppPage(BaseRequestAppPageVo pageVo, Specification<T> spec) {
-		Assert.noNullElements(new Object[] { pageVo, spec }, "findPcPage->The given pageVo & spec not be null!");
+		Assert.noNullElements(new Object[] { pageVo, spec }, "findAppPage->The given pageVo & spec not be null!");
 		// order columns
-		List<String> ors = pageVo.getOrderCols();
+		Map<String,String> ors = pageVo.getOrders();
 		// build orders
 		List<Order> orders = new ArrayList<>();
-		for (String o : ors) {
-			Order order = new Order(pageVo.getIsAsc()?Direction.ASC : Direction.DESC, o);
+		for(Map.Entry<String,String> entry : ors.entrySet()){
+			String orderCol = entry.getKey();
+			String orderVal = entry.getValue();
+			Order order = new Order(BaseDataX.ORDER_ASC.equals(orderVal) ? Direction.ASC : Direction.DESC, orderCol);
 			orders.add(order);
 		}
 		// build sort

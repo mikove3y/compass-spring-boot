@@ -54,6 +54,10 @@ public class BaseRequestAppPageVo extends BaseDataX{
 				underlineOrders.put(DataXUtil.camelToUnderline(order),this.getIsAsc()?BaseDataX.ORDER_ASC:BaseDataX.ORDER_DESC);
 			}
 			this.orders = underlineOrders;
+		}else{
+			for(String order : orderCols) {
+				orders.put(order,this.getIsAsc()?BaseDataX.ORDER_ASC:BaseDataX.ORDER_DESC);
+			}
 		}
 		return orders;
 	}
