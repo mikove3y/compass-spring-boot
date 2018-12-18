@@ -46,11 +46,6 @@ public class BaseApiAspect implements Ordered {
     @Autowired
     private GlobalContext context;
     /**
-     * 常量工具类
-     */
-    @Autowired
-    private ConstantUtil constantUtil;
-    /**
      * 定义日志切入点
      */
     @Pointcut("@annotation(cn.com.compass.web.annotation.BaseApi)")
@@ -90,12 +85,6 @@ public class BaseApiAspect implements Ordered {
             // apiVersionManage
             logV.setApiVersionManage(api.versionManage());
             logLocal.set(logV);
-        }
-        if (api!=null&&api.needAuth()) {
-            BaseSubject sub = context.getGlobalSubject();
-            if (sub == null) {
-                throw new BaseException(BaseConstant.TOKEN_GET_ERRO, "this api [" + context.getRequest().getRequestURI() + " " + context.getRequest().getMethod().toUpperCase() + "]  need request head param Authorization,but you can't set it or it's not access!");
-            }
         }
     }
 

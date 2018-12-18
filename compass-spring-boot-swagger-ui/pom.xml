@@ -46,10 +46,6 @@
                 <directory>${project.basedir}/src/main/resources/static</directory>
                 <targetPath>${project.build.outputDirectory}/static</targetPath>
             </resource>
-            <resource>
-                <directory>${project.basedir}/src/main/resources/templates</directory>
-                <targetPath>${project.build.outputDirectory}/templates</targetPath>
-            </resource>
         </resources>
     </build>
 </project>

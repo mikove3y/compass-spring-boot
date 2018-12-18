@@ -22,22 +22,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target({METHOD})
 public @interface BaseApi {
     /**
-     * false 不需要token鉴权
-     * true 需要token鉴权
-     * @return
-     */
-    @AliasFor("value")
-    boolean needAuth() default true;
-
-    /**
-     * false 不需要token鉴权
-     * true 需要token鉴权
-     * @return
-     */
-    @AliasFor("needAuth")
-    boolean value() default true;
-
-    /**
      * 是否api版本管理
      * @return
      */
