@@ -23,7 +23,7 @@ import org.springframework.scheduling.config.Task;
  */
 @Configuration
 @EnableConfigurationProperties(SchedulingTaskPoolProperties.class)
-@ConditionalOnProperty(name = "spring.scheduling.pool.enabled", matchIfMissing = true)
+@ConditionalOnProperty(name = "spring.scheduling.pool.enabled", matchIfMissing = false)
 @Slf4j
 @EnableScheduling
 public class SchedulingTaskAutoConfiguration implements SchedulingConfigurer {

@@ -90,4 +90,8 @@ public interface BaseConstant {
 	 * 服务不可达
 	 */
 	public static final String SERVER_NOT_AVAILABLE= "base-0008";
+	/**
+	 * 未知错误
+	 */
+	public static final String UNKONW_ERROR= "base-0009";
 }

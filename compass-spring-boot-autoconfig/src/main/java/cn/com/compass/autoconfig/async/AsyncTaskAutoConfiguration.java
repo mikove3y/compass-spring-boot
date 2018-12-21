@@ -27,7 +27,7 @@ import java.util.concurrent.ThreadPoolExecutor;
  */
 @Configuration
 @EnableConfigurationProperties(AsyncTaskPoolProperties.class)
-@ConditionalOnProperty(name = "spring.async.pool.enabled", matchIfMissing = true)
+@ConditionalOnProperty(name = "spring.async.pool.enabled", matchIfMissing = false)
 @Slf4j
 @EnableAsync
 public class AsyncTaskAutoConfiguration implements AsyncConfigurer {

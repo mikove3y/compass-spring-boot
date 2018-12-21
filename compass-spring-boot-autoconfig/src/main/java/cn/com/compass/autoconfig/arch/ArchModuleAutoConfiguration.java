@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Primary;
  */
 @Configuration
 @EnableConfigurationProperties(ArchModuleProperties.class)
-@ConditionalOnProperty(name = "arch.enabled", matchIfMissing = true)
+@ConditionalOnProperty(name = "arch.enabled", matchIfMissing = false)
 public class ArchModuleAutoConfiguration {
 
 

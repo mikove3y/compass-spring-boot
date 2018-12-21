@@ -41,105 +41,69 @@ public class BaseExceptionHandler {
 
 	@Autowired
 	private ConstantUtil constantUtil;
-	
-	/**
-	 * 基类异常封装继承{@link cn.com.compass.base.constant.IBaseBizStatusEnum}接口的枚举
-	 * 
-	 * @param exception
-	 * @return
-	 */
-	@ExceptionHandler(BaseException.class)
-	@ResponseBody
-	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	public BaseResponseVo handleBaseException(BaseException exception) {
-		return new BaseResponseVo(exception.getErrorCode(),constantUtil.getValue(exception.getErrorCode()),exception.getMessage());
-	}
-	
-	/**
-	 * 后台代码参数不合法拦截
-	 * @param exception
-	 */
-	@ExceptionHandler(IllegalArgumentException.class)
-	@ResponseBody
-	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	public BaseResponseVo handleIllegalArgumentException(IllegalArgumentException exception) {
-		return new BaseResponseVo(BaseConstant.ILLEGAL_ARGUMENT,constantUtil.getValue(BaseConstant.ILLEGAL_ARGUMENT),exception.getMessage());
-	}
 
 	/**
-	 * 获取@Validated（spring对hibernate validator的扩展用于校验基础数据类型）注解抛出来的错误
-	 * 
-	 * @param exception
+	 * 统一封装错误
+	 * @param e
 	 * @return
 	 */
-	@ExceptionHandler(ValidationException.class)
+	@ExceptionHandler(Exception.class)
 	@ResponseBody
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public BaseResponseVo handleValidationException(ValidationException exception) {
-		String error = null;
-		if (exception instanceof ConstraintViolationException) {
-			ConstraintViolationException exs = (ConstraintViolationException) exception;
-			StringBuffer buff = new StringBuffer();
-			Set<ConstraintViolation<?>> violations = exs.getConstraintViolations();
-			for (ConstraintViolation<?> item : violations) {
-				buff.append(item.getPropertyPath()+":"+item.getMessage()+",");
+	@ResponseStatus(HttpStatus.OK)
+	public BaseResponseVo handleException(Exception e){
+		if(e instanceof BaseException){
+			// 基类异常封装继承{@link cn.com.compass.base.constant.IBaseBizStatusEnum}接口的枚举
+			BaseException exception = (BaseException) e;
+			return new BaseResponseVo(exception.getErrorCode(),constantUtil.getValue(exception.getErrorCode()),exception.getMessage());
+		}else if(e instanceof  IllegalArgumentException){
+			// 后台代码参数不合法拦截
+			IllegalArgumentException exception = (IllegalArgumentException) e;
+			return new BaseResponseVo(BaseConstant.ILLEGAL_ARGUMENT,constantUtil.getValue(BaseConstant.ILLEGAL_ARGUMENT),exception.getMessage());
+		}else if(e instanceof  ValidationException){
+			// 获取@Validated（spring对hibernate validator的扩展用于校验基础数据类型）注解抛出来的错误
+			ValidationException exception = (ValidationException) e;
+			String error = null;
+			if (exception instanceof ConstraintViolationException) {
+				ConstraintViolationException exs = (ConstraintViolationException) exception;
+				StringBuffer buff = new StringBuffer();
+				Set<ConstraintViolation<?>> violations = exs.getConstraintViolations();
+				for (ConstraintViolation<?> item : violations) {
+					buff.append(item.getPropertyPath()+":"+item.getMessage()+",");
+				}
+				error = buff.substring(0, buff.length()-1);
+			}else if(exception instanceof ConstraintDeclarationException) {
+				// HV000151 问题
+				String solveScheme = "To solve the issue, add the constraints to the interface method instead of the implementation method.";
+				error = exception.getMessage()+","+solveScheme;
 			}
-			error = buff.substring(0, buff.length()-1);
-		}else if(exception instanceof ConstraintDeclarationException) {
-			// HV000151 问题
-			String solveScheme = "To solve the issue, add the constraints to the interface method instead of the implementation method.";
-			error = exception.getMessage()+","+solveScheme;
+			return new BaseResponseVo(BaseConstant.REQUEST_PARAMS_VALID_ERRO,constantUtil.getValue(BaseConstant.REQUEST_PARAMS_VALID_ERRO),error);
+		}else if(e instanceof  MethodArgumentNotValidException){
+			// 获取@valid（只能校验bean） 注解抛出来的错误
+			MethodArgumentNotValidException exception = (MethodArgumentNotValidException) e;
+			BindingResult validResult = exception.getBindingResult();
+			StringBuffer errorBuff = new StringBuffer();
+			for (ObjectError error : validResult.getAllErrors()) {
+				String field = null;
+				if (error instanceof FieldError) {
+					field = ((FieldError) error).getField();
+				} else {
+					field = error.getCode();
+				}
+				String message = error.getDefaultMessage();
+				errorBuff.append(field+":"+message+",");
+			}
+			return new BaseResponseVo(BaseConstant.REQUEST_PARAMS_VALID_ERRO,constantUtil.getValue(BaseConstant.REQUEST_PARAMS_VALID_ERRO),errorBuff.substring(0, errorBuff.length()-1));
+		}else if(e instanceof  HttpMessageConversionException){
+			// 请求参数转换错误 HttpMessageConversionException
+			HttpMessageConversionException exception = (HttpMessageConversionException) e;
+			return new BaseResponseVo(BaseConstant.REQUEST_PARAMS_VALID_ERRO,constantUtil.getValue(BaseConstant.REQUEST_PARAMS_VALID_ERRO),exception.getMessage());
+		}else if(e instanceof NoHandlerFoundException){
+			// 404 not found
+			NoHandlerFoundException exception = (NoHandlerFoundException) e;
+			return new BaseResponseVo(BaseConstant.API_NOT_FOUND,constantUtil.getValue(BaseConstant.API_NOT_FOUND),exception.getMessage());
 		}
-		return new BaseResponseVo(BaseConstant.REQUEST_PARAMS_VALID_ERRO,constantUtil.getValue(BaseConstant.REQUEST_PARAMS_VALID_ERRO),error);
+		// 未知错误
+		return new BaseResponseVo(BaseConstant.UNKONW_ERROR,"unknow error",e.getMessage());
 	}
 
-	/**
-	 * 获取@valid（只能校验bean） 注解抛出来的错误
-	 * 
-	 * @param exception
-	 * @return
-	 */
-	@ExceptionHandler(MethodArgumentNotValidException.class)
-	@ResponseBody
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public BaseResponseVo handleException(MethodArgumentNotValidException exception) {
-		BindingResult validResult = exception.getBindingResult();
-		StringBuffer errorBuff = new StringBuffer();
-		for (ObjectError error : validResult.getAllErrors()) {
-			String field = null;
-			if (error instanceof FieldError) {
-				field = ((FieldError) error).getField();
-			} else {
-				field = error.getCode();
-			}
-			String message = error.getDefaultMessage();
-			errorBuff.append(field+":"+message+",");
-		}
-		return new BaseResponseVo(BaseConstant.REQUEST_PARAMS_VALID_ERRO,constantUtil.getValue(BaseConstant.REQUEST_PARAMS_VALID_ERRO),errorBuff.substring(0, errorBuff.length()-1));
-	}
-	
-	/**
-	 * 请求参数转换错误 HttpMessageConversionException
-	 * @param exception
-	 * @return
-	 */
-	@ExceptionHandler(HttpMessageConversionException.class)
-	@ResponseBody
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public BaseResponseVo handleException(HttpMessageConversionException exception) {
-		return new BaseResponseVo(BaseConstant.REQUEST_PARAMS_VALID_ERRO,constantUtil.getValue(BaseConstant.REQUEST_PARAMS_VALID_ERRO),exception.getMessage());
-	}
-	
-	/**
-	 * 404 not found
-	 * @param exception
-	 * @return
-	 */
-	@ExceptionHandler(NoHandlerFoundException.class)
-	@ResponseBody
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public BaseResponseVo handleException(NoHandlerFoundException exception) {
-		return new BaseResponseVo(BaseConstant.API_NOT_FOUND,constantUtil.getValue(BaseConstant.API_NOT_FOUND),exception.getMessage());
-	}
-	
 }
