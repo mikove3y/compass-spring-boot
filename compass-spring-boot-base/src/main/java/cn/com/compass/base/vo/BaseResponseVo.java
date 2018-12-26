@@ -16,6 +16,8 @@ public class BaseResponseVo<T> implements Serializable {
 
 	private String msg;
 
+	private String error;
+
 	private T data;
 	
 	public BaseResponseVo() {
@@ -31,9 +33,16 @@ public class BaseResponseVo<T> implements Serializable {
 		this.msg = msg;
 	}
 	
-	public BaseResponseVo(String status,String msg,T data) {
+	public BaseResponseVo(String status,String msg,String error) {
 		this.status = status;
 		this.msg = msg;
+		this.error = error;
+	}
+
+	public BaseResponseVo(String status,String msg,String error,T data) {
+		this.status = status;
+		this.msg = msg;
+		this.error = error;
 		this.data = data;
 	}
 
@@ -44,6 +53,11 @@ public class BaseResponseVo<T> implements Serializable {
 
 	public BaseResponseVo<T> setMsg(String msg) {
 		this.msg = msg;
+		return this;
+	}
+
+	public BaseResponseVo<T> setError(String error) {
+		this.error = error;
 		return this;
 	}
 

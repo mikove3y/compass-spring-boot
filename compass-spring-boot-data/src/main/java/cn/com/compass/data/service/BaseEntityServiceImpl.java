@@ -115,6 +115,16 @@ public class BaseEntityServiceImpl<T extends BaseEntity> implements IBaseEntityS
 		return repository.findListBySpec(spec);
 	}
 
+	/**
+	 * find all
+	 *
+	 * @return
+	 */
+	@Override
+	public List<T> findAll() {
+		return repository.findAll();
+	}
+
 	@Override
 	public Long countNum(Specification<T> spec) {
 		return repository.count(spec);

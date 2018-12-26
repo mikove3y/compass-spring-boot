@@ -143,6 +143,12 @@ public interface IBaseEntityService<T extends BaseEntity> {
 	 * @return
 	 */
 	public List<T> findListBySpec(Specification<T> spec);
+
+	/**
+	 *  find all
+	 * @return
+	 */
+	public List<T> findAll();
 	/**
 	 * find pc page 按照pageNo pageSize分页
 	 * @param pageVo
