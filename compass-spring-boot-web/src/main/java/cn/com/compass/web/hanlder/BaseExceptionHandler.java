@@ -35,8 +35,6 @@ import java.util.Set;
  *
  */
 @RestControllerAdvice
-@EnableWebMvc
-@Configuration
 public class BaseExceptionHandler {
 
 	@Autowired
@@ -47,10 +45,9 @@ public class BaseExceptionHandler {
 	 * @param e
 	 * @return
 	 */
-	@ExceptionHandler(Exception.class)
-	@ResponseBody
+	@ExceptionHandler(Throwable.class)
 	@ResponseStatus(HttpStatus.OK)
-	public BaseResponseVo handleException(Exception e){
+	public BaseResponseVo handleException(Throwable e){
 		if(e instanceof BaseException){
 			// 基类异常封装继承{@link cn.com.compass.base.constant.IBaseBizStatusEnum}接口的枚举
 			BaseException exception = (BaseException) e;

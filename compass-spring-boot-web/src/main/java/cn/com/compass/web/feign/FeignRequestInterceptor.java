@@ -52,7 +52,8 @@ public class FeignRequestInterceptor implements RequestInterceptor {
             template.header(BaseConstant.MESSAGEID, context.getCurentUserMessageId());
             template.header(BaseConstant.AUTHORIZATION_KEY, context.getCurrentUserToken());
         }catch (Exception e){
-            log.error(e.getMessage());
+            // do nothing
+//            log.error(e.getMessage());
         }
     }
 }
