@@ -40,6 +40,15 @@ public class DateUtil {
 	// 时间类型的格式 24小时制HH:mm:ss 12小时制hh:mm:ss
 	public static final String TIME_FORMAT = "HH:mm:ss";
 
+	//年格式
+	public static final String YEAR_FORMAT = "yyyy";
+
+	// 月格式
+	public static final String MONTH_FORMAT = "MM";
+
+	// 日格式
+	public static final String DAY_FORMAT = "dd";
+
 	public static final Map<Integer, String> WEEK_DAY = new HashMap<>();
 	
 	static {
@@ -81,6 +90,66 @@ public class DateUtil {
 	public static Date getTimeOfDateStr(String dateStr) throws ParseException {
 		return new SimpleDateFormat(TIME_FORMAT).parse(dateStr);
 	}
+
+	/**
+	 * 是否闰年
+	 * @param year
+	 * @return
+	 */
+	public static Boolean isLeapYear(int year){
+		if (((year % 100 == 0) && year % 400 == 0) || ((year % 100 != 0) && year % 4 == 0))
+			return true;
+		return false;
+	}
+
+	/**
+	 * 获取某个月的天数
+	 * @param year
+	 * @param month
+	 * @return
+	 */
+	public static int getMonthDays(int year, int month) {
+		int days;
+		int FebDay = 28;
+		if (isLeapYear(year))
+			FebDay = 29;
+		switch (month) {
+			case 1:
+			case 3:
+			case 5:
+			case 7:
+			case 8:
+			case 10:
+			case 12:
+				days = 31;
+				break;
+			case 4:
+			case 6:
+			case 9:
+			case 11:
+				days = 30;
+				break;
+			case 2:
+				days = FebDay;
+				break;
+			default:
+				days = 0;
+				break;
+		}
+		return days;
+	}
+
+	/**
+	 * 获取某个月的天数
+	 * @param date
+	 * @return
+	 */
+	public static int getMonthDays(Date date){
+		String year = new SimpleDateFormat(YEAR_FORMAT).format(date);
+		String month = new SimpleDateFormat(MONTH_FORMAT).format(date);
+		return getMonthDays(Integer.valueOf(year),Integer.valueOf(month));
+	}
+
 
 	/**
 	 * 在当前时间的基础上加或减去year年
@@ -828,8 +897,8 @@ public class DateUtil {
      * @return 
      */  
     public static String getCurrentDateTimePattern(String pattern) {  
-        DateTime dt = new DateTime();  
-        String time = dt.toString(pattern);  
+        DateTime dt = new DateTime();
+        String time = dt.toString(pattern);
         return time;  
     }  
   

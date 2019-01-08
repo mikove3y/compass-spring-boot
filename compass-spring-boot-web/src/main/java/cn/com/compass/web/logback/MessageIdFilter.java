@@ -24,12 +24,12 @@ public class MessageIdFilter implements Filter, Ordered {
     /**
      * 应用名
      */
-    @Value("${spring.application.name}")
+    @Value("${spring.application.name:test}")
     private String application;
     /**
      * 应用地址
      */
-    @Value("${spring.cloud.client.ipAddress}:${server.port}")
+    @Value("${spring.cloud.client.ipAddress:localhost}:${server.port:8080}")
     private String appAddress;
 
     /**
@@ -118,7 +118,7 @@ public class MessageIdFilter implements Filter, Ordered {
      */
     private void initMDC(HttpServletRequest request) {
         String messageId = request.getHeader(BaseConstant.MESSAGEID)!=null?request.getHeader(BaseConstant.MESSAGEID):UUID.randomUUID().toString();
-        MDC.put(BaseConstant.MESSAGEID, application +": "+appAddress+": " +messageId);
+        MDC.put(BaseConstant.MESSAGEID, application +" "+appAddress+" " +messageId);
     }
 
     /**
