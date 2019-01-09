@@ -49,6 +49,9 @@ public class DateUtil {
 	// 日格式
 	public static final String DAY_FORMAT = "dd";
 
+	// 年月格式
+	public static final String YEAR_MONTH_FORMAT = "yyyy-MM";
+
 	public static final Map<Integer, String> WEEK_DAY = new HashMap<>();
 	
 	static {
