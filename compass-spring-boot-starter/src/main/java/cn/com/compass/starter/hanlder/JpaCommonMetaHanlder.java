@@ -173,9 +173,8 @@ public class JpaCommonMetaHanlder extends EmptyInterceptor {
 		BaseSubject sub = null;
 		if(appContext!=null) {
 			GlobalContext context = appContext.getBean(GlobalContext.class);
-			HttpServletRequest request = context.getRequest();
-			if(request!=null)
-				sub = context.getGlobalSubject();
+			if(context!=null)
+			sub = context.getGlobalSubject();
 		}
 		return sub;
 	}
