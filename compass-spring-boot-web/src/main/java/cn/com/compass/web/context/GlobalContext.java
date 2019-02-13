@@ -134,7 +134,8 @@ public class GlobalContext {
 				}
 			}
 		} catch (Exception e) {
-			log.error("get BaseSubject from request header erro:{}", e);
+			// do nothing
+//			log.error("get BaseSubject from request header erro:{}", e);
 		}
 		return baseSubject;
 	}
