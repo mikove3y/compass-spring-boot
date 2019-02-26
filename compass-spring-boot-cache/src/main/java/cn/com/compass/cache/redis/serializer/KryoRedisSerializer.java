@@ -2,6 +2,7 @@ package cn.com.compass.cache.redis.serializer;
 
 import java.io.ByteArrayOutputStream;
 
+import de.javakaffee.kryoserializers.SynchronizedCollectionsSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.SerializationException;
 
@@ -41,11 +42,13 @@ public class KryoRedisSerializer<T> implements RedisSerializer<T> {
         }
 
         Kryo kryo = kryos.get();
+        SynchronizedCollectionsSerializer.registerSerializers(kryo);
         kryo.setReferences(false);
         kryo.register(clazz);
 
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
-             Output output = new Output(baos)) {
+             Output output = new Output(baos,100000)) {
+            // 缓存字节数 默认4096 实际对象超出大小的时候，系列化的时候并不会报告错误，但是系列化结果已经不完整，从而导致反系列化的时候会失败
             kryo.writeClassAndObject(output, t);
             output.flush();
             return baos.toByteArray();
@@ -62,6 +65,7 @@ public class KryoRedisSerializer<T> implements RedisSerializer<T> {
         }
 
         Kryo kryo = kryos.get();
+        SynchronizedCollectionsSerializer.registerSerializers(kryo);
         kryo.setReferences(false);
         kryo.register(clazz);
 

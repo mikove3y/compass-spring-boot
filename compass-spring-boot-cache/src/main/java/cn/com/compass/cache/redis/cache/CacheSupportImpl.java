@@ -94,7 +94,7 @@ public class CacheSupportImpl implements CacheSupport {
             // 执行刷新方法
             refreshCache(invocation, cacheName);
         } else {
-            log.error("刷新redis缓存，反序列化方法信息异常");
+            log.error(result.getClass().getName()+" not instanceof cn.com.compass.cache.redis.cache.CachedMethodInvocation,"+"刷新redis缓存，反序列化方法信息异常");
         }
 
     }
