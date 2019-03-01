@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>cn.com.compass</groupId>
 		<artifactId>compass-spring-boot</artifactId>
-		<version>1.1.9-SNAPSHOT</version>
+		<version>1.2.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>compass-spring-boot-camel</artifactId>
 	<name>compass-spring-boot-camel</name>

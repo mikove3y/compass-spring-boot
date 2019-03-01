@@ -52,8 +52,8 @@ public class RedisUtil {
 	
 	/**
 	 * 根据key 获取过期时间
-	 * @param key 键 不能为null
-	 * @return 时间(秒) 返回0代表为永久有效
+	 * @param key 键 不能为null,key可以在redis不存在不存在则返回-2
+	 * @return 时间(秒) 返回-1代表为永久有效 大于0表示剩余的过期时间 -2表示已经过期
 	 */
 	public long getExpire(String key){
 		return redisTemplate.getExpire(key,TimeUnit.SECONDS);

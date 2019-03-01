@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>cn.com.compass</groupId>
 	<artifactId>compass-spring-boot</artifactId>
-	<version>1.1.9-SNAPSHOT</version>
+	<version>1.2.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>compass-spring-boot</name>
 	<description>compass 基础boot架构</description>
@@ -42,7 +42,7 @@
 
 	<properties>
 		<!-- compass -->
-		<compss-boot.version>1.1.9-SNAPSHOT</compss-boot.version>
+		<compss-boot.version>1.2.0-SNAPSHOT</compss-boot.version>
 		<!-- spring boot -->
 		<spring-boot.version>1.5.15.RELEASE</spring-boot.version>
 		<!-- spring cloud -->
@@ -81,6 +81,7 @@
 		<drools.version>7.6.0.Final</drools.version>
 		<!-- activiti -->
 		<activiti.version>5.22.0</activiti.version>
+		<java-uuid-generator>3.1.5</java-uuid-generator>
 		<!-- jwt签名 -->
 		<jjwt.version>0.9.0</jjwt.version>
 		<!-- shiro -->
@@ -328,6 +329,11 @@
 				<groupId>org.activiti</groupId>
 				<artifactId>activiti-diagram-rest</artifactId>
 				<version>${activiti.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.fasterxml.uuid</groupId>
+				<artifactId>java-uuid-generator</artifactId>
+				<version>${java-uuid-generator}</version>
 			</dependency>
 			<!-- compass -->
 			<dependency>

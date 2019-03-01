@@ -2,6 +2,7 @@ package cn.com.compass.autoconfig.constant;
 
 import java.util.Map;
 
+import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -24,7 +25,10 @@ public class ConstantUtil {
 	 * @return
 	 */
 	public String getValue(String key) {
-		return properties.getEnmus().get(key);
+		Map<String,String> enums = this.getAllEnmus();
+		if(MapUtils.isNotEmpty(enums))
+			return enums.get(key);
+		return null;
 	}
 	
 	/**
@@ -32,6 +36,9 @@ public class ConstantUtil {
 	 * @return
 	 */
 	public Map<String,String> getAllEnmus(){
-		return properties.getEnmus();
+		Map<Lang,Map<String,String>> enums =properties.getEnums();
+		if(MapUtils.isNotEmpty(enums))
+			return enums.get(properties.getLang());
+		return null;
 	}
 }

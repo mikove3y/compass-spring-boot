@@ -20,8 +20,17 @@ import lombok.Data;
 public class ConstantProperties {
 
 	public static final String prefix = "constant";
-
+	/**
+	 * 是否启用
+	 */
 	private boolean enabled = true;
-	
-	private Map<String,String> enmus = new HashMap<>();
+	/**
+	 * 激活语言
+	 */
+	private Lang lang = Lang.CN;
+	/**
+	 * 配置
+	 */
+	private Map<Lang,Map<String,String>> enums = new HashMap<>();
+
 }
