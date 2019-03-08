@@ -29,7 +29,7 @@ import org.springframework.core.io.support.ResourcePatternResolver;
  * @date 2018年8月23日 下午8:41:58
  *
  */
-@Configuration
+//@Configuration
 public class DroolsConfig {
 	/**
 	 * 规则路径,src/main/resource/rules 

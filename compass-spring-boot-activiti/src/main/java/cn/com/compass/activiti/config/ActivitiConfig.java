@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import cn.com.compass.activiti.factory.CustomActivityBehaviorFactory;
 import org.activiti.engine.DynamicBpmnService;
 import org.activiti.engine.FormService;
 import org.activiti.engine.HistoryService;
@@ -85,7 +86,10 @@ public class ActivitiConfig {
             if(properties.getProcessDiagramGenerator()!=null) {
             	processEngineConfiguration.setProcessDiagramGenerator((HMProcessDiagramGenerator) Class.forName(properties.getProcessDiagramGenerator()).newInstance());
             }
-            
+
+            // 重写节点行为工厂类
+            processEngineConfiguration.setActivityBehaviorFactory(new CustomActivityBehaviorFactory());
+
             // 自定义部署器
             if(CollectionUtils.isNotEmpty(properties.getDeployers())) {
             	List<Deployer> deployers = new ArrayList<>();

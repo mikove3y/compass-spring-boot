@@ -9,7 +9,9 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
@@ -35,8 +37,9 @@ import lombok.extern.slf4j.Slf4j;
 @Validated
 @Slf4j
 public abstract class BaseController {
-	
-	
+
+	@Autowired
+	private Validator validator;// hibernate校验器
 	@Resource
 	private HttpServletResponse response;
 	@Resource
@@ -72,7 +75,48 @@ public abstract class BaseController {
 	public Map<String,Object> requestParams() {
 		return null;
 	}
-	
+
+	/**
+	 * 校验
+	 * @param object
+	 * @param group
+	 * @param <T>
+	 * @return
+	 */
+	public <T> Set<ConstraintViolation<T>> validate(T object,Class<?> ...group){
+		return validator.validate(object, group);
+	}
+
+	/**
+	 * 校验
+	 * @param object
+	 * @param propertyName
+	 * @param groups
+	 * @param <T>
+	 * @return
+	 */
+	public <T> Set<ConstraintViolation<T>> validateProperty(T object,
+													 String propertyName,
+													 Class<?>... groups){
+		return validator.validateProperty(object,propertyName,groups);
+	}
+
+	/**
+	 * 校验
+	 * @param beanType
+	 * @param propertyName
+	 * @param value
+	 * @param groups
+	 * @param <T>
+	 * @return
+	 */
+	public <T> Set<ConstraintViolation<T>> validateValue(Class<T> beanType,
+														 String propertyName,
+														 Object value,
+														 Class<?>... groups){
+		return validator.validateValue(beanType,propertyName,value,groups);
+	}
+
 	/**
 	 * 检查hibernate ConstraintViolation是否有校验不通过的数据
 	 * @param set
