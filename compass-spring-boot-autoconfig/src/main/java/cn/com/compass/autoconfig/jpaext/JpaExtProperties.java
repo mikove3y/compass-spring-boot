@@ -3,9 +3,11 @@
  */
 package cn.com.compass.autoconfig.jpaext;
 
+import cn.com.compass.autoconfig.constant.ConstantProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import lombok.Data;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 /**
  * @author wanmk
@@ -16,6 +18,7 @@ import lombok.Data;
  * 
  */
 @Data
+@EnableConfigurationProperties(JpaExtProperties.class)
 @ConfigurationProperties(prefix = JpaExtProperties.prefix)
 public class JpaExtProperties {
 	
