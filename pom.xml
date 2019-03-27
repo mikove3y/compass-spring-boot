@@ -97,6 +97,8 @@
 		<guava.verison>27.0.1-jre</guava.verison>
 		<!-- nekohtml -->
 		<nekohtml.version>1.9.22</nekohtml.version>
+		<!-- logstash-logback-encoder -->
+		<logstash-logback.version>5.3</logstash-logback.version>
 	</properties>
 
 	<dependencies>
@@ -281,6 +283,12 @@
 				<artifactId>nekohtml</artifactId>
 				<version>${nekohtml.version}</version>
 			</dependency>
+			<!-- logstash-logback-encoder -->
+			<dependency>
+				<groupId>net.logstash.logback</groupId>
+				<artifactId>logstash-logback-encoder</artifactId>
+				<version>${logstash-logback.version}</version>
+			</dependency>
 			<!-- drools -->
 			<dependency>
 				<groupId>org.kie</groupId>
@@ -393,7 +401,7 @@
 			</dependency>
 			<dependency>
 				<groupId>cn.com.compass</groupId>
-				<artifactId>compass-spring-boot-swagger-ui</artifactId>
+				<artifactId>compass-spring-boot-swagger</artifactId>
 				<version>${compss-boot.version}</version>
 			</dependency>
 		</dependencies>
@@ -525,5 +533,6 @@
 		<module>compass-spring-boot-drools</module>
 		<module>compass-spring-boot-activiti</module>
     	<module>compass-spring-boot-lcn</module>
-	</modules>
+        <module>compass-spring-boot-swagger</module>
+    </modules>
 </project>
