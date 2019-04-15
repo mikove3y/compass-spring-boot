@@ -457,15 +457,10 @@ SwaggerBootstrapUi.prototype.createApiInfoInstance
 
 | 模块 | 描述 |
 | --- | --- |
-| Base |
-1、Base模块可以拆分Entity到Data模块去
-2、请求或者响应对象包含以下IbaseBizStatusEnum基类业务枚举的字段不能为集合类型，不然报错
-3、BaseSubject增加扩展字段方便以后扩展，不能包含太多特定业务信息在其中
- |
-| Data | 1、增加ActiveMode功能增强Entity功能
-2、JPA逻辑删除功能不完善，未测试
- |
+| Base |1、Base模块可以拆分Entity到Data模块去 2、请求或者响应对象包含以下IbaseBizStatusEnum基类业务枚举的字段不能为集合类型，不然报错 3、BaseSubject增加扩展字段方便以后扩展，不能包含太多特定业务信息在其中|
+| Data | 1、增加ActiveMode功能增强Entity功能 2、JPA逻辑删除功能不完善，未测试|
 | Camel | 1、需要深度挖掘Camel潜力做更多的尝试 |
+
 
 
 
