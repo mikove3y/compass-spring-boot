@@ -6,7 +6,6 @@ import lombok.Setter;
 
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
-import java.io.Serializable;
 
 /**
  * 

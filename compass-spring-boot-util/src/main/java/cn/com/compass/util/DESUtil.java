@@ -1,11 +1,10 @@
 package cn.com.compass.util;
 
-import java.security.Key;
-
 import javax.crypto.Cipher;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESedeKeySpec;
 import javax.crypto.spec.IvParameterSpec;
+import java.security.Key;
 /**
  * Created by 0opslab
  */

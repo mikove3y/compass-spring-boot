@@ -3,18 +3,14 @@
  */
 package cn.com.compass.util;
 
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.ser.BeanPropertyWriter;
+import com.fasterxml.jackson.databind.ser.BeanSerializerModifier;
+
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
-
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.BeanDescription;
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.SerializationConfig;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.ser.BeanPropertyWriter;
-import com.fasterxml.jackson.databind.ser.BeanSerializerModifier;
 
 /**
  * @author wanmk

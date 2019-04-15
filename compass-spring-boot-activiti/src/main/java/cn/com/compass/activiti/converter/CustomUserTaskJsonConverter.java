@@ -3,16 +3,15 @@
  */
 package cn.com.compass.activiti.converter;
 
-import java.util.Map;
-
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.activiti.bpmn.model.BaseElement;
 import org.activiti.bpmn.model.CustomProperty;
 import org.activiti.bpmn.model.FlowElement;
 import org.activiti.bpmn.model.UserTask;
 import org.activiti.editor.language.json.converter.UserTaskJsonConverter;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import java.util.Map;
 
 /**
  * @author wanmk

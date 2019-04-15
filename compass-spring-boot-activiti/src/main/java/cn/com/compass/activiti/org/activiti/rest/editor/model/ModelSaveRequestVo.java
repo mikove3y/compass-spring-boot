@@ -1,11 +1,10 @@
 package cn.com.compass.activiti.org.activiti.rest.editor.model;
 
-import java.io.Serializable;
-
-import javax.validation.constraints.NotNull;
-
 import lombok.Getter;
 import lombok.Setter;
+
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 /**
  * 

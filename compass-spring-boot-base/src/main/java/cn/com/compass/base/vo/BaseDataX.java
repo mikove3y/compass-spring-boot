@@ -1,12 +1,10 @@
 package cn.com.compass.base.vo;
 
-import cn.com.compass.util.DataXUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
-import org.apache.commons.lang3.ArrayUtils;
 
-import java.io.Serializable;
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * 

@@ -1,10 +1,9 @@
 package cn.com.compass.cache.redis.utils;
 
+import cn.com.compass.cache.redis.serializer.StringRedisSerializer;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
-
-import cn.com.compass.cache.redis.serializer.StringRedisSerializer;
 
 /**
  * 

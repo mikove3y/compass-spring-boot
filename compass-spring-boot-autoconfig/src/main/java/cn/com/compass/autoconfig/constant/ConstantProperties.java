@@ -1,11 +1,10 @@
 package cn.com.compass.autoconfig.constant;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import lombok.Data;
+import java.util.HashMap;
+import java.util.Map;
 /**
  * 
  * @author wanmk

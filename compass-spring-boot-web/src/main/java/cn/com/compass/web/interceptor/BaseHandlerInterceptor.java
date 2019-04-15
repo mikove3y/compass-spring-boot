@@ -2,7 +2,6 @@ package cn.com.compass.web.interceptor;
 
 import cn.com.compass.web.context.AppContext;
 import org.apache.commons.collections.MapUtils;
-import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 

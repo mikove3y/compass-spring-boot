@@ -2,7 +2,6 @@ package cn.com.compass.web.api;
 
 import cn.com.compass.web.annotation.BaseApi;
 import org.springframework.core.annotation.AnnotationUtils;
-import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.mvc.condition.RequestCondition;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 

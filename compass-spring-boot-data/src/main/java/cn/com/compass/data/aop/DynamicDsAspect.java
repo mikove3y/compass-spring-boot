@@ -1,18 +1,13 @@
 package cn.com.compass.data.aop;
 
-import java.lang.reflect.Method;
-
+import cn.com.compass.data.annotation.DynamicDs;
+import cn.com.compass.data.dynamic.DynamicDsSwitch;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.AfterThrowing;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 
-import cn.com.compass.data.annotation.DynamicDs;
-import cn.com.compass.data.dynamic.DynamicDsSwitch;
+import java.lang.reflect.Method;
 
 /**
  * 

@@ -3,10 +3,9 @@
  */
 package cn.com.compass.lcn;
 
-import org.springframework.stereotype.Service;
-
 import com.codingapi.tx.netty.service.TxManagerHttpRequestService;
 import com.lorne.core.framework.utils.http.HttpUtils;
+import org.springframework.stereotype.Service;
 
 /**
  * @author wanmk

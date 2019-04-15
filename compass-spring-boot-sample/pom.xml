@@ -9,5 +9,28 @@
 
     <artifactId>compass-spring-boot-sample</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>cn.com.compass</groupId>
+            <artifactId>compass-spring-boot-data</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.com.compass</groupId>
+            <artifactId>compass-spring-boot-web</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <!-- build -->
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>cn.com.compass.App</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

@@ -1,8 +1,8 @@
 package cn.com.compass.base.vo;
 
-import java.io.Serializable;
+import lombok.Data;
 
-import lombok.*;
+import java.io.Serializable;
 
 /**
  * 

@@ -16,11 +16,11 @@
 
 package cn.com.compass.cache.redis.cache.expression;
 
-import java.lang.reflect.Method;
-import java.util.Collection;
-
 import org.springframework.cache.Cache;
 import org.springframework.util.Assert;
+
+import java.lang.reflect.Method;
+import java.util.Collection;
 
 /**
  * Class describing the root object used during the expression evaluation.

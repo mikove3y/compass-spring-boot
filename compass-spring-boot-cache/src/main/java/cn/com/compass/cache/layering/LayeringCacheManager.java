@@ -1,12 +1,9 @@
 package cn.com.compass.cache.layering;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.TimeUnit;
-
+import cn.com.compass.cache.setting.FirstCacheSetting;
+import cn.com.compass.cache.setting.SecondaryCacheSetting;
+import com.github.benmanes.caffeine.cache.Caffeine;
+import com.github.benmanes.caffeine.cache.CaffeineSpec;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.cache.Cache;
@@ -16,11 +13,12 @@ import org.springframework.data.redis.cache.RedisCachePrefix;
 import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.util.ObjectUtils;
 
-import com.github.benmanes.caffeine.cache.Caffeine;
-import com.github.benmanes.caffeine.cache.CaffeineSpec;
-
-import cn.com.compass.cache.setting.FirstCacheSetting;
-import cn.com.compass.cache.setting.SecondaryCacheSetting;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 

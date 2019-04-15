@@ -3,9 +3,9 @@
  */
 package cn.com.compass.activiti.id;
 
-import java.util.UUID;
-
 import org.activiti.engine.impl.cfg.IdGenerator;
+
+import java.util.UUID;
 
 /**
  * @author wanmk

@@ -1,9 +1,9 @@
 package cn.com.compass.autoconfig.constant;
 
-import java.util.Map;
-
 import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.Map;
 
 /**
  * 

@@ -1,6 +1,8 @@
 package cn.com.compass.web.util;
 
-import cn.com.compass.base.constant.*;
+import cn.com.compass.base.constant.BaseBizStatusEnumDeserializer;
+import cn.com.compass.base.constant.BaseBizStatusEnumSerializer;
+import cn.com.compass.base.constant.IBaseBizStatusEnum;
 import cn.com.compass.util.JacksonObjectMapperWrapper;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.module.SimpleModule;

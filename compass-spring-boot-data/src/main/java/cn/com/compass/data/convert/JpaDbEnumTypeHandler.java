@@ -1,5 +1,11 @@
 package cn.com.compass.data.convert;
 
+import cn.com.compass.base.constant.IBaseBizStatusEnum;
+import org.hibernate.HibernateException;
+import org.hibernate.engine.spi.SessionImplementor;
+import org.hibernate.usertype.DynamicParameterizedType;
+import org.hibernate.usertype.UserType;
+
 import java.io.Serializable;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,13 +13,6 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.util.Objects;
 import java.util.Properties;
-
-import org.hibernate.HibernateException;
-import org.hibernate.engine.spi.SessionImplementor;
-import org.hibernate.usertype.DynamicParameterizedType;
-import org.hibernate.usertype.UserType;
-
-import cn.com.compass.base.constant.IBaseBizStatusEnum;
 
 /**
  * 

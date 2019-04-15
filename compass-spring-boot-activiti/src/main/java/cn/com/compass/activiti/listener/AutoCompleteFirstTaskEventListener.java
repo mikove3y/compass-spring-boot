@@ -3,6 +3,8 @@
  */
 package cn.com.compass.activiti.listener;
 
+import cn.com.compass.activiti.command.AutoCompleteCmd;
+import cn.com.compass.web.context.AppContext;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.delegate.DelegateTask;
 import org.activiti.engine.delegate.event.ActivitiEvent;
@@ -15,9 +17,6 @@ import org.activiti.engine.impl.persistence.entity.TaskEntity;
 import org.activiti.engine.impl.pvm.PvmActivity;
 import org.activiti.engine.impl.pvm.PvmTransition;
 import org.activiti.engine.impl.pvm.process.ActivityImpl;
-
-import cn.com.compass.activiti.command.AutoCompleteCmd;
-import cn.com.compass.web.context.AppContext;
 
 /**
  * @author wanmk

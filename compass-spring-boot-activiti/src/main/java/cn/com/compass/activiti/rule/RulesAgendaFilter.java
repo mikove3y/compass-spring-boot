@@ -3,9 +3,7 @@ package cn.com.compass.activiti.rule;
 import org.kie.api.runtime.rule.AgendaFilter;
 import org.kie.api.runtime.rule.Match;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**

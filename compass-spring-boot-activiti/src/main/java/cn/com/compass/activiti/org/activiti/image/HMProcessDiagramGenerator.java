@@ -12,12 +12,12 @@
  */
 package cn.com.compass.activiti.org.activiti.image;
 
+import org.activiti.bpmn.model.BpmnModel;
+import org.activiti.image.ProcessDiagramGenerator;
+
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
 import java.util.List;
-
-import org.activiti.bpmn.model.BpmnModel;
-import org.activiti.image.ProcessDiagramGenerator;
 
 /**
  * This interface declares methods to generate process diagram

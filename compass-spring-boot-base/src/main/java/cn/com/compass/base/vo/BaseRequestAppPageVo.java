@@ -1,12 +1,8 @@
 package cn.com.compass.base.vo;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
 
 @Data
 public abstract class BaseRequestAppPageVo extends BaseDataX{

@@ -2,7 +2,6 @@ package cn.com.compass.activiti.behavior;
 
 import cn.com.compass.activiti.rule.RulesAgendaFilter;
 import cn.com.compass.activiti.rule.RulesHelper;
-import cn.com.compass.web.context.AppContext;
 import org.activiti.engine.delegate.BusinessRuleTaskDelegate;
 import org.activiti.engine.delegate.Expression;
 import org.activiti.engine.impl.bpmn.behavior.TaskActivityBehavior;
@@ -10,9 +9,7 @@ import org.activiti.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import org.activiti.engine.impl.pvm.delegate.ActivityExecution;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.kie.api.KieBase;
-import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
-
 
 import java.util.*;
 

@@ -1,16 +1,6 @@
 package cn.com.compass.autoconfig.jwt;
 
 
-import java.security.Key;
-import java.util.Date;
-
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
-
-import org.apache.commons.lang3.StringUtils;
-import org.joda.time.DateTime;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import cn.com.compass.base.constant.BaseConstant;
 import cn.com.compass.util.Base64;
 import io.jsonwebtoken.Claims;
@@ -21,6 +11,14 @@ import io.jsonwebtoken.impl.crypto.MacProvider;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateTime;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+import java.security.Key;
+import java.util.Date;
 
 /**
  * 

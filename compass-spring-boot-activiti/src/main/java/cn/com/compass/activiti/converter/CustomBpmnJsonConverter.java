@@ -3,11 +3,11 @@
  */
 package cn.com.compass.activiti.converter;
 
-import java.util.Map;
-
 import org.activiti.bpmn.model.BaseElement;
 import org.activiti.editor.language.json.converter.BaseBpmnJsonConverter;
 import org.activiti.editor.language.json.converter.BpmnJsonConverter;
+
+import java.util.Map;
 
 /**
  * @author wanmk

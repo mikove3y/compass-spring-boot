@@ -1,13 +1,5 @@
 package cn.com.compass.cache.listener;
 
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.Cache;
-import org.springframework.cache.CacheManager;
-import org.springframework.data.redis.connection.Message;
-import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
-
 import cn.com.compass.base.constant.BaseConstant;
 import cn.com.compass.base.exception.BaseException;
 import cn.com.compass.cache.enums.ChannelTopicEnum;
@@ -15,6 +7,13 @@ import cn.com.compass.cache.layering.LayeringCache;
 import cn.com.compass.cache.redis.serializer.KryoRedisSerializer;
 import cn.com.compass.util.JacksonUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
+import org.springframework.data.redis.connection.Message;
+import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
+
+import java.util.Map;
 
 /**
  * 

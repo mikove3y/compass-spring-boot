@@ -1,12 +1,8 @@
 package cn.com.compass.util;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-
 import org.apache.commons.lang3.StringUtils;
+
+import java.io.*;
 
 /**
  * 

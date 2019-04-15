@@ -1,18 +1,17 @@
 package cn.com.compass.cache.util;
 
+import cn.com.compass.base.constant.BaseConstant;
+import cn.com.compass.base.exception.BaseException;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Component;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Component;
-
-import cn.com.compass.base.constant.BaseConstant;
-import cn.com.compass.base.exception.BaseException;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * 

@@ -1,9 +1,8 @@
 package cn.com.compass.cache.listener;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.listener.ChannelTopic;
-
-import lombok.extern.slf4j.Slf4j;
 /**
  * 
  * @author wanmk

@@ -1,21 +1,11 @@
 package cn.com.compass.activiti.config;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.sql.DataSource;
-
 import cn.com.compass.activiti.factory.CustomActivityBehaviorFactory;
-import org.activiti.engine.DynamicBpmnService;
-import org.activiti.engine.FormService;
-import org.activiti.engine.HistoryService;
-import org.activiti.engine.IdentityService;
-import org.activiti.engine.ManagementService;
-import org.activiti.engine.ProcessEngine;
-import org.activiti.engine.ProcessEngineConfiguration;
-import org.activiti.engine.RepositoryService;
-import org.activiti.engine.RuntimeService;
-import org.activiti.engine.TaskService;
+import cn.com.compass.activiti.org.activiti.image.HMProcessDiagramGenerator;
+import cn.com.compass.base.constant.BaseConstant;
+import cn.com.compass.base.exception.BaseException;
+import lombok.extern.slf4j.Slf4j;
+import org.activiti.engine.*;
 import org.activiti.engine.delegate.event.ActivitiEventListener;
 import org.activiti.engine.impl.cfg.IdGenerator;
 import org.activiti.engine.impl.cfg.ProcessEngineConfigurationImpl;
@@ -30,10 +20,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 
-import cn.com.compass.activiti.org.activiti.image.HMProcessDiagramGenerator;
-import cn.com.compass.base.constant.BaseConstant;
-import cn.com.compass.base.exception.BaseException;
-import lombok.extern.slf4j.Slf4j;
+import javax.sql.DataSource;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 

@@ -1,12 +1,11 @@
 package cn.com.compass.web.convert;
 
-import java.util.Map;
-import java.util.WeakHashMap;
-
+import cn.com.compass.base.constant.IBaseBizStatusEnum;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.convert.converter.ConverterFactory;
 
-import cn.com.compass.base.constant.IBaseBizStatusEnum;
+import java.util.Map;
+import java.util.WeakHashMap;
 
 /**
  * 

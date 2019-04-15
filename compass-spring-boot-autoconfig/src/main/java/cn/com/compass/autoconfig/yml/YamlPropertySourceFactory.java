@@ -3,13 +3,13 @@
  */
 package cn.com.compass.autoconfig.yml;
 
-import java.io.IOException;
-
 import org.springframework.boot.env.PropertySourcesLoader;
 import org.springframework.core.env.PropertySource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.DefaultPropertySourceFactory;
 import org.springframework.core.io.support.EncodedResource;
+
+import java.io.IOException;
 
 /**
  * @author wanmk

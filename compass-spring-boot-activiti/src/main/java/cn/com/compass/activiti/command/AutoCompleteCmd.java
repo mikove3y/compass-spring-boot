@@ -3,8 +3,6 @@
  */
 package cn.com.compass.activiti.command;
 
-import java.util.Map;
-
 import org.activiti.engine.delegate.TaskListener;
 import org.activiti.engine.impl.context.Context;
 import org.activiti.engine.impl.identity.Authentication;
@@ -13,6 +11,8 @@ import org.activiti.engine.impl.interceptor.CommandContext;
 import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
 import org.activiti.engine.impl.persistence.entity.TaskEntity;
 import org.activiti.engine.task.IdentityLinkType;
+
+import java.util.Map;
 
 /**
  * @author wanmk

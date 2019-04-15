@@ -2,7 +2,6 @@ package cn.com.compass.autoconfig.async;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.core.task.TaskDecorator;
 
 /**
  * @author wanmk

@@ -9,7 +9,6 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
-import feign.RequestInterceptor;
 import org.apache.camel.CamelContext;
 import org.apache.camel.component.jackson.JacksonDataFormat;
 import org.apache.camel.spring.boot.CamelContextConfiguration;

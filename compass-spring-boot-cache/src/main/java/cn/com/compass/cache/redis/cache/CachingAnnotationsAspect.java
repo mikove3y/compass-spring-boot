@@ -1,14 +1,5 @@
 package cn.com.compass.cache.redis.cache;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.AnnotatedElement;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -20,6 +11,11 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.BridgeMethodResolver;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ClassUtils;
+
+import java.lang.annotation.Annotation;
+import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.Method;
+import java.util.*;
 
 
 /**

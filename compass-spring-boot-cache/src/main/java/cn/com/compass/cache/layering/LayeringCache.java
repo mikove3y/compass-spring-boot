@@ -1,18 +1,17 @@
 package cn.com.compass.cache.layering;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.Callable;
-
+import cn.com.compass.cache.enums.ChannelTopicEnum;
+import cn.com.compass.cache.listener.RedisPublisher;
+import cn.com.compass.cache.redis.cache.CustomizedRedisCache;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.caffeine.CaffeineCache;
 import org.springframework.cache.support.AbstractValueAdaptingCache;
 import org.springframework.cache.support.NullValue;
 import org.springframework.data.redis.core.RedisOperations;
 
-import cn.com.compass.cache.enums.ChannelTopicEnum;
-import cn.com.compass.cache.listener.RedisPublisher;
-import cn.com.compass.cache.redis.cache.CustomizedRedisCache;
-import lombok.extern.slf4j.Slf4j;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.Callable;
 
 /**
  * 

@@ -1,5 +1,9 @@
 package cn.com.compass.cache.config;
 
+import cn.com.compass.cache.enums.ChannelTopicEnum;
+import cn.com.compass.cache.listener.RedisMessageListener;
+import cn.com.compass.cache.redis.serializer.KryoRedisSerializer;
+import cn.com.compass.cache.redis.serializer.StringRedisSerializer;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.cache.interceptor.SimpleKeyGenerator;
@@ -9,11 +13,6 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
-
-import cn.com.compass.cache.enums.ChannelTopicEnum;
-import cn.com.compass.cache.listener.RedisMessageListener;
-import cn.com.compass.cache.redis.serializer.KryoRedisSerializer;
-import cn.com.compass.cache.redis.serializer.StringRedisSerializer;
 
 /**
  * 

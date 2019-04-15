@@ -1,10 +1,10 @@
 package cn.com.compass.base.vo;
 
-import java.io.Serializable;
-
 import cn.com.compass.base.constant.BaseConstant;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 
 @Getter
 @NoArgsConstructor

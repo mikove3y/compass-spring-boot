@@ -1,21 +1,18 @@
 package cn.com.compass.util;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Image;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.common.BitMatrix;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Hashtable;
-
-import javax.imageio.ImageIO;
-
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.EncodeHintType;
-import com.google.zxing.MultiFormatWriter;
-import com.google.zxing.common.BitMatrix;
 
 /**
  * 

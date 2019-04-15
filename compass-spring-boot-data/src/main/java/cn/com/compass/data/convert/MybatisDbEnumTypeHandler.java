@@ -1,14 +1,13 @@
 package cn.com.compass.data.convert;
 
+import cn.com.compass.base.constant.IBaseBizStatusEnum;
+import org.apache.ibatis.type.BaseTypeHandler;
+import org.apache.ibatis.type.JdbcType;
+
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import org.apache.ibatis.type.BaseTypeHandler;
-import org.apache.ibatis.type.JdbcType;
-
-import cn.com.compass.base.constant.IBaseBizStatusEnum;
 
 /**
  * 

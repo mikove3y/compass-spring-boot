@@ -1,13 +1,12 @@
 package cn.com.compass.cache.redis.serializer;
 
-import java.nio.charset.Charset;
-
+import cn.com.compass.util.JacksonUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.support.NullValue;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.SerializationException;
 
-import cn.com.compass.util.JacksonUtil;
-import lombok.extern.slf4j.Slf4j;
+import java.nio.charset.Charset;
 
 /**
  * 

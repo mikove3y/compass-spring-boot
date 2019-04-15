@@ -1,0 +1,21 @@
+# 应用名
+spring:
+  application:
+    name: compass-spring-boot-sample
+  profiles:
+    active:
+    - dev
+
+# constant 定义各个模块的常量枚举
+constant:
+  lang: cn
+  enums:
+    cn:
+      base-0001:   success
+      base-0002:   请求参数校验不通过
+      base-0003:   响应数据转json失败
+      base-0004:   系统参数不合法
+      base-0005:   系统内部错误
+      base-0006:   token信息获取失败
+      base-0007:   请求路径找不到404
+      base-0008:   服务不可用,正在处理中...

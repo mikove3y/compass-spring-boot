@@ -1,10 +1,10 @@
 package cn.com.compass.util;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
-
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * Description:

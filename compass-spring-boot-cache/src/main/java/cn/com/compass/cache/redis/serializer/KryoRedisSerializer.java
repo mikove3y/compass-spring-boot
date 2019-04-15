@@ -1,16 +1,14 @@
 package cn.com.compass.cache.redis.serializer;
 
-import java.io.ByteArrayOutputStream;
-
-import de.javakaffee.kryoserializers.SynchronizedCollectionsSerializer;
-import org.springframework.data.redis.serializer.RedisSerializer;
-import org.springframework.data.redis.serializer.SerializationException;
-
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
-
+import de.javakaffee.kryoserializers.SynchronizedCollectionsSerializer;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.serializer.RedisSerializer;
+import org.springframework.data.redis.serializer.SerializationException;
+
+import java.io.ByteArrayOutputStream;
 
 /**
  * 

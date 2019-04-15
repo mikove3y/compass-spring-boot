@@ -1,10 +1,5 @@
 package cn.com.compass.base.constant;
 
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-
-import org.apache.commons.beanutils.BeanUtilsBean;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -14,6 +9,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.IntNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.TextNode;
+import org.apache.commons.beanutils.BeanUtilsBean;
+
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * 

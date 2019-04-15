@@ -1,8 +1,8 @@
 package cn.com.compass.cache.redis.utils;
 
-import java.util.concurrent.ThreadPoolExecutor;
-
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * 
