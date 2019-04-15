@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>cn.com.compass</groupId>
 	<artifactId>compass-spring-boot</artifactId>
-	<version>1.3.0-SNAPSHOT</version>
+	<version>1.3.0</version>
 	<packaging>pom</packaging>
 	<name>compass-spring-boot</name>
 	<description>compass 基础boot架构</description>
@@ -33,7 +33,7 @@
 		<connection>scm:git:https://gitee.com/milkove/compass-spring-boot.git</connection>
 		<developerConnection>scm:git:git@gitee.com:milkove/compass-spring-boot.git</developerConnection>
 		<url>https://gitee.com/milkove/compass</url>
-		<tag>HEAD</tag>
+		<tag>v1.3.0</tag>
 	</scm>
 
 	<issueManagement>
@@ -43,7 +43,7 @@
 
 	<properties>
 		<!-- compass -->
-		<compss-boot.version>1.3.0-SNAPSHOT</compss-boot.version>
+		<compss-boot.version>1.3.0</compss-boot.version>
 		<!-- spring boot -->
 		<spring-boot.version>1.5.15.RELEASE</spring-boot.version>
 		<!-- spring cloud -->
