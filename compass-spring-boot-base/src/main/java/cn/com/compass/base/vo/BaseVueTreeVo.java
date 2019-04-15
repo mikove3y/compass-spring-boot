@@ -2,7 +2,9 @@ package cn.com.compass.base.vo;
 
 import java.io.Serializable;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 
@@ -14,6 +16,8 @@ import lombok.Data;
  *
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class BaseVueTreeVo implements Serializable{
 	
 	private static final long serialVersionUID = -4007798288234006756L;
@@ -38,17 +42,4 @@ public class BaseVueTreeVo implements Serializable{
 	 */
 	private BaseVueTreeVo[] children;
 	
-	public BaseVueTreeVo() {
-		
-	}
-	
-	public BaseVueTreeVo(Long id,String label) {
-		
-	}
-	
-	public BaseVueTreeVo(Long id,String label,Boolean disabled,Boolean isLeaf) {
-		
-	}
-	
-
 }

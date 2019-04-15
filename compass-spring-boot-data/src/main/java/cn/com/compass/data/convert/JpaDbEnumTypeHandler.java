@@ -27,7 +27,7 @@ import cn.com.compass.base.constant.IBaseBizStatusEnum;
 public class JpaDbEnumTypeHandler implements UserType, DynamicParameterizedType {
 
 	private Class enumClass;
-    private static final int[] SQL_TYPES = new int[]{Types.INTEGER};
+    private static final int[] SQL_TYPES = new int[]{Types.VARCHAR};
 
     @Override
     public void setParameterValues(Properties parameters) {
@@ -73,7 +73,7 @@ public class JpaDbEnumTypeHandler implements UserType, DynamicParameterizedType 
             return null;
         }
         for (Object object : enumClass.getEnumConstants()) {
-            if (Objects.equals(Integer.parseInt(value), ((IBaseBizStatusEnum) object).getCode())) {
+            if (Objects.equals(value, ((IBaseBizStatusEnum) object).getCode())) {
                 return object;
             }
         }
@@ -85,10 +85,10 @@ public class JpaDbEnumTypeHandler implements UserType, DynamicParameterizedType 
     public void nullSafeSet(PreparedStatement st, Object value, int index, SessionImplementor session) throws HibernateException, SQLException {
         if (value == null) {
             st.setNull(index, SQL_TYPES[0]);
-        } else if (value instanceof Integer) {
-            st.setInt(index, (Integer) value);
+        } else if (value instanceof String) {
+            st.setString(index, (String) value);
         } else {
-            st.setInt(index, ((IBaseBizStatusEnum) value).getCode());
+            st.setString(index, ((IBaseBizStatusEnum) value).getCode());
         }
     }
 

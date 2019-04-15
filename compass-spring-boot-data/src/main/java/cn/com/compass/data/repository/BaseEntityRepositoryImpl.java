@@ -1,13 +1,12 @@
 package cn.com.compass.data.repository;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
+import cn.com.compass.base.vo.BaseRequestAppPageVo;
+import cn.com.compass.base.vo.BaseRequestPcPageVo;
+import cn.com.compass.base.vo.BaseResponseAppPageVo;
+import cn.com.compass.base.vo.BaseResponsePcPageVo;
+import cn.com.compass.data.annotation.LogicDelete;
+import cn.com.compass.data.entity.BaseEntity;
+import cn.com.compass.data.util.PageTransformUtil;
 import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
@@ -20,17 +19,13 @@ import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import cn.com.compass.base.annotation.LogicDelete;
-import cn.com.compass.base.constant.BaseConstant;
-import cn.com.compass.base.entity.BaseEntity;
-import cn.com.compass.base.exception.BaseException;
-import cn.com.compass.base.vo.AppPage;
-import cn.com.compass.base.vo.BaseDataX;
-import cn.com.compass.base.vo.BaseRequestAppPageVo;
-import cn.com.compass.base.vo.BaseRequestPcPageVo;
-import cn.com.compass.base.vo.PcPage;
-import cn.com.compass.data.util.PageTransformUtil;
-import cn.com.compass.util.DataXUtil;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 
@@ -43,8 +38,8 @@ import cn.com.compass.util.DataXUtil;
  *
  */
 @Transactional(readOnly = true)
-public class BaseEntityRepositoryImpl<T extends BaseEntity> extends SimpleJpaRepository<T, Long>
-		implements BaseEntityRepository<T> {
+public class BaseEntityRepositoryImpl<T extends BaseEntity,PK extends Serializable> extends SimpleJpaRepository<T, PK>
+		implements BaseEntityRepository<T,PK> {
 
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -53,8 +48,8 @@ public class BaseEntityRepositoryImpl<T extends BaseEntity> extends SimpleJpaRep
 	
 	private boolean isLogicDelete = false;
 	
-	@Value("${spring.jpa.open-logic-delete:false}")
-	private boolean openLogicDelete = false;
+	@Value("${spring.jpa.openLogicDelete:false}")
+	private boolean openLogicDelete;
 
 	public BaseEntityRepositoryImpl(Class<T> domainClass, EntityManager entityManager) {
 		super(domainClass, entityManager);
@@ -124,7 +119,7 @@ public class BaseEntityRepositoryImpl<T extends BaseEntity> extends SimpleJpaRep
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public boolean deleteById(Long id) {
+	public boolean deleteById(PK id) {
 		Assert.notNull(id, "deleteById->The given id not be null!");
 		if(this.isLogicDelete&&this.openLogicDelete) {
 			this.updateOne(this.findById(id));
@@ -140,7 +135,7 @@ public class BaseEntityRepositoryImpl<T extends BaseEntity> extends SimpleJpaRep
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public boolean deleteByIds(List<Long> ids) {
+	public boolean deleteByIds(List<PK> ids) {
 		Assert.notEmpty(ids, "deleteByIds->The given ids not be empty!");
 		List<T> ts = this.findByIds(ids);
 		if(this.isLogicDelete&&this.openLogicDelete) {
@@ -203,30 +198,6 @@ public class BaseEntityRepositoryImpl<T extends BaseEntity> extends SimpleJpaRep
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see cn.com.compass.data.service.IBaseEntityService#updateOneByParams(java.io.
-	 * Serializable, java.util.Map)
-	 */
-	@Override
-	@Transactional(rollbackFor = Exception.class)
-	public T updateOneByParams(Long id, Map<String, Object> params) {
-		Assert.notEmpty(params, "updateOneByParams->The given map of params not be empty!");
-		try {
-			T ot = this.findById(id);
-			if(ot==null) {
-				throw new BaseException(BaseConstant.ILLEGAL_ARGUMENT, "can not find entity of " + entityClass.getName() + " by id = " + id );
-			}
-			T nt = entityClass.newInstance();
-			nt.setId(ot.getId());
-			DataXUtil.copyProperties(params, nt, null);
-			return this.updateOne(nt);
-		} catch (Exception e) {
-			throw new BaseException(BaseConstant.ILLEGAL_ARGUMENT, e);
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see cn.com.compass.data.service.IBaseEntityService#updateBatch(java.util.List)
 	 */
 	@Override
@@ -239,45 +210,10 @@ public class BaseEntityRepositoryImpl<T extends BaseEntity> extends SimpleJpaRep
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * cn.com.compass.data.service.IBaseEntityService#updateBatchByParams(java.util.List,
-	 * java.util.List)
-	 */
-	@Override
-	@Transactional(rollbackFor = Exception.class)
-	public List<T> updateBatchByParams(List<Long> ids, List<Map<String, Object>> params) {
-		Assert.noNullElements(new Object[] { ids, params }, "updateBatchByParams->The given Collection of ids & params not be empty!");
-		List<T> rs = new ArrayList<>();
-		if (params.size() == ids.size()) {
-			try {
-				List<T> upl = new ArrayList<>();
-				for (int i = 0; i < ids.size(); i++) {
-					T ot = this.findById(ids.get(i));
-					if(ot==null) {
-						throw new BaseException(BaseConstant.ILLEGAL_ARGUMENT, "can not find entity of " + entityClass.getName() + " by id = " + ids.get(i) );
-					}
-					T nt = entityClass.newInstance();
-					nt.setId(ot.getId());
-					DataXUtil.copyProperties(params.get(i), nt, null);
-					upl.add(nt);
-				}
-				rs = this.updateBatch(upl);
-			} catch (Exception e) {
-				throw new BaseException(BaseConstant.ILLEGAL_ARGUMENT, e);
-			}
-		}else {
-			throw new BaseException(BaseConstant.ILLEGAL_ARGUMENT, "ids's length is not equals params's length");
-		}
-		return rs;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see cn.com.compass.data.service.IBaseEntityService#findById(java.io.Serializable)
 	 */
 	@Override
-	public T findById(Long id) {
+	public T findById(PK id) {
 		Assert.notNull(id, "findById->The given id not be null!");
 		return this.findOne(id);
 	}
@@ -298,7 +234,7 @@ public class BaseEntityRepositoryImpl<T extends BaseEntity> extends SimpleJpaRep
 	 * @see cn.com.compass.data.service.IBaseEntityService#findByIds(java.util.List)
 	 */
 	@Override
-	public List<T> findByIds(List<Long> ids) {
+	public List<T> findByIds(List<PK> ids) {
 		Assert.notEmpty(ids, "findByIds->The given ids not be empty!");
 		return this.findAll(ids);
 	}
@@ -321,44 +257,37 @@ public class BaseEntityRepositoryImpl<T extends BaseEntity> extends SimpleJpaRep
 	 * BaseRequestPageVo)
 	 */
 	@Override
-	public PcPage<T> findPcPage(BaseRequestPcPageVo pageVo, Specification<T> spec) {
+	public BaseResponsePcPageVo<T> findPcPage(BaseRequestPcPageVo pageVo, Specification<T> spec) {
 		Assert.noNullElements(new Object[] { pageVo, spec }, "findPcPage->The given pageVo & spec not be null!");
-		// order columns
-		Map<String, String> om = pageVo.getOrders();
-		// build orders
-		List<Order> orders = new ArrayList<>();
-		for (Map.Entry<String, String> entry : om.entrySet()) {
-			String orderCol = entry.getKey();
-			String orderVal = entry.getValue();
-			Order order = new Order(BaseDataX.ORDER_ASC.equals(orderVal) ? Direction.ASC : Direction.DESC, orderCol);
-			orders.add(order);
-		}
-		// build sort
-		Sort sort = new Sort(orders);
 		// do query page
 		Pageable pageRequest = new PageRequest(pageVo.getPageNo() >= 1 ? pageVo.getPageNo() - 1 : 0,
-				pageVo.getPageSize(), sort);
+				pageVo.getPageSize(), this.buildSort(pageVo.orders()));
 		// transform jpa page to frameWork pc-page
 		return PageTransformUtil.transformJpaPage2PcPage(this.findAll(spec, pageRequest));
 	}
-	
-	@Override
-	public AppPage<T> findAppPage(BaseRequestAppPageVo pageVo, Specification<T> spec) {
-		Assert.noNullElements(new Object[] { pageVo, spec }, "findAppPage->The given pageVo & spec not be null!");
-		// order columns
-		Map<String,String> ors = pageVo.getOrders();
-		// build orders
+
+	/**
+	 * 构造排序
+	 * @param orderMap
+	 * @return
+	 */
+	private Sort buildSort(Map<String,Boolean> orderMap){
 		List<Order> orders = new ArrayList<>();
-		for(Map.Entry<String,String> entry : ors.entrySet()){
-			String orderCol = entry.getKey();
-			String orderVal = entry.getValue();
-			Order order = new Order(BaseDataX.ORDER_ASC.equals(orderVal) ? Direction.ASC : Direction.DESC, orderCol);
-			orders.add(order);
+		if(MapUtils.isNotEmpty(orderMap)){
+			for(Map.Entry<String,Boolean> en : orderMap.entrySet()){
+				Order order = new Order((en.getValue() ? Direction.ASC : Direction.DESC), en.getKey());
+				orders.add(order);
+			}
 		}
 		// build sort
-		Sort sort = new Sort(orders);
+		return new Sort(orders);
+	}
+	
+	@Override
+	public BaseResponseAppPageVo<T> findAppPage(BaseRequestAppPageVo pageVo, Specification<T> spec) {
+		Assert.noNullElements(new Object[] { pageVo, spec }, "findAppPage->The given pageVo & spec not be null!");
 		// do query page
-		Pageable pageRequest = new PageRequest(0, pageVo.getPageSize(), sort);
+		Pageable pageRequest = new PageRequest(0, pageVo.getPageSize(), this.buildSort(pageVo.orders()));
 		// transform jpa page to frameWork app-page
 		return PageTransformUtil.transformJpaPage2AppPage(this.findAll(spec, pageRequest),pageVo);
 	}
@@ -383,6 +312,5 @@ public class BaseEntityRepositoryImpl<T extends BaseEntity> extends SimpleJpaRep
 	public EntityManager entityManager() {
 		return entityManager;
 	}
-	
 
 }

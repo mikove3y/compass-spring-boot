@@ -49,7 +49,7 @@ public class MybatisDbEnumTypeHandler<E extends IBaseBizStatusEnum> extends Base
     public E getNullableResult(ResultSet rs, String columnName)  
             throws SQLException {  
         // 根据数据库存储类型决定获取类型，本例子中数据库中存放Integer类型  
-    	Integer i = rs.getInt(columnName);  
+    	String i = rs.getString(columnName);
         if (rs.wasNull()) {  
             return null;  
         } else {  
@@ -62,7 +62,7 @@ public class MybatisDbEnumTypeHandler<E extends IBaseBizStatusEnum> extends Base
     public E getNullableResult(ResultSet rs, int columnIndex)  
             throws SQLException {  
         // 根据数据库存储类型决定获取类型，本例子中数据库中存放Integer类型  
-    	Integer i = rs.getInt(columnIndex);  
+    	String i = rs.getString(columnIndex);
         if (rs.wasNull()) {  
             return null;  
         } else {  
@@ -75,7 +75,7 @@ public class MybatisDbEnumTypeHandler<E extends IBaseBizStatusEnum> extends Base
     public E getNullableResult(CallableStatement cs, int columnIndex)  
             throws SQLException {  
         // 根据数据库存储类型决定获取类型，本例子中数据库中存放Integer类型  
-        Integer i = cs.getInt(columnIndex);  
+        String i = cs.getString(columnIndex);
         if (cs.wasNull()) {  
             return null;  
         } else {  
@@ -89,7 +89,7 @@ public class MybatisDbEnumTypeHandler<E extends IBaseBizStatusEnum> extends Base
      * @param value 数据库中存储的自定义value属性 
      * @return value对应的枚举类 
      */  
-    private E locateEnumStatus(Integer value) {  
+    private E locateEnumStatus(String value) {
     	return IBaseBizStatusEnum.fromCode(type, value);
     } 
 

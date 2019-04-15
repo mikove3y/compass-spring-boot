@@ -10,7 +10,6 @@ import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
  * @date 2018年6月6日 下午3:51:13
  * @since v1.1.2 sharding-jdbc自动实现了读写分离 master-slave分离，不在使用自定义方式切换数据源
  */
-@Deprecated 
 public class DynamicDsRouting extends AbstractRoutingDataSource{
 
 	@Override

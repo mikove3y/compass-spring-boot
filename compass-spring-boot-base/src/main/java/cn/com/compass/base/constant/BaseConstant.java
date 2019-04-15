@@ -12,50 +12,19 @@ package cn.com.compass.base.constant;
 public interface BaseConstant {
 	
 	/**
-	 * 放在request Attribute中传递参数用，用于记录日志操作人，用于处理jpa公共字段操作人等信息
-	 */
-	public static final String REQUEST_SUBJECT_ATTRIBUTE_KEY = "BaseSubject";
-	/**
 	 * 放在request头中的权限key
 	 */
 	public static final String AUTHORIZATION_KEY = "Authorization";
-	/**
-	 * 针对短信验证系统
-	 * captcha短信验证鉴权
-	 */
-	public static final String AUTHORIZATION_VALUE_CAPTCHA_PREFIX = "Captcha ";
-	/**
-	 * 针对架构内异构系统
-	 * archAtuh方式鉴权，匹配base64
-	 */
-	public static final String AUTHORIZATION_VALUE_ARCH_PREFIX = "Arch ";
-	/**
-	 * 针对入驻公司异构系统
-	 * basicAuth方式鉴权，匹配base64
-	 */
-	public static final String AUTHORIZATION_VALUE_BASIC_PREFIX = "Basic ";
 	/**
 	 * 针对本平台系统
 	 * auth2.0方式鉴权，匹配jwt-token
 	 */
 	public static final String AUTHORIZATION_VALUE_BEARER_PREFIX = "Bearer ";
 	/**
-	 * 系统编码
-	 */
-	public static final String SYSTEMCODE = "SystemCode";
-	/**
 	 * 全局消息Id
 	 */
-	public static final String MESSAGEID = "messageId";
-	/**
-	 * 角色权限power 全局redis缓存
-	 */
-	public static final String ROLE_POWER_KEY = "rolePower";
-	/**
-	 * 子系统key 全局redis缓存
-	 */
-	public static final String SUB_SYSTEM_KEY = "subSystem";
-	
+	public static final String MESSAGE_ID = "MessageId";
+
 	// yml constant 配置
 	
 	/**

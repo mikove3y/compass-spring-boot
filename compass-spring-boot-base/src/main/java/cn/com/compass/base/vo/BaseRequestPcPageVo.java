@@ -1,10 +1,6 @@
 package cn.com.compass.base.vo;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import cn.com.compass.base.entity.BaseEntity;
-import cn.com.compass.util.DataXUtil;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,9 +13,8 @@ import lombok.Setter;
  * @date 2018年6月6日 下午2:47:26
  *
  */
-@Getter
-@Setter
-public class BaseRequestPcPageVo extends BaseDataX{
+@Data
+public abstract class BaseRequestPcPageVo extends BaseDataX{
 
 	private static final long serialVersionUID = 8464373602146221705L;
 	/**
@@ -30,29 +25,19 @@ public class BaseRequestPcPageVo extends BaseDataX{
 	 * 页条数
 	 */
 	private Integer pageSize = 20;
+
 	/**
-	 * 排序字段以及升降序 </br>
-	 * key: order colum default createTime </br>
-	 * value: isAsc default false </br>
+	 * 添加转换字段
 	 */
-	private Map<String,String> orders = new HashMap<>();
+//	public void addSource2TargetProperties() {
+//		source2TargetProperties().putAll();
+//	}
+
 	/**
-	 * default order by column createTime false
-	 * 
-	 * @return
+	 * 添加排序字段
 	 */
-	public Map<String,String> getOrders() {
-		if(orders.isEmpty()) {
-			orders.put(BaseEntity.CREATETIME, ORDER_DESC);
-		}
-		if(this.getCamel2Underline()) {
-			Map<String,String> underlineOrders = new HashMap<>();
-			for(Map.Entry<String,String> en : orders.entrySet()) {
-				underlineOrders.put(DataXUtil.camelToUnderline(en.getKey()), en.getValue());
-			}
-			this.orders = underlineOrders;
-		}
-		return orders;
-	}
+//	public void addOrder() {
+//		orders().put("id",true);
+//	}
 
 }

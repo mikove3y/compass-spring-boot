@@ -37,10 +37,10 @@ public class BaseBizStatusEnumDeserializer extends JsonDeserializer<IBaseBizStat
 			Class findPropertyType = BeanUtilsBean.getInstance().getPropertyUtils().getPropertyType(currentValue, currentName);
 			JsonFormat annotation = (JsonFormat) findPropertyType.getAnnotation(JsonFormat.class);
 			if(node instanceof IntNode || node instanceof TextNode) {
-				valueOf = IBaseBizStatusEnum.fromCode(findPropertyType, node.asInt());
+				valueOf = IBaseBizStatusEnum.fromCode(findPropertyType, node.asText());
 			}else if(node instanceof ObjectNode) {
 				if(node.has(IBaseBizStatusEnum.CODE)) {
-					valueOf = IBaseBizStatusEnum.fromCode(findPropertyType, node.get(IBaseBizStatusEnum.CODE).asInt());
+					valueOf = IBaseBizStatusEnum.fromCode(findPropertyType, node.get(IBaseBizStatusEnum.CODE).asText());
 				}
 			}
 		} catch (IllegalAccessException e) {

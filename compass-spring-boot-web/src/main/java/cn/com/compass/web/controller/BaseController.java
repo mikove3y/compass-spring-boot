@@ -1,16 +1,10 @@
 package cn.com.compass.web.controller;
 
-import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
-
+import cn.com.compass.base.constant.BaseConstant;
+import cn.com.compass.base.exception.BaseException;
+import cn.com.compass.base.vo.BaseResponseVo;
+import cn.com.compass.util.JacksonUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,11 +14,15 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.servlet.View;
 
-import cn.com.compass.base.constant.BaseConstant;
-import cn.com.compass.base.exception.BaseException;
-import cn.com.compass.base.vo.BaseResponseVo;
-import cn.com.compass.util.JacksonUtil;
-import lombok.extern.slf4j.Slf4j;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
+import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 /**
  * 
  * @author wanmk
@@ -139,7 +137,7 @@ public abstract class BaseController {
 	 * 
 	 * @param rs
 	 */
-	public void printResonpseJson(Object rs) {
+	public void printResponseJson(Object rs) {
 		PrintWriter writer = null;
 		try {
 			response.setContentType(MediaType.APPLICATION_JSON_UTF8.toString());

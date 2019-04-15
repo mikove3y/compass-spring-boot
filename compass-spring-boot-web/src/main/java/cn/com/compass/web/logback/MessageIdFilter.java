@@ -1,6 +1,7 @@
 package cn.com.compass.web.logback;
 
 import cn.com.compass.base.constant.BaseConstant;
+import cn.com.compass.base.context.BaseSubjectContext;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.Ordered;
@@ -90,7 +91,8 @@ public class MessageIdFilter implements Filter, Ordered {
             initMDC((HttpServletRequest) request);
             chain.doFilter(request, response);
         }finally {
-            MDC.remove(BaseConstant.MESSAGEID);
+            MDC.remove(BaseConstant.MESSAGE_ID);
+            BaseSubjectContext.clearBaseSubject();
         }
     }
 
@@ -117,8 +119,8 @@ public class MessageIdFilter implements Filter, Ordered {
      * @param request
      */
     private void initMDC(HttpServletRequest request) {
-        String messageId = request.getHeader(BaseConstant.MESSAGEID)!=null?request.getHeader(BaseConstant.MESSAGEID):UUID.randomUUID().toString();
-        MDC.put(BaseConstant.MESSAGEID, application +" "+appAddress+" " +messageId);
+        String messageId = request.getHeader(BaseConstant.MESSAGE_ID)!=null?request.getHeader(BaseConstant.MESSAGE_ID):UUID.randomUUID().toString();
+        MDC.put(BaseConstant.MESSAGE_ID, application +" "+appAddress+" " +messageId);
     }
 
     /**

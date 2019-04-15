@@ -18,7 +18,6 @@ import java.lang.annotation.Target;
 @Documented
 @Retention(RUNTIME)
 @Target(METHOD)
-@Deprecated  
 public @interface DynamicDs {
 	String target();
 }

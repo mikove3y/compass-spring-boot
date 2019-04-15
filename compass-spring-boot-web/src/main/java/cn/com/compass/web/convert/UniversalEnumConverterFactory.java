@@ -30,7 +30,7 @@ public class UniversalEnumConverterFactory implements ConverterFactory<String, I
 	public <T extends IBaseBizStatusEnum> Converter<String, T> getConverter(Class<T> targetType) {
 		Converter result = converterMap.get(targetType);
 		if (result == null) {
-			result = new IntegerStrToEnum<T>(targetType);
+			result = new StringToEnum<T>(targetType);
 			converterMap.put(targetType, result);
 		}
 		return result;
@@ -45,17 +45,17 @@ public class UniversalEnumConverterFactory implements ConverterFactory<String, I
 	 * @date 2018年6月7日 下午2:25:12
 	 *
 	 */
-	private class IntegerStrToEnum<T extends IBaseBizStatusEnum> implements Converter<String, T> {
+	private class StringToEnum<T extends IBaseBizStatusEnum> implements Converter<String, T> {
 
 		private final Class<T> targerType;
 
-		public IntegerStrToEnum(Class<T> targerType) {
+		public StringToEnum(Class<T> targerType) {
 			this.targerType = targerType;
 		}
 
 		@Override
 		public T convert(String source) {
-			return IBaseBizStatusEnum.fromCode(targerType, Integer.valueOf(source));
+			return IBaseBizStatusEnum.fromCode(targerType, source);
 		}
 	}
 

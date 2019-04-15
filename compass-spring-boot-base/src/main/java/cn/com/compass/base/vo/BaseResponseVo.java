@@ -4,8 +4,10 @@ import java.io.Serializable;
 
 import cn.com.compass.base.constant.BaseConstant;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class BaseResponseVo<T> implements Serializable {
 
 	private static final long serialVersionUID = -4308759780635946860L;
@@ -19,10 +21,6 @@ public class BaseResponseVo<T> implements Serializable {
 	private String error;
 
 	private T data;
-	
-	public BaseResponseVo() {
-		
-	}
 	
 	public BaseResponseVo(String status) {
 		this.status = status;

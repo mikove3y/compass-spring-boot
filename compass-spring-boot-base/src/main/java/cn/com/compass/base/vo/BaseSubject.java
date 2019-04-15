@@ -1,151 +1,32 @@
 package cn.com.compass.base.vo;
 
-import java.io.Serializable;
-import java.util.List;
-
-import cn.com.compass.base.constant.BaseConstant;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import cn.com.compass.base.constant.IBaseBizStatusEnum;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * 
  * @author wanmk
  * @git https://gitee.com/milkove
  * @email 524623302@qq.com
  * @todo 用户subject
  * @date 2018年6月27日 下午2:34:00
- *
  */
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class BaseSubject implements Serializable {
 
-	private static final long serialVersionUID = -5471963320229357457L;
-	/**
-	 * 用户Id
-	 */
-	private Long userId;
-	/**
-	 * 组织Id
-	 */
-	private Long orgId;
-	/**
-	 * 用户账号
-	 */
-	private String account;
-	/**
-	 * 用户名
-	 */
-	private String userName;
-	/**
-	 * 用户角色
-	 */
-	private List<Long> authorities;
-	/**
-	 * 用户技能
-	 */
-	private List<Long> skills;
-	/**
-	 * 客户端类型
-	 */
-	private ClientType clientType;
-	/**
-	 * 授权类型
-	 */
-	private String grantType;
-	
-	
-	public BaseSubject() {
-		
-	}
-	
-	public BaseSubject(Long userId,Long orgId,String account,String userName,ClientType clientType,List<Long> authorities,List<Long> skills,String grantType) {
-		this.userId = userId;
-		this.orgId = orgId;
-		this.account = account;
-		this.userName = userName;
-		this.clientType = clientType;
-		this.authorities = authorities;
-		this.skills = skills;
-		this.grantType = grantType;
-	}
-	
-	/**
-	 * 客户端类型枚举
-	 */
-	public enum ClientType implements IBaseBizStatusEnum{
-		APP(1, "APP"), PC(2, "PC"),ALL(3,"ALL");
-		private final Integer code;
-
-		private final String des;
-		
-		private ClientType(Integer code,String des) {
-			this.code= code;
-			this.des = des;
-		}
-		@Override
-		public Integer getCode() {
-			return code;
-		}
-		
-		@Override
-		public String getDes() {
-			return des;
-		}
-		
-	}
-	/**
-	 * 授权码key
-	 */
-	public static final String GREANT_ACCESS_TOKEN = "accessToken";
-	/**
-	 * 刷新码key
-	 */
-	public static final String GRANT_REFRESH_TOKEN = "refreshToken";
-	/**
-	 * 获取AccessToken 缓存key
-	 * @return
-	 */
-	@JsonIgnore
-	public String getAccessTokenCacheKey() {
-		return this.getAccount()+":"+this.getClientType()+":"+GREANT_ACCESS_TOKEN;
-	}
-	
-	/**
-	 * 获取RefreshToken 缓存key
-	 * @return
-	 */
-	@JsonIgnore
-	public String getRefreshTokenCacheKey() {
-		return this.getAccount()+":"+this.getClientType()+":"+GRANT_REFRESH_TOKEN;
-	}
-
+    private static final long serialVersionUID = -5471963320229357457L;
     /**
-     * 获取basic 缓存key
-     * @return
+     * 用户Id
      */
-	@JsonIgnore
-	public String getBasicTokenCacheKey() {
-	    return this.getAccount()+":"+this.getClientType()+":"+BaseConstant.AUTHORIZATION_VALUE_BASIC_PREFIX;
-    }
-
+    private Serializable userId;
     /**
-     * 获取arch 缓存key
-     * @return
+     * 扩展信息
      */
-    @JsonIgnore
-    public String getArchTokenCacheKey() {
-        return this.getAccount()+":"+this.getClientType()+":"+BaseConstant.AUTHORIZATION_VALUE_ARCH_PREFIX;
-    }
+    private Object extra;
 
-    /**
-     * 获取Captcha 缓存key
-     * @return
-     */
-    public String getCaptchaTokenCacheKey() {
-        return this.getAccount()+":"+this.getClientType()+":"+BaseConstant.AUTHORIZATION_VALUE_CAPTCHA_PREFIX;
-    }
 }

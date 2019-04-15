@@ -25,7 +25,6 @@ import cn.com.compass.data.dynamic.DynamicDsSwitch;
  */
 @Aspect
 @Component
-@Deprecated 
 public class DynamicDsAspect {
 
 	private ThreadLocal<String> hodler = new ThreadLocal<>();
@@ -45,14 +44,12 @@ public class DynamicDsAspect {
 	@AfterReturning(returning = "ret", pointcut = "DynamicDsPointCut()")
 	public void afterReturn(Object ret) {
 		DynamicDsSwitch.setDataSourceType(hodler.get());
-		hodler.set(null);
 		hodler.remove();
 	}
 
 	@AfterThrowing(pointcut = "DynamicDsPointCut()", throwing = "e")
 	public void afterThrowing(JoinPoint call, Throwable e) {
 		DynamicDsSwitch.setDataSourceType(hodler.get());
-		hodler.set(null);
 		hodler.remove();
 	}
 

@@ -2,8 +2,7 @@ package cn.com.compass.base.vo;
 
 import java.io.Serializable;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 /**
  * 
@@ -14,8 +13,7 @@ import lombok.Setter;
  * @date 2018年8月7日 下午7:48:21
  *
  */
-@Getter
-@Setter
+@Data
 public class BaseErroVo implements Serializable {
 
 	private static final long serialVersionUID = -1250873387694075563L;

@@ -23,7 +23,7 @@ public interface IBaseBizStatusEnum {
 	 * code
 	 * @return
 	 */
-	public Integer getCode();
+	public String getCode();
 	/**
 	 * 描述
 	 * @return
@@ -48,7 +48,7 @@ public interface IBaseBizStatusEnum {
 	 * @param code
 	 * @return
 	 */
-	public static <T extends IBaseBizStatusEnum> T fromCode(Class<T> enumType, Integer code) {
+	public static <T extends IBaseBizStatusEnum> T fromCode(Class<T> enumType, String code) {
         for (T object : enums(enumType)) {
             if (Objects.equals(code, object.getCode())) {
                 return object;
@@ -60,7 +60,7 @@ public interface IBaseBizStatusEnum {
 	/**
 	 * 按枚举的desc获取枚举实例
 	 * @param enumType
-	 * @param desc
+	 * @param des
 	 * @return
 	 */
 	public static <T extends IBaseBizStatusEnum> T fromDes(Class<T> enumType, String des) {

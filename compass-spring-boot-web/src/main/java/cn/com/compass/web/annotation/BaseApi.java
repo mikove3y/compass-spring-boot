@@ -1,13 +1,10 @@
 package cn.com.compass.web.annotation;
 
-import org.springframework.core.annotation.AliasFor;
-
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
@@ -49,5 +46,11 @@ public @interface BaseApi {
      * @return
      */
     boolean printLog() default true;
+
+    /**
+     * 日志持久化服务别名 @see cn.com.compass.web.logback.BaseLogPersistence
+     * @return
+     */
+    String persistenceQualifier() default "";
 
 }

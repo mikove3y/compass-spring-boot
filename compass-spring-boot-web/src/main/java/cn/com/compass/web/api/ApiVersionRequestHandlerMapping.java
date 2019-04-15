@@ -24,10 +24,11 @@ public class ApiVersionRequestHandlerMapping extends RequestMappingHandlerMappin
      */
     @Override
     protected RequestCondition<?> getCustomTypeCondition(Class<?> handlerType) {
-        BaseApi apiVersion = AnnotationUtils.findAnnotation(handlerType, BaseApi.class);
-        if(apiVersion!=null&&apiVersion.versionManage()){
-            return new ApiVersionCondition(apiVersion.version());
-        }
+        // BaseApi不注解在方法上
+//        BaseApi apiVersion = AnnotationUtils.findAnnotation(handlerType, BaseApi.class);
+//        if(apiVersion!=null&&apiVersion.versionManage()){
+//            return new ApiVersionCondition(apiVersion.version());
+//        }
         return super.getCustomTypeCondition(handlerType);
     }
 

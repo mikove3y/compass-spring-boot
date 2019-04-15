@@ -3,8 +3,7 @@ package cn.com.compass.base.vo;
 import java.io.Serializable;
 import java.util.List;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 /**
  * 
@@ -15,8 +14,9 @@ import lombok.Setter;
  * @date 2018年8月14日 下午12:21:40
  *
  */
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class BaseLevelTreeResponseVo<V extends BaseLevelTreeResponseVo<V>> implements Serializable {
 
 	private static final long serialVersionUID = -2210097770425272702L;

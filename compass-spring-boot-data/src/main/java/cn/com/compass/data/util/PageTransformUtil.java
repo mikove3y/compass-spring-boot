@@ -1,16 +1,14 @@
 package cn.com.compass.data.util;
 
+import cn.com.compass.base.constant.BaseConstant;
+import cn.com.compass.base.exception.BaseException;
+import cn.com.compass.base.vo.BaseRequestAppPageVo;
+import cn.com.compass.base.vo.BaseResponseAppPageVo;
+import cn.com.compass.base.vo.BaseResponsePcPageVo;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.BeanUtilsBean2;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.math.NumberUtils;
-
-import cn.com.compass.base.constant.BaseConstant;
-import cn.com.compass.base.exception.BaseException;
-import cn.com.compass.base.vo.AppPage;
-import cn.com.compass.base.vo.BaseDataX;
-import cn.com.compass.base.vo.BaseRequestAppPageVo;
-import cn.com.compass.base.vo.PcPage;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author wanmk
@@ -28,10 +26,10 @@ public class PageTransformUtil {
 	 * @param jpaPage
 	 * @return
 	 */
-	public static <T> AppPage<T> transformJpaPage2AppPage(
+	public static <T> BaseResponseAppPageVo<T> transformJpaPage2AppPage(
 			org.springframework.data.domain.Page<T> jpaPage,BaseRequestAppPageVo pageVo) {
 		try {
-			AppPage<T> result = new AppPage<>();
+			BaseResponseAppPageVo<T> result = new BaseResponseAppPageVo<>();
 			result.setTotal(jpaPage.getTotalElements());
 			result.setRecords(jpaPage.getContent());
 			result.setSize(jpaPage.getSize());
@@ -58,9 +56,9 @@ public class PageTransformUtil {
 	 * @param jpaPage
 	 * @return
 	 */
-	public static <T> PcPage<T> transformJpaPage2PcPage(
+	public static <T> BaseResponsePcPageVo<T> transformJpaPage2PcPage(
 			org.springframework.data.domain.Page<T> jpaPage) {
-		PcPage<T> result = new PcPage<>();
+		BaseResponsePcPageVo<T> result = new BaseResponsePcPageVo<>();
 		result.setTotal(jpaPage.getTotalElements());
 		result.setRecords(jpaPage.getContent());
 		result.setCurrent(jpaPage.getNumber());
@@ -73,10 +71,10 @@ public class PageTransformUtil {
 	 * @param mybatisPage
 	 * @return
 	 */
-	public static <T> AppPage<T> transformMybtaisPage2AppPage(
+	public static <T> BaseResponseAppPageVo<T> transformMybtaisPage2AppPage(
 			com.github.pagehelper.Page<T> mybatisPage,BaseRequestAppPageVo pageVo) {
 		try {
-			AppPage<T> result = new AppPage<>();
+			BaseResponseAppPageVo<T> result = new BaseResponseAppPageVo<>();
 			result.setRecords(mybatisPage.getResult());
 			if(CollectionUtils.isNotEmpty(mybatisPage.getResult())) {
 				Object o = mybatisPage.getResult().get(mybatisPage.getResult().size()-1);
@@ -103,9 +101,9 @@ public class PageTransformUtil {
 	 * @param mybatisPage
 	 * @return
 	 */
-	public static <T> PcPage<T> transformMybtaisPage2PcPage(
+	public static <T> BaseResponsePcPageVo<T> transformMybtaisPage2PcPage(
 			com.github.pagehelper.Page<T> mybatisPage) {
-		PcPage<T> result = new PcPage<>();
+		BaseResponsePcPageVo<T> result = new BaseResponsePcPageVo<>();
 		result.setRecords(mybatisPage.getResult());
 		result.setCurrent(mybatisPage.getPageNum());
 		result.setSize(mybatisPage.getPageSize());

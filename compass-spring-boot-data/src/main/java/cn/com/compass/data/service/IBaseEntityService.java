@@ -1,15 +1,15 @@
 package cn.com.compass.data.service;
 
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.data.jpa.domain.Specification;
-
-import cn.com.compass.base.entity.BaseEntity;
-import cn.com.compass.base.vo.AppPage;
 import cn.com.compass.base.vo.BaseRequestAppPageVo;
 import cn.com.compass.base.vo.BaseRequestPcPageVo;
-import cn.com.compass.base.vo.PcPage;
+import cn.com.compass.base.vo.BaseResponseAppPageVo;
+import cn.com.compass.base.vo.BaseResponsePcPageVo;
+import cn.com.compass.data.entity.BaseEntity;
+import org.springframework.data.jpa.domain.Specification;
+
+import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 
@@ -20,7 +20,7 @@ import cn.com.compass.base.vo.PcPage;
  * @date 2018年6月6日 下午2:48:03
  *
  */
-public interface IBaseEntityService<T extends BaseEntity> {
+public interface IBaseEntityService<T extends BaseEntity,PK extends Serializable> {
 	// save entity
 	/**
 	 * save one
@@ -53,14 +53,14 @@ public interface IBaseEntityService<T extends BaseEntity> {
 	 * @param id
 	 * @return
 	 */
-	public boolean deleteById(Long id);
+	public boolean deleteById(PK id);
 	
 	/**
 	 * delet by ids
 	 * @param ids
 	 * @return
 	 */
-	public boolean deleteByIds(List<Long> ids);
+	public boolean deleteByIds(List<PK> ids);
 
 	/**
 	 * delete batch
@@ -95,23 +95,6 @@ public interface IBaseEntityService<T extends BaseEntity> {
 	 */
 	public List<T> updateBatch(List<T> entities);
 	
-	/**
-	 * update one by params
-	 * 
-	 * @param id
-	 * @param params
-	 * @return
-	 */
-	public T updateOneByParams(Long id, Map<String, Object> params);
-
-	/**
-	 * update batch by params
-	 * @param ids
-	 * @param params
-	 * @return
-	 */
-	public List<T> updateBatchByParams(List<Long> ids, List<Map<String, Object>> params);
-
 	// find entity
 	/**
 	 * find one by id
@@ -119,7 +102,7 @@ public interface IBaseEntityService<T extends BaseEntity> {
 	 * @param id
 	 * @return
 	 */
-	public T findById(Long id);
+	public T findById(PK id);
 	
 	/**
 	 * find one by spec
@@ -134,7 +117,7 @@ public interface IBaseEntityService<T extends BaseEntity> {
 	 * @param ids
 	 * @return
 	 */
-	public List<T> findByIds(List<Long> ids);
+	public List<T> findByIds(List<PK> ids);
 	
 	/**
 	 * find list by spec
@@ -155,14 +138,14 @@ public interface IBaseEntityService<T extends BaseEntity> {
 	 * @param spec
 	 * @return
 	 */
-	public PcPage<T> findPcPage(BaseRequestPcPageVo pageVo,Specification<T> spec);
+	public BaseResponsePcPageVo<T> findPcPage(BaseRequestPcPageVo pageVo, Specification<T> spec);
 	/**
 	 * find app page 按照dataId pageSize分页
 	 * @param pageVo
 	 * @param spec
 	 * @return
 	 */
-	public AppPage<T> findAppPage(BaseRequestAppPageVo pageVo,Specification<T> spec);
+	public BaseResponseAppPageVo<T> findAppPage(BaseRequestAppPageVo pageVo, Specification<T> spec);
 
 	// count
 	/**

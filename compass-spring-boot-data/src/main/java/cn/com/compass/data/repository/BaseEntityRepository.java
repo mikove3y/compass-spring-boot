@@ -1,13 +1,13 @@
 package cn.com.compass.data.repository;
 
-import javax.persistence.EntityManager;
-
+import cn.com.compass.data.entity.BaseEntity;
+import cn.com.compass.data.service.IBaseEntityService;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.NoRepositoryBean;
 
-import cn.com.compass.base.entity.BaseEntity;
-import cn.com.compass.data.service.IBaseEntityService;
+import javax.persistence.EntityManager;
+import java.io.Serializable;
 
 /**
  * 
@@ -19,8 +19,8 @@ import cn.com.compass.data.service.IBaseEntityService;
  * @since 1.1.14不在直接提供给Controller层直接调用，必须通过service继承{@link cn.com.compass.data.service.BaseEntityServiceImpl<T>}来实现数据操作
  */
 @NoRepositoryBean
-public interface BaseEntityRepository<T extends BaseEntity> extends JpaRepository<T, Long>,
-		JpaSpecificationExecutor<T>, IBaseEntityService<T> {
+public interface BaseEntityRepository<T extends BaseEntity,PK extends Serializable> extends JpaRepository<T, PK>,
+		JpaSpecificationExecutor<T>, IBaseEntityService<T,PK> {
 	/**
 	 * 领域模型类
 	 * @return
@@ -31,4 +31,5 @@ public interface BaseEntityRepository<T extends BaseEntity> extends JpaRepositor
 	 * @return
 	 */
 	public EntityManager entityManager();
+
 }

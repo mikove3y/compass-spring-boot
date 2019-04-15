@@ -1,11 +1,9 @@
 package cn.com.compass.util;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.apache.commons.beanutils.BeanUtilsBean2;
 import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang3.ArrayUtils;
+
+import java.util.*;
 
 /**
  * 
@@ -33,26 +31,26 @@ public class DataXUtil {
 	 *            来源obj 支持类型 DynaBean、map、javaBean
 	 * @param target
 	 *            目标obj 支持类型 DynaBean、javaBean
-	 * @param propertyMapping
+	 * @param source2targetProperties
 	 *            字段映射关系 k-v key为source字段 value为target字段
 	 * @throws Exception
 	 */
-	public static void copyProperties(Object source, Object target, Map<String, String> source2targetProperties)
+	public static Object copyProperties(Object source, Class<?> target, Map<String, String> source2targetProperties)
 			throws Exception {
-		if (source instanceof Collection && target instanceof Collection) {
+		if (source instanceof Collection) {
 			// Collection集合映射
 			Object[] sc = ((Collection<?>) source).toArray(new Object[0]);
-			Object[] tc = ((Collection<?>) target).toArray(new Object[0]);
-			if (sc == null || tc == null || sc.length != tc.length)
-				return;
+			if (ArrayUtils.isEmpty(sc))
+				return null;
+			List<Object> result = new ArrayList<>();
 			for (int i = 0; i < sc.length; i++) {
-				Object s = sc[i];
-				Object t = tc[i];
-				xOne(s, t, source2targetProperties);
+				Object temp = xOne(sc[i], target, source2targetProperties);
+				result.add(temp);
 			}
+			return result;
 		} else {
 			// 单个对象映射
-			xOne(source, target, source2targetProperties);
+			return xOne(source, target, source2targetProperties);
 		}
 	}
 	
@@ -63,7 +61,7 @@ public class DataXUtil {
 	 * @param source2targetProperties
 	 * @throws Exception
 	 */
-	private static void xOne(Object source, Object target, Map<String, String> source2targetProperties) throws Exception {
+	private static Object xOne(Object source, Class<?> target, Map<String, String> source2targetProperties) throws Exception {
 		// 单个对象映射
 		// mapping source 2 target
 		Map<String, Object> sourceMap = JacksonUtil.obj2MapIgnoreNull(source);
@@ -79,10 +77,12 @@ public class DataXUtil {
 				}
 			});
 			// copy source 2 target
-			BeanUtilsBean2.getInstance().copyProperties(target, sourceMapX);
+			return 	JacksonUtil.map2pojo(sourceMapX,target);
+//			BeanUtilsBean2.getInstance().copyProperties(target, sourceMapX);
 		}else {
 			// copy source 2 target
-			BeanUtilsBean2.getInstance().copyProperties(target, source);
+			return JacksonUtil.map2pojo(sourceMap,target);
+//			BeanUtilsBean2.getInstance().copyProperties(target, source);
 		}
 	}
 	

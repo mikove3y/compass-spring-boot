@@ -1,18 +1,17 @@
 package cn.com.compass.data.service;
 
-import java.util.List;
-import java.util.Map;
-
+import cn.com.compass.base.vo.BaseRequestAppPageVo;
+import cn.com.compass.base.vo.BaseRequestPcPageVo;
+import cn.com.compass.base.vo.BaseResponseAppPageVo;
+import cn.com.compass.base.vo.BaseResponsePcPageVo;
+import cn.com.compass.data.entity.BaseEntity;
+import cn.com.compass.data.repository.BaseEntityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
 
-import cn.com.compass.base.entity.BaseEntity;
-import cn.com.compass.base.vo.AppPage;
-import cn.com.compass.base.vo.BaseRequestAppPageVo;
-import cn.com.compass.base.vo.BaseRequestPcPageVo;
-import cn.com.compass.base.vo.PcPage;
-import cn.com.compass.data.repository.BaseEntityRepository;
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * 
@@ -24,10 +23,10 @@ import cn.com.compass.data.repository.BaseEntityRepository;
  *
  */
 @Transactional(readOnly = true)
-public class BaseEntityServiceImpl<T extends BaseEntity> implements IBaseEntityService<T>{
+public class BaseEntityServiceImpl<T extends BaseEntity,PK extends Serializable> implements IBaseEntityService<T,PK>{
 	
 	@Autowired
-	private BaseEntityRepository<T> repository;
+	private BaseEntityRepository<T,PK> repository;
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
@@ -49,13 +48,13 @@ public class BaseEntityServiceImpl<T extends BaseEntity> implements IBaseEntityS
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public boolean deleteById(Long id) {
+	public boolean deleteById(PK id) {
 		return repository.deleteById(id);
 	}
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public boolean deleteByIds(List<Long> ids) {
+	public boolean deleteByIds(List<PK> ids) {
 		return repository.deleteByIds(ids);
 	}
 
@@ -84,24 +83,12 @@ public class BaseEntityServiceImpl<T extends BaseEntity> implements IBaseEntityS
 	}
 
 	@Override
-	@Transactional(rollbackFor = Exception.class)
-	public T updateOneByParams(Long id, Map<String, Object> params) {
-		return repository.updateOneByParams(id, params);
-	}
-
-	@Override
-	@Transactional(rollbackFor = Exception.class)
-	public List<T> updateBatchByParams(List<Long> ids, List<Map<String, Object>> params) {
-		return repository.updateBatchByParams(ids, params);
-	}
-
-	@Override
-	public T findById(Long id) {
+	public T findById(PK id) {
 		return repository.findById(id);
 	}
 
 	@Override
-	public List<T> findByIds(List<Long> ids) {
+	public List<T> findByIds(List<PK> ids) {
 		return repository.findByIds(ids);
 	}
 	
@@ -131,12 +118,12 @@ public class BaseEntityServiceImpl<T extends BaseEntity> implements IBaseEntityS
 	}
 
 	@Override
-	public PcPage<T> findPcPage(BaseRequestPcPageVo pageVo,Specification<T> spec) {
+	public BaseResponsePcPageVo<T> findPcPage(BaseRequestPcPageVo pageVo, Specification<T> spec) {
 		return repository.findPcPage(pageVo,spec);
 	}
 
 	@Override
-	public AppPage<T> findAppPage(BaseRequestAppPageVo pageVo,Specification<T> spec) {
+	public BaseResponseAppPageVo<T> findAppPage(BaseRequestAppPageVo pageVo, Specification<T> spec) {
 		return repository.findAppPage(pageVo,spec);
 	}
 

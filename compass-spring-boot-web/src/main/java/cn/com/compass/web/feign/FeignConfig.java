@@ -1,11 +1,7 @@
 package cn.com.compass.web.feign;
 
-import cn.com.compass.base.constant.*;
-import cn.com.compass.util.JacksonObjectMapperWrapper;
 import cn.com.compass.web.convert.UniversalEnumConverterFactory;
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.databind.ser.std.StdSerializer;
+import cn.com.compass.web.util.HttpMessageConverterUtil;
 import com.netflix.hystrix.HystrixCommand;
 import feign.Contract;
 import feign.Feign;
@@ -34,8 +30,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 import org.springframework.format.support.DefaultFormattingConversionService;
 import org.springframework.format.support.FormattingConversionService;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,32 +45,7 @@ import java.util.List;
  */
 @Configuration
 public class FeignConfig {
-	/**
-	 * jackson消息转换器
-	 * @return
-	 */
-	@Bean
-	@ConditionalOnMissingBean
-	public HttpMessageConverters jacksonHttpMessageConverters(){
-		JacksonObjectMapperWrapper objectMapper = JacksonObjectMapperWrapper.getInstance();
-		// 注册IBaseBizStatusEnum序列化和反序列化
-		SimpleModule simpleModule = new SimpleModule();
-		JsonDeserializer<IBaseBizStatusEnum> deserialize = new BaseBizStatusEnumDeserializer();
-		simpleModule.addDeserializer(IBaseBizStatusEnum.class, deserialize);
-		StdSerializer<IBaseBizStatusEnum> serialize = new BaseBizStatusEnumSerializer();
-		simpleModule.addSerializer(IBaseBizStatusEnum.class, serialize);
-		objectMapper.registerModule(simpleModule);
-		// 注册IBaseBizStatusEnum2序列化和反序列化
-		SimpleModule simpleModule2 = new SimpleModule();
-		JsonDeserializer<IBaseBizStatusEnum2> deserialize2 = new BaseBizStatusEnumDeserializer2();
-		simpleModule.addDeserializer(IBaseBizStatusEnum2.class, deserialize2);
-		StdSerializer<IBaseBizStatusEnum2> serialize2 = new BaseBizStatusEnumSerializer2();
-		simpleModule.addSerializer(IBaseBizStatusEnum2.class, serialize2);
-		objectMapper.registerModule(simpleModule2);
-		HttpMessageConverter<?> converter = new MappingJackson2HttpMessageConverter(objectMapper);
-        return new HttpMessageConverters(converter);
-    }
-	
+
 	/**
 	 * 消息转化器
 	 * @return
@@ -87,7 +56,7 @@ public class FeignConfig {
 		ObjectFactory<HttpMessageConverters> factory = new ObjectFactory<HttpMessageConverters>() {
 			@Override
 			public HttpMessageConverters getObject() throws BeansException {
-				return jacksonHttpMessageConverters();
+				return new HttpMessageConverters(HttpMessageConverterUtil.jackson2MessageConverter());
 			}
 		};
         return factory;
