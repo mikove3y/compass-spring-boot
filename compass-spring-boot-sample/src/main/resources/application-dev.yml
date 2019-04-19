@@ -1,14 +1,14 @@
 server:
-  port: 9801
+  port: 1234
 spring:
   datasource: 
     driver-class-name: com.mysql.jdbc.Driver
     # 使用druid数据源
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
-      url: jdbc:mysql://134.175.197.225:3306/iot_saas_workflow?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&allowMultiQueries=true
-      username: iot
-      password: Iot@_123
+      url: jdbc:mysql://localhost:3306/demo?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&allowMultiQueries=true
+      username: root
+      password: root
       initialSize: 5
       minIdle: 5
       maxActive: 20
@@ -59,7 +59,7 @@ spring:
     generate-ddl: true
     # 配置jpa sql拦截器
     properties:
-      hibernate.ejb.interceptor: cn.com.compass.starter.hanlder.JpaCommonMetaHanlder
+      hibernate.ejb.interceptor: cn.com.compass.data.handler.JpaCommonMetaHanlder
       hibernate.id.new_generator_mappings: true #hibernate默认的jpa实现中，initialValue参数是被忽略的，需设置该参数
     # 建表时使用InnoDB引擎  
     # cn.com.compass.data.dialect.MySQL5InnoDBDialectWithoutFK org.hibernate.dialect.MySQL5InnoDBDialect
@@ -89,7 +89,7 @@ mybatis:
   mapper-locations:
   - classpath:mapper/**/*Mapper.xml
   # 别名扫描
-  type-aliases-package: cn.com.bgy.iot.saas.workflow
+  type-aliases-package: cn.com.compass
   # mybatis 自定义枚举转换器
   configuration:
     default-enum-type-handler: cn.com.compass.data.convert.MybatisDbEnumTypeHandler
@@ -102,10 +102,6 @@ pagehelper:
   params: count=countSql
         
 
-# lcn 分布式事务注册地址
-tm:
-  manager:
-    url: http://127.0.0.1:9201/tx/manager/
 ribbon:
   # 连接超时时间 毫秒
   ReadTimeout: 50000
@@ -136,29 +132,6 @@ hystrix:
           thread:
             timeoutInMilliseconds: 100000
   
- 
-# activiti 配置
-activiti:
-  # 数据库类型
-  database: mysql
-  # 字体
-  font: 宋体
-  # 建库
-  databaseSchemaUpdate: true
-  # 执行定时任务
-  jobExecutorActivate: false
-  # 主键生成策略
-  idGenerator: org.activiti.engine.impl.persistence.StrongUuidGenerator
-  event-listeners:
-  # 自动跳过流程startEvent后面第一个userTask节点
-  - cn.com.compass.activiti.listener.AutoCompleteFirstTaskEventListener
-  deployers:
-  # drools规则文件部署器,规则文件drools依赖升级
-#  - org.activiti.engine.impl.rules.RulesDeployer
-  - cn.com.compass.activiti.rule.RulesDeployer
-  # 流程图生成器
-  process-diagram-generator: cn.com.compass.activiti.org.activiti.image.impl.DefaultProcessDiagramGenerator
-  
 
 #数据库密码加密
 #java -cp druid-1.1.10.jar com.alibaba.druid.filter.config.ConfigTools 你的密码(root)
@@ -181,10 +154,9 @@ eureka:
 # 日志
 logging:
   config: classpath:logback.xml
-  path: E:\eclipse-geek\compass-workspace\bgy-iot-saas-bizcenter\bgy-iot-saas-bizcenter-workflow
+  path: E:\devtool\JetBrains\ideaIU-2018.2.4.win\workspace\compass-spring-boot\compass-spring-boot-sample
   level:
-    cn.com.bgy: debug
-    cn.com.compass: debug  
+    cn.com.compass: debug
 
 jwt:
   # 发行方

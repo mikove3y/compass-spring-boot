@@ -1,10 +1,14 @@
 package cn.com.compass.data.config;
 
+import cn.com.compass.data.listner.ActiveJPAContextListener;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 
 /**
  * @author wanmk
@@ -14,15 +18,29 @@ import javax.persistence.EntityManager;
  * @date 2019/4/12 13:06
  */
 @Configuration
+//@ServletComponentScan // 扫描WebListener
 public class DataConfig {
 
     /**
      * 初始化JPAQueryFactory
+     *
      * @param entityManager
      * @return
      */
     @Bean
-    public JPAQueryFactory jpaQueryFactory(EntityManager entityManager){
+    @Primary
+    public JPAQueryFactory jpaQueryFactory(EntityManager entityManager) {
         return new JPAQueryFactory(entityManager);
+    }
+
+    /**
+     * ActiveJPA 监听初始化
+     *
+     * @return
+     */
+    @Bean
+    public ServletListenerRegistrationBean<ActiveJPAContextListener> ActiveJPAContextListener(EntityManagerFactory entityManagerFactory) {
+        ServletListenerRegistrationBean<ActiveJPAContextListener> listener = new ServletListenerRegistrationBean<>(new ActiveJPAContextListener(entityManagerFactory));
+        return listener;
     }
 }

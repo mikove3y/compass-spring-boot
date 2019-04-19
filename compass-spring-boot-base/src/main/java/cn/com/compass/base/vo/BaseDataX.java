@@ -45,7 +45,9 @@ public abstract class BaseDataX {
 	 * 添加转换字段
 	 */
 	@JsonIgnore
-	public abstract void addSource2TargetProperties();
+	public void addSource2TargetProperties(Map<String,String> map){
+		this.source2TargetProperties().putAll(map);
+	}
 
 
 	// -----------------------------排序----------------------------
@@ -61,13 +63,17 @@ public abstract class BaseDataX {
 	 * 添加排序字段
 	 */
 	@JsonIgnore
-	public abstract void addOrder();
+	public void addOrder(Map<String,Boolean> map){
+		this.orders().putAll(map);
+	}
 
 	/**
 	 * 是否驼峰转下划线，针对mybatis xml 中获取orders数据
 	 * @return
 	 */
 	@JsonIgnore
-	public abstract boolean camel2Underline();
+	public boolean camel2Underline(){
+		return false;
+	}
 
 }

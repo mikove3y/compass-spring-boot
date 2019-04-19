@@ -9,7 +9,6 @@ import org.hibernate.CallbackException;
 import org.hibernate.EmptyInterceptor;
 import org.hibernate.type.Type;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
@@ -31,7 +30,6 @@ import java.util.Iterator;
  * 
  *
  */
-@Component
 @Slf4j
 public class JpaCommonMetaHanlder extends EmptyInterceptor {
 

@@ -3,6 +3,7 @@ package cn.com.compass.data.entity;
 import cn.com.compass.base.constant.BaseBizeStatusEnum;
 import cn.com.compass.data.annotation.LogicDelete;
 import cn.com.compass.data.interceptor.JpaCrudInterceptor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.activejpa.entity.Model;
@@ -21,8 +22,7 @@ import java.util.Date;
  * @date 2018年6月6日 下午2:50:02
  *
  */
-@Getter
-@Setter
+@Data
 @MappedSuperclass
 @EntityListeners(JpaCrudInterceptor.class)
 public class BaseEntity<PK extends Serializable> extends Model implements Serializable {

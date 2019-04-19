@@ -65,27 +65,49 @@ public class DataXUtil {
 		// 单个对象映射
 		// mapping source 2 target
 		Map<String, Object> sourceMap = JacksonUtil.obj2MapIgnoreNull(source);
-		if(MapUtils.isNotEmpty(source2targetProperties)) {
-			Map<String, Object> sourceMapX = new HashMap<>();
-			source2targetProperties.forEach((k,v)->{
+		if (MapUtils.isNotEmpty(source2targetProperties)) {
+			source2targetProperties.forEach((k, v) -> {
 				// not contain skip
-				if (sourceMap.containsKey(k)) {
+				Set<String> keys = sourceMap.keySet();
+				if (keys.contains(k)) {
 					Object sourceValue = sourceMap.get(k);
 					// target k-v
 					String targetKey = source2targetProperties.get(k);
-					sourceMapX.put(targetKey, sourceValue);
+					sourceMap.put(targetKey, sourceValue);
+					sourceMap.remove(k);
 				}
 			});
-			// copy source 2 target
-			return 	JacksonUtil.map2pojo(sourceMapX,target);
-//			BeanUtilsBean2.getInstance().copyProperties(target, sourceMapX);
-		}else {
-			// copy source 2 target
-			return JacksonUtil.map2pojo(sourceMap,target);
-//			BeanUtilsBean2.getInstance().copyProperties(target, source);
 		}
+		// copy source 2 target
+		return JacksonUtil.map2pojo(sourceMap, target);
+//			BeanUtilsBean2.getInstance().copyProperties(target, source);
 	}
-	
+
+	/**
+	 *
+	 * @param source
+	 *            来源obj 支持类型 DynaBean、map、javaBean
+	 * @param target
+	 *            目标obj 支持类型 DynaBean、javaBean
+	 * @param source2targetProperties
+	 *            字段映射关系 k-v key为source字段 value为target字段
+	 * @throws Exception
+	 */
+	public static void copyProperties(Object source, Object target, Map<String, String> source2targetProperties)
+			throws Exception {
+
+	}
+
+	/**
+	 * 单个对象映射转换
+	 * @param source
+	 * @param target
+	 * @param source2targetProperties
+	 * @throws Exception
+	 */
+	private static void xOne(Object source, Object target, Map<String, String> source2targetProperties) throws Exception {
+
+	}
 	/**
      * <p>
      * 字符串驼峰转下划线格式

@@ -5,7 +5,7 @@
     <!--<include resource="org/springframework/boot/logging/logback/base.xml" />-->
 
     <!--设置系统日志目录-->
-    <property name="APP_DIR" value="workflow" />
+    <property name="APP_DIR" value="sample" />
     <property name="LOG_PATH" value="log" />
 
     <!-- 彩色日志 -->

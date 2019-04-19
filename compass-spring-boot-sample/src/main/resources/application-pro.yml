@@ -1,14 +1,14 @@
 server:
-  port: 8806
+  port: 1234
 spring:
-  datasource: 
+  datasource:
     driver-class-name: com.mysql.jdbc.Driver
     # 使用druid数据源
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
-      url: jdbc:mysql://10.97.249.24:3306/iot_saas_workflow?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&allowMultiQueries=true
-      username: zn_ydpt
-      password: ${password}
+      url: jdbc:mysql://localhost:3306/demo?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&allowMultiQueries=true
+      username: root
+      password: root
       initialSize: 5
       minIdle: 5
       maxActive: 20
@@ -28,7 +28,7 @@ spring:
       # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
       filters: stat,config
       # 通过connectProperties属性来打开mergeSql功能；慢SQL记录 #config.decrypt=true;config.decrypt.key=${publicKey}
-      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000;config.decrypt=true;config.decrypt.key=${publicKey}
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000;
       filter:
         wall:
           enabled: true
@@ -44,24 +44,24 @@ spring:
       stat-view-servlet:
         url-pattern: /druid/*
         #设置白名单
-#        allow: 10.105.0.220
+        #        allow: 10.105.0.220
         #设置黑名单
         deny:
         #设置登录查看信息的账号密码
         login-username: admin
-        login-password: admin    
-# jpa        
+        login-password: admin
+  # jpa
   jpa:
     database: MYSQL
     # sharding-jdbc模式下关闭hibernate show sql
     show-sql: false
     # sharding-jdbc模式下关闭generate-ddl建表
-    generate-ddl: false
+    generate-ddl: true
     # 配置jpa sql拦截器
     properties:
-      hibernate.ejb.interceptor: cn.com.compass.starter.hanlder.JpaCommonMetaHanlder
+      hibernate.ejb.interceptor: cn.com.compass.data.handler.JpaCommonMetaHanlder
       hibernate.id.new_generator_mappings: true #hibernate默认的jpa实现中，initialValue参数是被忽略的，需设置该参数
-    # 建表时使用InnoDB引擎  
+    # 建表时使用InnoDB引擎
     # cn.com.compass.data.dialect.MySQL5InnoDBDialectWithoutFK org.hibernate.dialect.MySQL5InnoDBDialect
     database-platform: cn.com.compass.data.dialect.MySQL5InnoDBDialectWithoutFK
     # 生产环境下配置为validate 测试开发环境配置为update
@@ -70,26 +70,26 @@ spring:
       # create                  每次加载hibernate，重新创建数据库表结构，这就是导致数据库表数据丢失的原因。
       # create-drop        加载hibernate时创建，退出是删除表结构
       # update                 加载hibernate自动更新数据库结构
-      ddl-auto: none #使用sharding-jdbc不用hibernate帮助建表
-      naming:  
+      ddl-auto: update #使用sharding-jdbc不用hibernate帮助建表
+      naming:
         physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy # 表名、字段驼峰转下划线
-  
-  
+
+
   # zipkin
   zipkin:
-    base-url: http://10.97.249.37:9901
+    base-url: http://localhost:9901
   sleuth:
     sampler:
       # 监控百分比 默认0.1
-      percentage: 1.0  
+      percentage: 1.0
 
 # mybatis
 mybatis:
   # xml路径
   mapper-locations:
-  - classpath:mapper/**/*Mapper.xml
+    - classpath:mapper/**/*Mapper.xml
   # 别名扫描
-  type-aliases-package: cn.com.bgy.iot.saas.workflow
+  type-aliases-package: cn.com.compass
   # mybatis 自定义枚举转换器
   configuration:
     default-enum-type-handler: cn.com.compass.data.convert.MybatisDbEnumTypeHandler
@@ -100,12 +100,8 @@ pagehelper:
   reasonable: true
   support-methods-arguments: true
   params: count=countSql
-        
 
-# lcn 分布式事务注册地址
-tm:
-  manager:
-    url: http://10.97.249.37:9201/tx/manager/
+
 ribbon:
   # 连接超时时间 毫秒
   ReadTimeout: 50000
@@ -136,34 +132,11 @@ hystrix:
           thread:
             timeoutInMilliseconds: 100000
 
- 
-# activiti 配置
-activiti:
-  # 数据库类型
-  database: mysql
-  # 字体
-  font: 宋体
-  # 建库
-  databaseSchemaUpdate: true
-  # 执行定时任务
-  jobExecutorActivate: false
-  # 主键生成策略
-  idGenerator: org.activiti.engine.impl.persistence.StrongUuidGenerator
-  event-listeners:
-  # 自动跳过流程startEvent后面第一个userTask节点
-  - cn.com.compass.activiti.listener.AutoCompleteFirstTaskEventListener
-  deployers:
-    # drools规则文件部署器,规则文件drools依赖升级
-    #  - org.activiti.engine.impl.rules.RulesDeployer
-    - cn.com.compass.activiti.rule.RulesDeployer
-  # 流程图生成器
-  process-diagram-generator: cn.com.compass.activiti.org.activiti.image.impl.DefaultProcessDiagramGenerator
-  
 
 #数据库密码加密
 #java -cp druid-1.1.10.jar com.alibaba.druid.filter.config.ConfigTools 你的密码(root)
-publicKey: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJPXrGmyvyTEkO6uXTvKo5x3XcWXWu5Jtx9YvMfyGwnajBJLCZ6J7q0G66k5/kK+HtkJiT2piPloImz3CNsM6SECAwEAAQ==
-password: YITqN704JC4QYXDRGX7wOV+OaO5t7g2ZU6EXaPm/pCFi6wRSaY9TSyLwKXD++zzHwT1379p25UGz3UpnCs9BYw==
+publicKey: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAIl7w3CqVvoZVgXVolqMcv7t/zHuuUzrrDyFNTO8o+hxl4P3H+bR1abh7YEtCaftP1SsuGkYKhhwk4vlc1lb8i0CAwEAAQ==
+password: R1oDtLcDz7QnKbjl4jLXNenidnHSy4WDRaDLimvFJo5jj4gs7EQO98eIZmAJFtnH/2+tMlSShI/1t+gvZiav9w==
 
 # 注册eruka
 eureka:
@@ -176,15 +149,14 @@ eureka:
     lease-expiration-duration-in-seconds: 60
   client:
     serviceUrl:
-      defaultZone: http://compass:123456@10.97.249.37:9801/eureka/
+      defaultZone: http://compass:123456@localhost:1316/eureka/
 
 # 日志
 logging:
   config: classpath:logback.xml
-  path: /home/ydpt
+  path: E:\devtool\JetBrains\ideaIU-2018.2.4.win\workspace\compass-spring-boot\compass-spring-boot-sample
   level:
-    cn.com.bgy: debug
-    cn.com.compass: debug  
+    cn.com.compass: debug
 
 jwt:
   # 发行方
@@ -199,3 +171,5 @@ jwt:
   refreshExpire: 172800000
   # 加密secret
   secret: 505d35f3308b4c1ba44c5f0126dcf9ec
+
+debug: true

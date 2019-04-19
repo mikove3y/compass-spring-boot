@@ -53,6 +53,21 @@
 			<groupId>org.activejpa</groupId>
 			<artifactId>activejpa-core</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.activejpa</groupId>
+			<artifactId>activejpa-test</artifactId>
+			<version>1.0.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.javassist</groupId>
+			<artifactId>javassist</artifactId>
+			<version>3.24.1-GA</version>
+		</dependency>
 		<!-- sharding-jdbc -->
 		<!-- orchestration数据治理 -->
 		<!-- <dependency> <groupId>io.shardingsphere</groupId> <artifactId>sharding-jdbc-orchestration-spring-boot-starter</artifactId> 
@@ -83,6 +98,24 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-dependency-plugin</artifactId>
+			<version>2.10</version>
+			<executions>
+				<execution>
+					<phase>prepare-package</phase>
+					<goals>
+						<goal>unpack-dependencies</goal>
+					</goals>
+					<configuration>
+						<includeArtifactIds>activejpa-core</includeArtifactIds>
+						<outputDirectory>${project.build.outputDirectory}</outputDirectory>
+					</configuration>
+				</execution>
+			</executions>
+		</plugin>
+
 		</plugins>
 	</build>
 

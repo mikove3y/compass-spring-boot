@@ -1,7 +1,7 @@
 # 应用名
 spring:
   application:
-    name: compass-spring-boot-sample
+    name: workflow-service-provider
   profiles:
     active:
     - dev
