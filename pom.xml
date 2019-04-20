@@ -1,554 +1,554 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>cn.com.compass</groupId>
-	<artifactId>compass-spring-boot</artifactId>
-	<version>1.3.0</version>
-	<packaging>pom</packaging>
-	<name>compass-spring-boot</name>
-	<description>compass 基础boot架构</description>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>cn.com.compass</groupId>
+    <artifactId>compass-spring-boot</artifactId>
+    <version>1.3.0</version>
+    <packaging>pom</packaging>
+    <name>compass-spring-boot</name>
+    <description>compass 基础boot架构</description>
 
 
-	<inceptionYear>2018</inceptionYear>
+    <inceptionYear>2018</inceptionYear>
 
-	<developers>
-		<developer>
-			<id>milkove</id>
-			<name>wanmk</name>
-			<email>524623302@qq.com</email>
-			<timezone>+8</timezone>
-			<url>https://gitee.com/milkove</url>
-		</developer>
-	</developers>
+    <developers>
+        <developer>
+            <id>milkove</id>
+            <name>wanmk</name>
+            <email>524623302@qq.com</email>
+            <timezone>+8</timezone>
+            <url>https://gitee.com/milkove</url>
+        </developer>
+    </developers>
 
-	<licenses>
-		<license>
-			<name>The Apache Software License, Version 2.0</name>
-			<url>http://www.apache.org/licenses/LICENSE-2.0</url>
-			<distribution>repo</distribution>
-		</license>
-	</licenses>
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 
-	<scm>
-		<connection>scm:git:https://gitee.com/milkove/compass-spring-boot.git</connection>
-		<developerConnection>scm:git:git@gitee.com:milkove/compass-spring-boot.git</developerConnection>
-		<url>https://gitee.com/milkove/compass</url>
-		<tag>v1.3.0</tag>
-	</scm>
+    <scm>
+        <connection>scm:git:https://gitee.com/milkove/compass-spring-boot.git</connection>
+        <developerConnection>scm:git:git@gitee.com:milkove/compass-spring-boot.git</developerConnection>
+        <url>https://gitee.com/milkove/compass</url>
+        <tag>v1.3.0</tag>
+    </scm>
 
-	<issueManagement>
-		<system>gitee</system>
-		<url>https://gitee.com/milkove/compass-spring-boot/issues</url>
-	</issueManagement>
+    <issueManagement>
+        <system>gitee</system>
+        <url>https://gitee.com/milkove/compass-spring-boot/issues</url>
+    </issueManagement>
 
-	<properties>
-		<!-- compass -->
-		<compss-boot.version>1.3.0</compss-boot.version>
-		<!-- spring boot -->
-		<spring-boot.version>1.5.15.RELEASE</spring-boot.version>
-		<!-- spring cloud -->
-		<spring-cloud.version>Edgware.SR4</spring-cloud.version>
-		<!-- apache camel -->
-		<apache-camel.version>2.21.1</apache-camel.version>
-		<!-- 编码格式 -->
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<!-- 编译版本 -->
-		<jdk.version>1.8</jdk.version>
-		<!-- jpa -->
-		<javax.persistence.version>2.2</javax.persistence.version>
-		<org.activejpa.version>1.0.2</org.activejpa.version>
-		<!-- mybatis -->
-		<mybatis-plus.version>2.3</mybatis-plus.version>
-		<mybatis.version>1.3.2</mybatis.version>
-		<!-- pageHepler -->
-		<page-hepler.version>1.2.5</page-hepler.version>
-		<!-- druid -->
-		<druid.version>1.1.10</druid.version>
-		<!-- lcn 分布式事务控制 -->
-		<lcn.last.version>4.1.0</lcn.last.version>
-		<!-- mysql springboot 自动依赖 -->
-		<!-- sharding-jdbc -->
-		<sharding-jdbc.version>3.1.0.M1</sharding-jdbc.version>
-		<!-- 匹配spring的json依赖，使用jackson -->
-		<jackson-datatype-jsr310.version>2.9.5</jackson-datatype-jsr310.version>
-		<!-- util工具集 -->
-		<commons-fileupload.version>1.3.3</commons-fileupload.version>
-		<common-lang3.version>3.7</common-lang3.version>
-		<common-beanutils.version>1.9.3</common-beanutils.version>
-		<kryo.version>4.0.2</kryo.version>
-		<javakaffee.version>0.45</javakaffee.version>
-		<pinyin.version>2.5.0</pinyin.version>
-		<javax.ws.rs-api.version>2.1</javax.ws.rs-api.version>
-		<!-- drools -->
-		<drools.version>7.6.0.Final</drools.version>
-		<!-- activiti -->
-		<activiti.version>5.22.0</activiti.version>
-		<java-uuid-generator>3.1.5</java-uuid-generator>
-		<!-- jwt签名 -->
-		<jjwt.version>0.9.0</jjwt.version>
-		<!-- shiro -->
-		<shiro.version>1.4.0</shiro.version>
-		<!-- joda-time -->
-		<joda-time.version>2.9.9</joda-time.version>
-		<!-- swagger api -->
-		<swagger.version>2.9.2</swagger.version>
-		<swagger-bootstrap-ui>1.9.0</swagger-bootstrap-ui>
-		<!-- zxing -->
-		<zxing.version>3.3.3</zxing.version>
-		<!-- guava -->
-		<guava.verison>27.0.1-jre</guava.verison>
-		<!-- nekohtml -->
-		<nekohtml.version>1.9.22</nekohtml.version>
-		<!-- logstash-logback-encoder -->
-		<logstash-logback.version>5.3</logstash-logback.version>
-	</properties>
+    <properties>
+        <!-- compass -->
+        <compss-boot.version>1.3.0</compss-boot.version>
+        <!-- spring boot -->
+        <spring-boot.version>1.5.15.RELEASE</spring-boot.version>
+        <!-- spring cloud -->
+        <spring-cloud.version>Edgware.SR4</spring-cloud.version>
+        <!-- apache camel -->
+        <apache-camel.version>2.21.1</apache-camel.version>
+        <!-- 编码格式 -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- 编译版本 -->
+        <jdk.version>1.8</jdk.version>
+        <!-- jpa -->
+        <javax.persistence.version>2.2</javax.persistence.version>
+        <org.activejpa.version>1.0.2</org.activejpa.version>
+        <!-- mybatis -->
+        <mybatis-plus.version>2.3</mybatis-plus.version>
+        <mybatis.version>1.3.2</mybatis.version>
+        <!-- pageHepler -->
+        <page-hepler.version>1.2.5</page-hepler.version>
+        <!-- druid -->
+        <druid.version>1.1.10</druid.version>
+        <!-- lcn 分布式事务控制 -->
+        <lcn.last.version>4.1.0</lcn.last.version>
+        <!-- mysql springboot 自动依赖 -->
+        <!-- sharding-jdbc -->
+        <sharding-jdbc.version>3.1.0.M1</sharding-jdbc.version>
+        <!-- 匹配spring的json依赖，使用jackson -->
+        <jackson-datatype-jsr310.version>2.9.5</jackson-datatype-jsr310.version>
+        <!-- util工具集 -->
+        <commons-fileupload.version>1.3.3</commons-fileupload.version>
+        <common-lang3.version>3.7</common-lang3.version>
+        <common-beanutils.version>1.9.3</common-beanutils.version>
+        <kryo.version>4.0.2</kryo.version>
+        <javakaffee.version>0.45</javakaffee.version>
+        <pinyin.version>2.5.0</pinyin.version>
+        <javax.ws.rs-api.version>2.1</javax.ws.rs-api.version>
+        <!-- drools -->
+        <drools.version>7.6.0.Final</drools.version>
+        <!-- activiti -->
+        <activiti.version>5.22.0</activiti.version>
+        <java-uuid-generator>3.1.5</java-uuid-generator>
+        <!-- jwt签名 -->
+        <jjwt.version>0.9.0</jjwt.version>
+        <!-- shiro -->
+        <shiro.version>1.4.0</shiro.version>
+        <!-- joda-time -->
+        <joda-time.version>2.9.9</joda-time.version>
+        <!-- swagger api -->
+        <swagger.version>2.9.2</swagger.version>
+        <swagger-bootstrap-ui>1.9.0</swagger-bootstrap-ui>
+        <!-- zxing -->
+        <zxing.version>3.3.3</zxing.version>
+        <!-- guava -->
+        <guava.verison>27.0.1-jre</guava.verison>
+        <!-- nekohtml -->
+        <nekohtml.version>1.9.22</nekohtml.version>
+        <!-- logstash-logback-encoder -->
+        <logstash-logback.version>5.3</logstash-logback.version>
+    </properties>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<scope>provided</scope>
-		</dependency>
-	</dependencies>
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 
-	<dependencyManagement>
-		<dependencies>
-			<!-- Spring Boot BOM -->
-			<dependency>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-dependencies</artifactId>
-				<version>${spring-boot.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-			<!-- Spring Cloud BOM -->
-			<dependency>
-				<groupId>org.springframework.cloud</groupId>
-				<artifactId>spring-cloud-dependencies</artifactId>
-				<version>${spring-cloud.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-			<!-- Camel BOM -->
-			<dependency>
-				<groupId>org.apache.camel</groupId>
-				<artifactId>camel-spring-boot-dependencies</artifactId>
-				<version>${apache-camel.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-			<!-- jpa -->
-			<dependency>
-				<groupId>javax.persistence</groupId>
-				<artifactId>javax.persistence-api</artifactId>
-				<version>${javax.persistence.version}</version>
-			</dependency>
+    <dependencyManagement>
+        <dependencies>
+            <!-- Spring Boot BOM -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- Spring Cloud BOM -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- Camel BOM -->
+            <dependency>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel-spring-boot-dependencies</artifactId>
+                <version>${apache-camel.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- jpa -->
+            <dependency>
+                <groupId>javax.persistence</groupId>
+                <artifactId>javax.persistence-api</artifactId>
+                <version>${javax.persistence.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.activejpa</groupId>
                 <artifactId>activejpa-core</artifactId>
                 <version>${org.activejpa.version}</version>
             </dependency>
-			<dependency>
-				<groupId>org.mybatis.spring.boot</groupId>
-				<artifactId>mybatis-spring-boot-starter</artifactId>
-				<version>${mybatis.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.github.pagehelper</groupId>
-				<artifactId>pagehelper-spring-boot-starter</artifactId>
-				<version>${page-hepler.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.baomidou</groupId>
-				<artifactId>mybatis-plus-boot-starter</artifactId>
-				<version>${mybatis-plus.version}</version>
-			</dependency>
-			<!-- sharding-jdbc -->
-			<!-- 分库分表+数据自理 -->
-			<dependency>
-				<groupId>io.shardingsphere</groupId>
-				<artifactId>sharding-jdbc-orchestration-spring-boot-starter</artifactId>
-				<version>${sharding-jdbc.version}</version>
-			</dependency>
-			<!-- 分库分表 -->
-			<dependency>
-				<groupId>io.shardingsphere</groupId>
-				<artifactId>sharding-jdbc-spring-boot-starter</artifactId>
-				<version>${sharding-jdbc.version}</version>
-			</dependency>
-			<!-- lcn分布式事务控制 -->
-			<dependency>
-				<groupId>com.codingapi</groupId>
-				<artifactId>transaction-springcloud</artifactId>
-				<version>${lcn.last.version}</version>
-				<exclusions>
-					<exclusion>
-						<groupId>org.slf4j</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<dependency>
-				<groupId>com.codingapi</groupId>
-				<artifactId>tx-plugins-db</artifactId>
-				<version>${lcn.last.version}</version>
-			</dependency>
-			<!-- jackson -->
-			<dependency>
-				<groupId>com.fasterxml.jackson.datatype</groupId>
-				<artifactId>jackson-datatype-jsr310</artifactId>
-				<version>${jackson-datatype-jsr310.version}</version>
-			</dependency>
-			<!-- apache common -->
-			<dependency>
-				<groupId>org.apache.commons</groupId>
-				<artifactId>commons-lang3</artifactId>
-				<version>${common-lang3.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>commons-beanutils</groupId>
-				<artifactId>commons-beanutils</artifactId>
-				<version>${common-beanutils.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>commons-fileupload</groupId>
-				<artifactId>commons-fileupload</artifactId>
-				<version>${commons-fileupload.version}</version>
-			</dependency>
-			<!-- kryo -->
-			<dependency>
-				<groupId>com.esotericsoftware</groupId>
-				<artifactId>kryo-shaded</artifactId>
-				<version>${kryo.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>de.javakaffee</groupId>
-				<artifactId>kryo-serializers</artifactId>
-				<version>${javakaffee.version}</version>
-			</dependency>
-			<!-- pinyin -->
-			<dependency>
-				<groupId>com.belerweb</groupId>
-				<artifactId>pinyin4j</artifactId>
-				<version>${pinyin.version}</version>
-			</dependency>
-			<!-- jwt -->
-			<dependency>
-				<groupId>io.jsonwebtoken</groupId>
-				<artifactId>jjwt</artifactId>
-				<version>${jjwt.version}</version>
-			</dependency>
-			<!-- shiro -->
-			<dependency>
-				<groupId>org.apache.shiro</groupId>
-				<artifactId>shiro-spring</artifactId>
-				<version>${shiro.version}</version>
-			</dependency>
-			<!-- joda -->
-			<dependency>
-				<groupId>joda-time</groupId>
-				<artifactId>joda-time</artifactId>
-				<version>${joda-time.version}</version>
-			</dependency>
-			<!-- druid -->
-			<dependency>
-				<groupId>com.alibaba</groupId>
-				<artifactId>druid-spring-boot-starter</artifactId>
-				<version>${druid.version}</version>
-			</dependency>
-			<!-- swagger -->
-			<dependency>
-				<groupId>io.springfox</groupId>
-				<artifactId>springfox-swagger2</artifactId>
-				<version>${swagger.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.github.xiaoymin</groupId>
-				<artifactId>swagger-bootstrap-ui</artifactId>
-				<version>${swagger-bootstrap-ui}</version>
-			</dependency>
-			<!-- zxing -->
-			<dependency>
-				<groupId>com.google.zxing</groupId>
-				<artifactId>core</artifactId>
-				<version>${zxing.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>javax.ws.rs</groupId>
-				<artifactId>javax.ws.rs-api</artifactId>
-				<version>${javax.ws.rs-api.version}</version>
-			</dependency>
-			<!-- guava -->
-			<dependency>
-				<groupId>com.google.guava</groupId>
-				<artifactId>guava</artifactId>
-				<version>${guava.verison}</version>
-			</dependency>
-			<!-- nekohtml -->
-			<dependency>
-				<groupId>net.sourceforge.nekohtml</groupId>
-				<artifactId>nekohtml</artifactId>
-				<version>${nekohtml.version}</version>
-			</dependency>
-			<!-- logstash-logback-encoder -->
-			<dependency>
-				<groupId>net.logstash.logback</groupId>
-				<artifactId>logstash-logback-encoder</artifactId>
-				<version>${logstash-logback.version}</version>
-			</dependency>
-			<!-- drools -->
-			<dependency>
-				<groupId>org.kie</groupId>
-				<artifactId>kie-spring</artifactId>
-				<version>${drools.version}</version>
-				<!-- Sadly kie-spring depends upon spring 3.2, but we need 4x to run 
-					smoothly with spring boot and while http://books.sonatype.com/mvnref-book/reference/pom-relationships-sect-project-dependencies.html 
-					is not working for us, we need to exclude the 3.2-dependencies -->
-				<exclusions>
-					<exclusion>
-						<groupId>org.springframework</groupId>
-						<artifactId>spring-tx</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.springframework</groupId>
-						<artifactId>spring-beans</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.springframework</groupId>
-						<artifactId>spring-core</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.springframework</groupId>
-						<artifactId>spring-context</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<!-- activit -->
-			<dependency>
-				<groupId>org.activiti</groupId>
-				<artifactId>activiti-spring</artifactId>
-				<version>${activiti.version}</version>
-				<exclusions>
-					<exclusion>
-						<groupId>org.mybatis</groupId>
-						<artifactId>mybatis</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<dependency>
-				<groupId>org.activiti</groupId>
-				<artifactId>activiti-modeler</artifactId>
-				<version>${activiti.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.activiti</groupId>
-				<artifactId>activiti-diagram-rest</artifactId>
-				<version>${activiti.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.fasterxml.uuid</groupId>
-				<artifactId>java-uuid-generator</artifactId>
-				<version>${java-uuid-generator}</version>
-			</dependency>
-			<!-- compass -->
-			<dependency>
-				<groupId>cn.com.compass</groupId>
-				<artifactId>compass-spring-boot-base</artifactId>
-				<version>${compss-boot.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>cn.com.compass</groupId>
-				<artifactId>compass-spring-boot-util</artifactId>
-				<version>${compss-boot.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>cn.com.compass</groupId>
-				<artifactId>compass-spring-boot-autoconfig</artifactId>
-				<version>${compss-boot.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>cn.com.compass</groupId>
-				<artifactId>compass-spring-boot-data</artifactId>
-				<version>${compss-boot.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>cn.com.compass</groupId>
-				<artifactId>compass-spring-boot-web</artifactId>
-				<version>${compss-boot.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>cn.com.compass</groupId>
-				<artifactId>compass-spring-boot-camel</artifactId>
-				<version>${compss-boot.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>cn.com.compass</groupId>
-				<artifactId>compass-spring-boot-cache</artifactId>
-				<version>${compss-boot.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>cn.com.compass</groupId>
-				<artifactId>compass-spring-boot-activiti</artifactId>
-				<version>${compss-boot.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>cn.com.compass</groupId>
-				<artifactId>compass-spring-boot-drools</artifactId>
-				<version>${compss-boot.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>cn.com.compass</groupId>
-				<artifactId>compass-spring-boot-lcn</artifactId>
-				<version>${compss-boot.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>cn.com.compass</groupId>
-				<artifactId>compass-spring-boot-swagger</artifactId>
-				<version>${compss-boot.version}</version>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>${mybatis.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper-spring-boot-starter</artifactId>
+                <version>${page-hepler.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+            <!-- sharding-jdbc -->
+            <!-- 分库分表+数据自理 -->
+            <dependency>
+                <groupId>io.shardingsphere</groupId>
+                <artifactId>sharding-jdbc-orchestration-spring-boot-starter</artifactId>
+                <version>${sharding-jdbc.version}</version>
+            </dependency>
+            <!-- 分库分表 -->
+            <dependency>
+                <groupId>io.shardingsphere</groupId>
+                <artifactId>sharding-jdbc-spring-boot-starter</artifactId>
+                <version>${sharding-jdbc.version}</version>
+            </dependency>
+            <!-- lcn分布式事务控制 -->
+            <dependency>
+                <groupId>com.codingapi</groupId>
+                <artifactId>transaction-springcloud</artifactId>
+                <version>${lcn.last.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>com.codingapi</groupId>
+                <artifactId>tx-plugins-db</artifactId>
+                <version>${lcn.last.version}</version>
+            </dependency>
+            <!-- jackson -->
+            <dependency>
+                <groupId>com.fasterxml.jackson.datatype</groupId>
+                <artifactId>jackson-datatype-jsr310</artifactId>
+                <version>${jackson-datatype-jsr310.version}</version>
+            </dependency>
+            <!-- apache common -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${common-lang3.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-beanutils</groupId>
+                <artifactId>commons-beanutils</artifactId>
+                <version>${common-beanutils.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-fileupload</groupId>
+                <artifactId>commons-fileupload</artifactId>
+                <version>${commons-fileupload.version}</version>
+            </dependency>
+            <!-- kryo -->
+            <dependency>
+                <groupId>com.esotericsoftware</groupId>
+                <artifactId>kryo-shaded</artifactId>
+                <version>${kryo.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>de.javakaffee</groupId>
+                <artifactId>kryo-serializers</artifactId>
+                <version>${javakaffee.version}</version>
+            </dependency>
+            <!-- pinyin -->
+            <dependency>
+                <groupId>com.belerweb</groupId>
+                <artifactId>pinyin4j</artifactId>
+                <version>${pinyin.version}</version>
+            </dependency>
+            <!-- jwt -->
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>${jjwt.version}</version>
+            </dependency>
+            <!-- shiro -->
+            <dependency>
+                <groupId>org.apache.shiro</groupId>
+                <artifactId>shiro-spring</artifactId>
+                <version>${shiro.version}</version>
+            </dependency>
+            <!-- joda -->
+            <dependency>
+                <groupId>joda-time</groupId>
+                <artifactId>joda-time</artifactId>
+                <version>${joda-time.version}</version>
+            </dependency>
+            <!-- druid -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
+            <!-- swagger -->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>swagger-bootstrap-ui</artifactId>
+                <version>${swagger-bootstrap-ui}</version>
+            </dependency>
+            <!-- zxing -->
+            <dependency>
+                <groupId>com.google.zxing</groupId>
+                <artifactId>core</artifactId>
+                <version>${zxing.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.ws.rs</groupId>
+                <artifactId>javax.ws.rs-api</artifactId>
+                <version>${javax.ws.rs-api.version}</version>
+            </dependency>
+            <!-- guava -->
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.verison}</version>
+            </dependency>
+            <!-- nekohtml -->
+            <dependency>
+                <groupId>net.sourceforge.nekohtml</groupId>
+                <artifactId>nekohtml</artifactId>
+                <version>${nekohtml.version}</version>
+            </dependency>
+            <!-- logstash-logback-encoder -->
+            <dependency>
+                <groupId>net.logstash.logback</groupId>
+                <artifactId>logstash-logback-encoder</artifactId>
+                <version>${logstash-logback.version}</version>
+            </dependency>
+            <!-- drools -->
+            <dependency>
+                <groupId>org.kie</groupId>
+                <artifactId>kie-spring</artifactId>
+                <version>${drools.version}</version>
+                <!-- Sadly kie-spring depends upon spring 3.2, but we need 4x to run
+                    smoothly with spring boot and while http://books.sonatype.com/mvnref-book/reference/pom-relationships-sect-project-dependencies.html
+                    is not working for us, we need to exclude the 3.2-dependencies -->
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-tx</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-beans</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-core</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-context</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <!-- activit -->
+            <dependency>
+                <groupId>org.activiti</groupId>
+                <artifactId>activiti-spring</artifactId>
+                <version>${activiti.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.mybatis</groupId>
+                        <artifactId>mybatis</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.activiti</groupId>
+                <artifactId>activiti-modeler</artifactId>
+                <version>${activiti.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.activiti</groupId>
+                <artifactId>activiti-diagram-rest</artifactId>
+                <version>${activiti.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.uuid</groupId>
+                <artifactId>java-uuid-generator</artifactId>
+                <version>${java-uuid-generator}</version>
+            </dependency>
+            <!-- compass -->
+            <dependency>
+                <groupId>cn.com.compass</groupId>
+                <artifactId>compass-spring-boot-base</artifactId>
+                <version>${compss-boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.com.compass</groupId>
+                <artifactId>compass-spring-boot-util</artifactId>
+                <version>${compss-boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.com.compass</groupId>
+                <artifactId>compass-spring-boot-autoconfig</artifactId>
+                <version>${compss-boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.com.compass</groupId>
+                <artifactId>compass-spring-boot-data</artifactId>
+                <version>${compss-boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.com.compass</groupId>
+                <artifactId>compass-spring-boot-web</artifactId>
+                <version>${compss-boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.com.compass</groupId>
+                <artifactId>compass-spring-boot-camel</artifactId>
+                <version>${compss-boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.com.compass</groupId>
+                <artifactId>compass-spring-boot-cache</artifactId>
+                <version>${compss-boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.com.compass</groupId>
+                <artifactId>compass-spring-boot-activiti</artifactId>
+                <version>${compss-boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.com.compass</groupId>
+                <artifactId>compass-spring-boot-drools</artifactId>
+                <version>${compss-boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.com.compass</groupId>
+                <artifactId>compass-spring-boot-lcn</artifactId>
+                <version>${compss-boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.com.compass</groupId>
+                <artifactId>compass-spring-boot-swagger</artifactId>
+                <version>${compss-boot.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
 
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring-boot.version}</version>
+                    <configuration>
+                        <layout>ZIP</layout>
+                        <!-- 有多个入口类的时候需要指定mainclass,也可以定义一个start-class属性 -->
+                        <!-- <mainClass></mainClass> -->
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>repackage</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.camel</groupId>
+                    <artifactId>camel-maven-plugin</artifactId>
+                    <version>${apache-camel.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <!-- 指定项目编译版本 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.7.0</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                    <source>${jdk.version}</source>
+                    <target>${jdk.version}</target>
+                    <compilerArgs>
+                        <arg>-parameters</arg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
+            <!-- surefire -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.20.1</version>
+                <configuration>
+                    <skipTests>true</skipTests>    <!--默认关掉单元测试 -->
+                </configuration>
+            </plugin>
+            <!-- 生成sources源码包的插件 -->
+            <plugin>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.0.1</version>
+                <configuration>
+                    <attach>true</attach>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- release 发行版插件 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.3</version>
+                <configuration>
+                    <tagBase>https://gitee.com/milkove/compass-spring-boot.git</tagBase>
+                    <connectionUrl>https://gitee.com/milkove/compass-spring-boot.git</connectionUrl>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                    <tagNameFormat>v@{project.version}</tagNameFormat>
+                    <generateReleasePoms>false</generateReleasePoms>
+                    <arguments>-DskipTests</arguments>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
-	<build>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-maven-plugin</artifactId>
-					<version>${spring-boot.version}</version>
-					<configuration>
-						<layout>ZIP</layout>
-						<!-- 有多个入口类的时候需要指定mainclass,也可以定义一个start-class属性 -->
-						<!-- <mainClass></mainClass> -->
-					</configuration>
-					<executions>
-						<execution>
-							<goals>
-								<goal>repackage</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.camel</groupId>
-					<artifactId>camel-maven-plugin</artifactId>
-					<version>${apache-camel.version}</version>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-		<plugins>
-			<!-- 指定项目编译版本 -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.7.0</version>
-				<configuration>
-					<encoding>UTF-8</encoding>
-					<source>${jdk.version}</source>
-					<target>${jdk.version}</target>
-					<compilerArgs>
-						<arg>-parameters</arg>
-					</compilerArgs>
-				</configuration>
-			</plugin>
-			<!-- surefire -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.20.1</version>
-				<configuration>
-					<skipTests>true</skipTests>    <!--默认关掉单元测试 -->
-				</configuration>
-			</plugin>
-			<!-- 生成sources源码包的插件 -->
-			<plugin>
-				<artifactId>maven-source-plugin</artifactId>
-				<version>3.0.1</version>
-				<configuration>
-					<attach>true</attach>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>jar-no-fork</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<!-- release 发行版插件 -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-release-plugin</artifactId>
-				<version>2.5.3</version>
-				<configuration>
-					<tagBase>https://gitee.com/milkove/compass-spring-boot.git</tagBase>
-					<connectionUrl>https://gitee.com/milkove/compass-spring-boot.git</connectionUrl>
-					<autoVersionSubmodules>true</autoVersionSubmodules>
-					<tagNameFormat>v@{project.version}</tagNameFormat>
-					<generateReleasePoms>false</generateReleasePoms>
-					<arguments>-DskipTests</arguments>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+    <!-- maven 仓库 -->
+    <repositories>
+        <!-- spring maven 仓库 -->
+        <repository>
+            <id>spring-snapshots</id>
+            <name>Spring Snapshots</name>
+            <url>https://repo.spring.io/snapshot</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/milestone</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <!-- 私服仓库 -->
+        <repository>
+            <id>compass-repositories</id>
+            <name>Compass Repositories</name>
+            <url>http://10.10.171.174:3000/nexus/content/groups/public/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 
-	<!-- maven 仓库 -->
-	<repositories>
-		<!-- spring maven 仓库 -->
-		<repository>
-			<id>spring-snapshots</id>
-			<name>Spring Snapshots</name>
-			<url>https://repo.spring.io/snapshot</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>spring-milestones</id>
-			<name>Spring Milestones</name>
-			<url>https://repo.spring.io/milestone</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<!-- 私服仓库 -->
-		<repository>
-			<id>compass-repositories</id>
-			<name>Compass Repositories</name>
-			<url>http://10.10.171.174:3000/nexus/content/groups/public/</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
+    <!-- 发布到私服 -->
+    <distributionManagement>
+        <repository>
+            <id>Releases</id>
+            <url>http://10.10.171.174:3000/nexus/content/repositories/releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>Snapshots</id>
+            <url>http://10.10.171.174:3000/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
 
-	<!-- 发布到私服 -->
-	<distributionManagement>
-		<repository>
-			<id>Releases</id>
-			<url>http://10.10.171.174:3000/nexus/content/repositories/releases/</url>
-		</repository>
-		<snapshotRepository>
-			<id>Snapshots</id>
-			<url>http://10.10.171.174:3000/nexus/content/repositories/snapshots/</url>
-		</snapshotRepository>
-	</distributionManagement>
-
-	<modules>
-		<module>compass-spring-boot-base</module>
-		<module>compass-spring-boot-util</module>
-		<module>compass-spring-boot-autoconfig</module>
-		<module>compass-spring-boot-data</module>
-		<module>compass-spring-boot-web</module>
-		<module>compass-spring-boot-cache</module>
-		<module>compass-spring-boot-camel</module>
-		<module>compass-spring-boot-drools</module>
-		<module>compass-spring-boot-activiti</module>
-    	<module>compass-spring-boot-lcn</module>
+    <modules>
+        <module>compass-spring-boot-base</module>
+        <module>compass-spring-boot-util</module>
+        <module>compass-spring-boot-autoconfig</module>
+        <module>compass-spring-boot-data</module>
+        <module>compass-spring-boot-web</module>
+        <module>compass-spring-boot-cache</module>
+        <module>compass-spring-boot-camel</module>
+        <module>compass-spring-boot-drools</module>
+        <module>compass-spring-boot-activiti</module>
+        <module>compass-spring-boot-lcn</module>
         <module>compass-spring-boot-swagger</module>
-		<module>compass-spring-boot-sample</module>
-	</modules>
+        <module>compass-spring-boot-sample</module>
+    </modules>
 </project>
