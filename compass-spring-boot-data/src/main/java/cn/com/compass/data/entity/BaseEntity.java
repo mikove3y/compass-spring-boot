@@ -67,7 +67,7 @@ public class BaseEntity<PK extends Serializable> extends Model implements Serial
 	 * <h1>使用sharding-jdbc分库分表框架</h1>
 	 */
 
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	// @SequenceGenerator(name =
 	// "prodG",sequenceName="product_id_seq",allocationSize=1) /*ORACLE*/
 	// @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "prodG")
