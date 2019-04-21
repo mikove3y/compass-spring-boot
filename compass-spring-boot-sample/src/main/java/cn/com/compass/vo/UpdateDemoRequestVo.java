@@ -18,19 +18,18 @@ import java.util.Map;
 @Data
 public class UpdateDemoRequestVo extends BaseDataX {
 
-    public UpdateDemoRequestVo(){
-        /**
-         * 初始化数据对照
-         */
-        Map<String,String> temp = new HashMap<>();
-        temp.put("nameX","name");
-        this.addSource2TargetProperties(temp);
-    }
-
     private String nameX;
 
     private String business;
 
     private Date time;
+
+    /**
+     * 添加转换字段
+     */
+    @Override
+    public void addSource2TargetProperties() {
+        this.addSource2TargetProperties("nameX","name");
+    }
 
 }

@@ -4,8 +4,6 @@ import cn.com.compass.base.constant.BaseBizeStatusEnum;
 import cn.com.compass.data.annotation.LogicDelete;
 import cn.com.compass.data.interceptor.JpaCrudInterceptor;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import org.activejpa.entity.Model;
 import org.hibernate.annotations.Type;
 
@@ -82,7 +80,7 @@ public class BaseEntity<PK extends Serializable> extends Model implements Serial
 	/**
 	 * 创建人Id
 	 */
-	private PK createrId;
+	private PK creatorId;
 	/**
 	 * 创建时间
 	 */
@@ -99,7 +97,7 @@ public class BaseEntity<PK extends Serializable> extends Model implements Serial
 	 * 版本号
 	 */
 	@Version
-	private Integer version;
+	private Long version;
 	/**
 	 * 逻辑删除字段
 	 */
@@ -107,11 +105,13 @@ public class BaseEntity<PK extends Serializable> extends Model implements Serial
 	@Type(type="cn.com.compass.data.convert.JpaDbEnumTypeHandler")
 	private BaseBizeStatusEnum.YesOrNo enabled;
 
+	public static final String ID = "id";
+
 	public static final String VERSION = "version";
 
 	public static final String CREATETIME = "createTime";
 
-	public static final String CREATERID = "createrId";
+	public static final String CREATORID = "creatorId";
 	
 	public static final String LASTUPDATETIME = "lastUpdateTime";
 

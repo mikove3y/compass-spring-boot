@@ -8,7 +8,7 @@ package cn.com.compass.data.dynamic;
  * @date 2018年6月6日 下午3:51:25
  * v1.1.2 sharding-jdbc自动实现了读写分离 master-slave分离，不在使用自定义方式切换数据源
  */
-public class DynamicDsSwitch {
+public class DynamicDsHodler {
 	
 	private static final ThreadLocal<String> contextHolder = new ThreadLocal<>();
 

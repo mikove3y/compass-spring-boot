@@ -83,7 +83,7 @@ public class JpaCommonMetaHanlder extends EmptyInterceptor {
 				for (int i = 0; i < propertyNames.length; i++) {
 					if (sub != null) {
 						// 创建人Id
-						if (propertyNames[i].equals(BaseEntity.CREATERID)) {
+						if (propertyNames[i].equals(BaseEntity.CREATORID)) {
 							state[i] = sub.getUserId();
 						}
 					}

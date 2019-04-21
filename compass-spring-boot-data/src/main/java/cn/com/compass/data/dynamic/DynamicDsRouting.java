@@ -14,7 +14,7 @@ public class DynamicDsRouting extends AbstractRoutingDataSource{
 
 	@Override
 	protected Object determineCurrentLookupKey() {
-		return DynamicDsSwitch.getDataSourceType();
+		return DynamicDsHodler.getDataSourceType();
 	}
 
 }

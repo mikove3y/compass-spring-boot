@@ -6,6 +6,7 @@ import cn.com.compass.base.vo.BaseResponseAppPageVo;
 import cn.com.compass.base.vo.BaseResponsePcPageVo;
 import cn.com.compass.data.entity.BaseEntity;
 import cn.com.compass.data.repository.BaseEntityRepository;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +28,8 @@ public class BaseEntityServiceImpl<T extends BaseEntity,PK extends Serializable>
 	
 	@Autowired
 	private BaseEntityRepository<T,PK> repository;
+	@Autowired
+	private JPAQueryFactory jpaQueryFactory;
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)

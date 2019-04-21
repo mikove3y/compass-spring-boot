@@ -5,7 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public abstract class BaseRequestAppPageVo extends BaseDataX{
+public class BaseRequestAppPageVo extends BaseDataX{
 
 	private static final long serialVersionUID = -2113556648016554107L;
 	/**
@@ -15,21 +15,6 @@ public abstract class BaseRequestAppPageVo extends BaseDataX{
 	/**
 	 * 页条数
 	 */
-	private Integer pageSize = 12;
-
-	/**
-	 * 添加转换字段
-	 */
-//	public void addSource2TargetProperties() {
-//		source2TargetProperties().putAll();
-//	}
-
-	/**
-	 * 添加排序字段
-	 */
-//	public void addOrder() {
-//		orders().put("id",true);
-//	}
-
+	private int pageSize = 12;
 
 }

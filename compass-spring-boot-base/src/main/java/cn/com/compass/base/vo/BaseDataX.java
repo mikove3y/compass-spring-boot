@@ -15,7 +15,13 @@ import java.util.Map;
  * @date 2018年6月29日 下午1:16:09
  *
  */
-public abstract class BaseDataX {
+public class BaseDataX {
+
+	@JsonIgnore
+	public BaseDataX(){
+		this.addSource2TargetProperties();
+		this.addOrder();
+	}
 
 	/**
 	 * 字段转换映射Map
@@ -37,12 +43,32 @@ public abstract class BaseDataX {
 	/**
 	 * 对照字段
 	 */
+	@JsonIgnore
 	public Map<String,String> source2TargetProperties(){
 		return source2TargetProperties;
 	}
 
 	/**
 	 * 添加转换字段
+	 */
+	@JsonIgnore
+	public void addSource2TargetProperties(){
+
+	}
+
+	/**
+	 * 添加转换字段
+	 * @param key
+	 * @param value
+	 */
+	@JsonIgnore
+	public void addSource2TargetProperties(String key,String value){
+		this.source2TargetProperties().put(key,value);
+	}
+
+	/**
+	 * 添加转换字段
+	 * @param map
 	 */
 	@JsonIgnore
 	public void addSource2TargetProperties(Map<String,String> map){
@@ -55,12 +81,32 @@ public abstract class BaseDataX {
 	 * 排序字段
 	 * @return
 	 */
+	@JsonIgnore
 	public  Map<String,Boolean> orders(){
 		return orders;
 	}
 
 	/**
 	 * 添加排序字段
+	 */
+	@JsonIgnore
+	public void addOrder(){
+
+	}
+
+	/**
+	 * 添加排序字段
+	 * @param key
+	 * @param value
+	 */
+	@JsonIgnore
+	public void addOrder(String key,Boolean value){
+		this.orders().put(key,value);
+	}
+
+	/**
+	 * 添加排序字段
+	 * @param map
 	 */
 	@JsonIgnore
 	public void addOrder(Map<String,Boolean> map){

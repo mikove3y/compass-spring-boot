@@ -16,10 +16,20 @@ import java.util.Map;
 @Data
 public class PcPageDemoRequestVo extends BaseRequestPcPageVo {
 
-    public PcPageDemoRequestVo(){
-        Map<String,Boolean> map = new LinkedHashMap<>();
-        map.put("id",true);
-        this.addOrder(map);
+    /**
+     * 添加转换字段
+     */
+    @Override
+    public void addSource2TargetProperties() {
+
+    }
+
+    /**
+     * 添加排序字段
+     */
+    @Override
+    public void addOrder() {
+        this.addOrder("id",true);;
     }
 
     /**

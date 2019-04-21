@@ -16,10 +16,12 @@ import java.util.Map;
 @Data
 public class AppPageDemoRequestVo extends BaseRequestAppPageVo {
 
-    public AppPageDemoRequestVo(){
-        Map<String,Boolean> map = new LinkedHashMap<>();
-        map.put("id",true);
-        this.addOrder(map);
+    /**
+     * 添加排序字段
+     */
+    @Override
+    public void addOrder() {
+        this.addOrder("id",true);
     }
 
     private String name;

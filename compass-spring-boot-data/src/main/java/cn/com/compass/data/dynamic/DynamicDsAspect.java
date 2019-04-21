@@ -1,7 +1,6 @@
-package cn.com.compass.data.aop;
+package cn.com.compass.data.dynamic;
 
 import cn.com.compass.data.annotation.DynamicDs;
-import cn.com.compass.data.dynamic.DynamicDsSwitch;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -16,13 +15,10 @@ import java.lang.reflect.Method;
  * @email 524623302@qq.com
  * @todo 动态数据源切换切面
  * @date 2018年6月6日 下午3:50:58
- * @since v1.1.2 sharding-jdbc自动实现了读写分离 master-slave分离，不在使用自定义方式切换数据源
  */
 @Aspect
 @Component
 public class DynamicDsAspect {
-
-	private ThreadLocal<String> hodler = new ThreadLocal<>();
 
 	@Pointcut("@annotation(cn.com.compass.data.annotation.DynamicDs)")
 	public void DynamicDsPointCut() {
@@ -30,22 +26,20 @@ public class DynamicDsAspect {
 
 	@Before("DynamicDsPointCut()")
 	public void before(JoinPoint call) {
-		String oldDs = DynamicDsSwitch.getDataSourceType();
-		hodler.set(oldDs);
-		String currDsName = getTargetDsName(call);
-		DynamicDsSwitch.setDataSourceType(currDsName);
+		// 设置目标数据源
+		DynamicDsHodler.setDataSourceType(getTargetDsName(call));
 	}
 
 	@AfterReturning(returning = "ret", pointcut = "DynamicDsPointCut()")
 	public void afterReturn(Object ret) {
-		DynamicDsSwitch.setDataSourceType(hodler.get());
-		hodler.remove();
+		// 还原主数据源
+		DynamicDsHodler.clearDataSourceType();
 	}
 
 	@AfterThrowing(pointcut = "DynamicDsPointCut()", throwing = "e")
 	public void afterThrowing(JoinPoint call, Throwable e) {
-		DynamicDsSwitch.setDataSourceType(hodler.get());
-		hodler.remove();
+		// 还原主数据源
+		DynamicDsHodler.clearDataSourceType();
 	}
 
 	/**

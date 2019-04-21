@@ -12,30 +12,16 @@ import lombok.Data;
  *
  */
 @Data
-public abstract class BaseRequestPcPageVo extends BaseDataX{
+public class BaseRequestPcPageVo extends BaseDataX{
 
 	private static final long serialVersionUID = 8464373602146221705L;
 	/**
 	 * 页码
 	 */
-	private Integer pageNo = 1;
+	private int pageNo = 1;
 	/**
 	 * 页条数
 	 */
-	private Integer pageSize = 20;
-
-	/**
-	 * 添加转换字段
-	 */
-//	public void addSource2TargetProperties() {
-//		source2TargetProperties().putAll();
-//	}
-
-	/**
-	 * 添加排序字段
-	 */
-//	public void addOrder() {
-//		orders().put("id",true);
-//	}
+	private int pageSize = 20;
 
 }

@@ -3,6 +3,7 @@ package cn.com.compass.service.impl;
 import cn.com.compass.base.vo.BaseResponseAppPageVo;
 import cn.com.compass.base.vo.BaseResponsePcPageVo;
 import cn.com.compass.base.vo.BaseResponseVo;
+import cn.com.compass.data.service.ActiveBaseEntityServiceImpl;
 import cn.com.compass.dto.DemoDTO;
 import cn.com.compass.entity.Demo;
 import cn.com.compass.mapper.DemoMapper;
@@ -33,44 +34,38 @@ import javax.persistence.criteria.Root;
  */
 @Service
 @Transactional(readOnly = true)
-public class DemoServiceImpl implements DemoService {
+public class DemoServiceImpl extends ActiveBaseEntityServiceImpl<Demo,Long> implements DemoService {
 
     @Autowired
     private DemoMapper mapper;
-    @Autowired
-    private DemoRepository repository;
-    @Autowired
-    private JPAQueryFactory jpaQueryFactory;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public BaseResponseVo<DemoDTO> newDemo(NewDemoRequestVo vo) throws Exception {
         Demo demo = (Demo) DataXUtil.copyProperties(vo, Demo.class, vo.source2TargetProperties());
-        demo.persist();
-//        BaseResponseVo.success().setData(demo);
-//        repository.saveOne(demo);
+        this.saveOne(demo);
         return BaseResponseVo.success().setData((DemoDTO) DataXUtil.copyProperties(demo,DemoDTO.class,null));
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public BaseResponseVo deleteDemo(Long id) throws Exception {
-        repository.deleteById(id);
+        this.deleteById(id);
         return BaseResponseVo.success();
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public BaseResponseVo<DemoDTO> updateDemo(Long id,UpdateDemoRequestVo vo) throws Exception {
-        Demo demo = repository.findById(id);
+        Demo demo = this.findById(id);
         DataXUtil.copyProperties(vo,demo,vo.source2TargetProperties());
-        repository.updateOne(demo);
+        this.updateOne(demo);
         return BaseResponseVo.success().setData((DemoDTO) DataXUtil.copyProperties(demo,DemoDTO.class,null));
     }
 
     @Override
     public BaseResponseVo<DemoDTO> findOneDemo(Long id) throws Exception {
-        return BaseResponseVo.success().setData((DemoDTO) DataXUtil.copyProperties(repository.findById(id),DemoDTO.class,null));
+        return BaseResponseVo.success().setData((DemoDTO) DataXUtil.copyProperties(this.findById(id),DemoDTO.class,null));
     }
 
     @Override
@@ -81,7 +76,7 @@ public class DemoServiceImpl implements DemoService {
                 return cb.like(root.get("name"),"%"+vo.getName()+"%");
             }
         };
-        return BaseResponseVo.success().setData(repository.findAppPage(vo,spec));
+        return BaseResponseVo.success().setData(this.findAppPage(vo,spec));
     }
 
     @Override
@@ -92,6 +87,6 @@ public class DemoServiceImpl implements DemoService {
                 return cb.like(root.get("name"),"%"+vo.getName()+"%");
             }
         };
-        return BaseResponseVo.success().setData(repository.findPcPage(vo,spec));
+        return BaseResponseVo.success().setData(this.findPcPage(vo,spec));
     }
 }
