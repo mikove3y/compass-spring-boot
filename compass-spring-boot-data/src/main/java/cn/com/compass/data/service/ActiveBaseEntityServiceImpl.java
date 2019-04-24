@@ -4,7 +4,6 @@ import cn.com.compass.base.vo.BaseRequestAppPageVo;
 import cn.com.compass.base.vo.BaseRequestPcPageVo;
 import cn.com.compass.base.vo.BaseResponseAppPageVo;
 import cn.com.compass.base.vo.BaseResponsePcPageVo;
-import cn.com.compass.data.dto.BaseEntityDTO;
 import cn.com.compass.data.entity.BaseEntity;
 import cn.com.compass.data.util.PageTransformUtil;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -229,15 +228,6 @@ public class ActiveBaseEntityServiceImpl<T extends BaseEntity,PK extends Seriali
     @Override
     public T findById(PK id) {
         return T.findById(id);
-    }
-
-    /**
-     *
-     * @param <D>
-     * @return
-     */
-    public <D extends BaseEntityDTO> D findDTOById(PK id){
-        return null;
     }
 
     /**

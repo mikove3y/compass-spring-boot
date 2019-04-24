@@ -7,7 +7,9 @@ import cn.com.compass.base.vo.BaseResponsePcPageVo;
 import cn.com.compass.data.annotation.LogicDelete;
 import cn.com.compass.data.entity.BaseEntity;
 import cn.com.compass.data.util.PageTransformUtil;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.collections.MapUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -43,6 +45,9 @@ public class BaseEntityRepositoryImpl<T extends BaseEntity,PK extends Serializab
 
 	@PersistenceContext
 	private EntityManager entityManager;
+
+	@Autowired
+	private JPAQueryFactory jpaQueryFactory;
 
 	private Class<T> entityClass;
 	
@@ -303,6 +308,7 @@ public class BaseEntityRepositoryImpl<T extends BaseEntity,PK extends Serializab
 		return this.count(spec);
 	}
 
+
 	@Override
 	public Class<T> domainClass() {
 		return entityClass;
@@ -311,6 +317,16 @@ public class BaseEntityRepositoryImpl<T extends BaseEntity,PK extends Serializab
 	@Override
 	public EntityManager entityManager() {
 		return entityManager;
+	}
+
+	/**
+	 * JPAQueryFactory
+	 *
+	 * @return
+	 */
+	@Override
+	public JPAQueryFactory jpaQueryFactory() {
+		return jpaQueryFactory;
 	}
 
 }

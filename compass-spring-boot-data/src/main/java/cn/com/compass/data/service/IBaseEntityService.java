@@ -5,8 +5,10 @@ import cn.com.compass.base.vo.BaseRequestPcPageVo;
 import cn.com.compass.base.vo.BaseResponseAppPageVo;
 import cn.com.compass.base.vo.BaseResponsePcPageVo;
 import cn.com.compass.data.entity.BaseEntity;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.jpa.domain.Specification;
 
+import javax.persistence.EntityManager;
 import java.io.Serializable;
 import java.util.List;
 
@@ -153,4 +155,23 @@ public interface IBaseEntityService<T extends BaseEntity,PK extends Serializable
 	 * @return
 	 */
 	public Long countNum(Specification<T> spec);
+
+	/**
+	 * 领域模型类
+	 * @return
+	 */
+	public Class<T> domainClass();
+	/**
+	 * 实体管理器
+	 * @return
+	 */
+	public EntityManager entityManager();
+
+	/**
+	 * JPAQueryFactory
+	 * @return
+	 */
+	public JPAQueryFactory jpaQueryFactory();
+
+	// 扩展dto查询映射方法
 }
