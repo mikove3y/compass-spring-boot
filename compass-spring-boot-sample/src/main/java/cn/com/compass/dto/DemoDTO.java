@@ -15,7 +15,7 @@ import java.util.Date;
 @Data
 public class DemoDTO implements Serializable {
 
-    private Long id;
+    private Long xid;
 
     private String name;
 

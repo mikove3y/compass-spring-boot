@@ -6,6 +6,7 @@ import cn.com.compass.base.vo.BaseResponseVo;
 import cn.com.compass.data.service.ActiveBaseEntityServiceImpl;
 import cn.com.compass.dto.DemoDTO;
 import cn.com.compass.entity.Demo;
+import cn.com.compass.entity.QDemo;
 import cn.com.compass.mapper.DemoMapper;
 import cn.com.compass.repository.DemoRepository;
 import cn.com.compass.service.DemoService;
@@ -14,6 +15,7 @@ import cn.com.compass.vo.AppPageDemoRequestVo;
 import cn.com.compass.vo.NewDemoRequestVo;
 import cn.com.compass.vo.PcPageDemoRequestVo;
 import cn.com.compass.vo.UpdateDemoRequestVo;
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -65,7 +67,19 @@ public class DemoServiceImpl extends ActiveBaseEntityServiceImpl<Demo,Long> impl
 
     @Override
     public BaseResponseVo<DemoDTO> findOneDemo(Long id) throws Exception {
-        return BaseResponseVo.success().setData((DemoDTO) DataXUtil.copyProperties(this.findById(id),DemoDTO.class,null));
+        // 参考: https://www.jianshu.com/p/5c416a780b3e
+        QDemo _Q_Demo = QDemo.demo;
+        DemoDTO dto =  this.jpaQueryFactory()
+                .select(Projections.bean(
+                        DemoDTO.class,
+                        _Q_Demo.id.as("xid"),
+                        _Q_Demo.business,
+                        _Q_Demo.time
+                ))
+                .from(_Q_Demo)
+                .where(_Q_Demo.id.eq(id))
+                .fetchOne();
+       return BaseResponseVo.success().setData(dto);
     }
 
     @Override
