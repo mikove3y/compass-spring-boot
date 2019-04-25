@@ -1,6 +1,6 @@
 package cn.com.compass.data.config;
 
-import cn.com.compass.data.listner.ActiveJPAContextListener;
+import cn.com.compass.data.active.ActiveJPAContextListener;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;

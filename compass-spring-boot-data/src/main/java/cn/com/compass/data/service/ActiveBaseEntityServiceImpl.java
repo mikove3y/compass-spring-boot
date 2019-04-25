@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
  * @author wanmk
  * @git https://gitee.com/milkove
  * @email 524623302@qq.com
- * @todo
+ * @todo ActiveModel 模式 不需要Entity新建Repository接口类
  * @date 2019/4/21 14:26
  */
 @Transactional(readOnly = true)
@@ -83,6 +83,17 @@ public class ActiveBaseEntityServiceImpl<T extends BaseEntity,PK extends Seriali
      */
     public JPAQueryFactory jpaQueryFactory(){
         return jpaQueryFactory;
+    }
+
+    /**
+     * 是否存在
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public boolean exist(PK id) {
+        return T.exists(id);
     }
 
     /**

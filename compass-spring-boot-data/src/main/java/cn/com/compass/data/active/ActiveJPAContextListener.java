@@ -1,8 +1,7 @@
-package cn.com.compass.data.listner;
+package cn.com.compass.data.active;
 
 import com.sun.tools.attach.VirtualMachine;
 import org.activejpa.enhancer.ActiveJpaAgent;
-import org.activejpa.enhancer.ActiveJpaAgentLoader;
 import org.activejpa.jpa.JPA;
 
 import javax.annotation.Resource;

@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.MappedSuperclass;
+import java.io.Serializable;
 
 /**
  * 
@@ -17,7 +18,7 @@ import javax.persistence.MappedSuperclass;
 @Getter
 @Setter
 @MappedSuperclass
-public class BaseLevelTreeEntity extends BaseEntity {
+public class BaseLevelTreeEntity<PK extends Serializable> extends BaseEntity<PK> {
 
 	private static final long serialVersionUID = -5445434931452155963L;
 	/**

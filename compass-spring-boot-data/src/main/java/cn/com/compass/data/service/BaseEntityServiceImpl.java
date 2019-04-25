@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import java.io.Serializable;
 import java.util.List;
 
@@ -30,6 +31,17 @@ public class BaseEntityServiceImpl<T extends BaseEntity,PK extends Serializable>
 	private BaseEntityRepository<T,PK> repository;
 	@Autowired
 	private JPAQueryFactory jpaQueryFactory;
+
+	/**
+	 * 是否存在
+	 *
+	 * @param id
+	 * @return
+	 */
+	@Override
+	public boolean exist(PK id) {
+		return repository.exist(id);
+	}
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
@@ -118,6 +130,36 @@ public class BaseEntityServiceImpl<T extends BaseEntity,PK extends Serializable>
 	@Override
 	public Long countNum(Specification<T> spec) {
 		return repository.count(spec);
+	}
+
+	/**
+	 * 领域模型类
+	 *
+	 * @return
+	 */
+	@Override
+	public Class<T> domainClass() {
+		return repository.domainClass();
+	}
+
+	/**
+	 * 实体管理器
+	 *
+	 * @return
+	 */
+	@Override
+	public EntityManager entityManager() {
+		return repository.entityManager();
+	}
+
+	/**
+	 * JPAQueryFactory
+	 *
+	 * @return
+	 */
+	@Override
+	public JPAQueryFactory jpaQueryFactory() {
+		return jpaQueryFactory;
 	}
 
 	@Override

@@ -22,6 +22,14 @@ import java.util.List;
  *
  */
 public interface IBaseEntityService<T extends BaseEntity,PK extends Serializable> {
+	// check
+	/**
+	 * 是否存在
+	 * @param id
+	 * @return
+	 */
+	public boolean exist(PK id);
+
 	// save entity
 	/**
 	 * save one

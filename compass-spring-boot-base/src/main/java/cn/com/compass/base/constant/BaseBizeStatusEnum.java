@@ -19,7 +19,7 @@ public class BaseBizeStatusEnum {
 	 */
 	public enum YesOrNo implements IBaseBizStatusEnum {
 
-		YES("1", "是"), NO("0", "否");
+		YES("Y", "是"), NO("N", "否");
 
 		private final String code;
 
@@ -99,11 +99,11 @@ public class BaseBizeStatusEnum {
 	}
 
 	/**
-	 * 文件类型（ 1-图片，2-音频，3-视频，4-文件，5-其他）
+	 * 文件类型（ 图片，音频，视频，文件，其他）
 	 */
 	public enum FileType implements IBaseBizStatusEnum {
 
-		PIC("1", "图片"), AUDIO("2", "音频"), VIDEO("3","视频"), FILE("4","文件"), OTHER("5","其他");
+		PIC("PIC", "图片"), AUDIO("AUDIO", "音频"), VIDEO("VIDEO","视频"), FILE("FILE","文件"), OTHER("OTHER","其他");
 
 		private final String code;
 
@@ -129,7 +129,7 @@ public class BaseBizeStatusEnum {
 	 * 客户端类型枚举
 	 */
 	public enum ClientType implements IBaseBizStatusEnum {
-		APP("1", "APP"), PC("2", "PC"), ALL("3", "ALL");
+		APP("APP", "APP"), PC("PC", "PC"), ALL("ALL", "ALL");
 		private final String code;
 
 		private final String des;

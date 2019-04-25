@@ -3,9 +3,11 @@ package cn.com.compass.data.entity;
 import cn.com.compass.base.constant.BaseBizeStatusEnum.FileType;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
+import java.io.Serializable;
 
 /**
  * 
@@ -19,7 +21,7 @@ import javax.persistence.Transient;
 @Getter
 @Setter
 @MappedSuperclass
-public class BaseAttachmentEntity extends BaseEntity {
+public class BaseAttachmentEntity<PK extends Serializable> extends BaseEntity<PK> {
 
 	private static final long serialVersionUID = -5445434931452155963L;
 	
@@ -46,7 +48,7 @@ public class BaseAttachmentEntity extends BaseEntity {
 	/**
 	 * 文件类型
 	 */
-	@Transient
+	@Type(type="cn.com.compass.data.convert.JpaDbEnumTypeHandler")
 	private FileType fileType;
 	/**
 	 * 文件key

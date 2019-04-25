@@ -69,8 +69,18 @@ public class BaseEntityRepositoryImpl<T extends BaseEntity,PK extends Serializab
 			if(this.isLogicDelete)break;
 		}
 	}
-	
-	
+
+
+	/**
+	 * 是否存在
+	 *
+	 * @param id
+	 * @return
+	 */
+	@Override
+	public boolean exist(PK id) {
+		return this.exists(id);
+	}
 
 	/*
 	 * (non-Javadoc)
