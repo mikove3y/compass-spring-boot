@@ -5,8 +5,6 @@ import com.sun.tools.attach.AgentLoadException;
 import com.sun.tools.attach.AttachNotSupportedException;
 import com.sun.tools.attach.VirtualMachine;
 import org.activejpa.enhancer.ActiveJpaAgent;
-import org.activejpa.enhancer.ActiveJpaAgentLoader;
-import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.IOException;

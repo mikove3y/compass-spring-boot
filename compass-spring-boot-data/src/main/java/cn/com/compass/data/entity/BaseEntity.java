@@ -6,6 +6,8 @@ import cn.com.compass.data.interceptor.JpaCrudInterceptor;
 import lombok.Data;
 import org.activejpa.entity.Model;
 import org.hibernate.annotations.Type;
+import org.springframework.data.domain.Persistable;
+import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -18,12 +20,12 @@ import java.util.Date;
  * @email 524623302@qq.com
  * @todo jpa基类baseEntity，非完整实体不进行建表，包含所有子类entity通用字段,扩展提供JPA Active Model能力
  * @date 2018年6月6日 下午2:50:02
- *
+ * @see AbstractPersistable
  */
 @Data
 @MappedSuperclass
 @EntityListeners(JpaCrudInterceptor.class)
-public class BaseEntity<PK extends Serializable> extends Model implements Serializable {
+public class BaseEntity<PK extends Serializable> extends Model implements Persistable<PK> {
 
 	private static final long serialVersionUID = 4076489068887449464L;
 	/**
@@ -119,4 +121,14 @@ public class BaseEntity<PK extends Serializable> extends Model implements Serial
 
 	public static final String ENABLED = "enabled";
 
+	/**
+	 * Returns if the {@code Persistable} is new or was persisted already.
+	 *
+	 * @return if the object is new
+	 */
+	@Override
+	@Transient// DATAJPA-622
+	public boolean isNew() {
+		return null == getId();
+	}
 }
