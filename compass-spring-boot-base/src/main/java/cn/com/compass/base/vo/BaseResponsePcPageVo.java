@@ -4,9 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 
@@ -20,7 +18,7 @@ import java.util.Map;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BaseResponsePcPageVo<T> {
+public class BaseResponsePcPageVo<T>  extends BaseExtraVo {
 	/**
 	 * 当前页码
 	 */
@@ -37,8 +35,5 @@ public class BaseResponsePcPageVo<T> {
 	 * 当前页返回数据集
 	 */
 	private List<T> records;
-	/**
-	 * 扩展数据信息
-	 */
-	private Map<String,Object> extra = new HashMap<>();
+
 }

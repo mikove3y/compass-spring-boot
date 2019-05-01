@@ -15,11 +15,11 @@ import java.util.Date;
 @Data
 public class DemoDTO extends BaseDTO {
 
-    private Long id;
-
     private String name;
 
     private String business;
 
     private Date time;
+
+    private Date createTime;
 }

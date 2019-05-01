@@ -19,7 +19,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BaseLevelTreeResponseVo<V extends BaseLevelTreeResponseVo<V>> implements Serializable {
+public class BaseResponseLevelTreeVo<V extends BaseResponseLevelTreeVo<V>> implements Serializable {
 
 	private static final long serialVersionUID = -2210097770425272702L;
 	/**

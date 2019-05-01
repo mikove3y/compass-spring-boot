@@ -1,7 +1,7 @@
 package cn.com.compass.data.util;
 
 import cn.com.compass.base.util.DataXUtil;
-import cn.com.compass.base.vo.BaseLevelTreeResponseVo;
+import cn.com.compass.base.vo.BaseResponseLevelTreeVo;
 import cn.com.compass.data.entity.BaseLevelTreeEntity;
 import org.apache.commons.collections.CollectionUtils;
 
@@ -29,7 +29,7 @@ public class LevelTreeUtil {
 	 * @return
 	 * @throws Exception
 	 */
-	public static <T extends BaseLevelTreeEntity, V extends BaseLevelTreeResponseVo<V>> List<V> transform(
+	public static <T extends BaseLevelTreeEntity, V extends BaseResponseLevelTreeVo<V>> List<V> transform(
 			V rootNode,List<T> treeList, boolean isSortAsc, Class<V> treeRsClassz) throws Exception {
 		// 从root根节点一直循环到最底层
 		if(rootNode==null) {
@@ -58,8 +58,8 @@ public class LevelTreeUtil {
 	 * @param treeList 实体树
 	 * @throws Exception
 	 */
-	private static <T extends BaseLevelTreeEntity, V extends BaseLevelTreeResponseVo<V>> void push(V node,
-			Class<V> treeRsClassz, boolean isSortAsc, List<T> treeList) throws Exception {
+	private static <T extends BaseLevelTreeEntity, V extends BaseResponseLevelTreeVo<V>> void push(V node,
+                                                                                                   Class<V> treeRsClassz, boolean isSortAsc, List<T> treeList) throws Exception {
 		// 获取父节点的child
 		List<T> childTList = new ArrayList<>();
 		if (isSortAsc) {

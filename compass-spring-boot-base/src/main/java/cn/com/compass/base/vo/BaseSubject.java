@@ -16,16 +16,11 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BaseSubject implements Serializable {
+public class BaseSubject extends BaseExtraVo {
 
     private static final long serialVersionUID = -5471963320229357457L;
     /**
      * 用户Id
      */
     private Serializable userId;
-    /**
-     * 扩展信息
-     */
-    private Object extra;
-
 }

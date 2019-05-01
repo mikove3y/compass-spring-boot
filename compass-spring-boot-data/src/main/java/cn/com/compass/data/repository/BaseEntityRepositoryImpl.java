@@ -6,6 +6,7 @@ import cn.com.compass.base.vo.BaseResponseAppPageVo;
 import cn.com.compass.base.vo.BaseResponsePcPageVo;
 import cn.com.compass.data.entity.BaseEntity;
 import cn.com.compass.data.util.PageTransformUtil;
+import com.querydsl.core.types.EntityPath;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -89,7 +90,7 @@ public class BaseEntityRepositoryImpl<T extends BaseEntity, PK extends Serializa
         // do query page
         Pageable pageRequest = new PageRequest(0, pageVo.getPageSize(), this.buildSort(pageVo.orders(), pageVo.isAsc()));
         // transform jpa page to frameWork app-page
-        return PageTransformUtil.transformJpaPage2AppPage(this.findAll(spec, pageRequest), pageVo);
+        return PageTransformUtil.transformJpaPage2AppPage(this.findAll(spec, pageRequest));
     }
 
 }
