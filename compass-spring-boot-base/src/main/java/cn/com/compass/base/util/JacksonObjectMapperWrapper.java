@@ -1,10 +1,16 @@
-package cn.com.compass.util;
+package cn.com.compass.base.util;
 
+import cn.com.compass.base.constant.BaseBizStatusEnumDeserializer;
+import cn.com.compass.base.constant.BaseBizStatusEnumSerializer;
+import cn.com.compass.base.constant.IBaseBizStatusEnum;
+import cn.com.compass.util.SerializerFeature;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 
 import java.text.SimpleDateFormat;
@@ -81,9 +87,17 @@ public class JacksonObjectMapperWrapper extends ObjectMapper {
 		objectMapper.setDateFormat(dateFormat);// 格式化时间
 		objectMapper.setTimeZone(TimeZone.getTimeZone("GMT+8"));//设置时区
 		// 数字转 string
-		SimpleModule simpleModule = new SimpleModule();
-		simpleModule.addSerializer(Number.class, ToStringSerializer.instance);
-		objectMapper.registerModule(simpleModule);
+		SimpleModule numberSimpleModule = new SimpleModule();
+		numberSimpleModule.addSerializer(Number.class, ToStringSerializer.instance);
+		objectMapper.registerModule(numberSimpleModule);
+
+		// 注册IBaseBizStatusEnum序列化和反序列化
+		SimpleModule bizStatusEnumSimpleModule = new SimpleModule();
+		JsonDeserializer<IBaseBizStatusEnum> deserialize = new BaseBizStatusEnumDeserializer();
+		bizStatusEnumSimpleModule.addDeserializer(IBaseBizStatusEnum.class, deserialize);
+		StdSerializer<IBaseBizStatusEnum> serialize = new BaseBizStatusEnumSerializer();
+		bizStatusEnumSimpleModule.addSerializer(IBaseBizStatusEnum.class, serialize);
+		objectMapper.registerModule(bizStatusEnumSimpleModule);
 	}
 
 	public static JacksonObjectMapperWrapper getInstance() {

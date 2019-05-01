@@ -11,7 +11,7 @@ public class BaseRequestAppPageVo extends BaseDataX{
 	/**
 	 * 主键Id
 	 */
-	private Serializable dataId ;
+	private Serializable dataId = 0L;
 	/**
 	 * 页条数
 	 */

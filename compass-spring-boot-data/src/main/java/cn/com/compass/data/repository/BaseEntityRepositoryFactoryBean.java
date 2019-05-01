@@ -1,6 +1,7 @@
 package cn.com.compass.data.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.support.JpaMetamodelEntityInformation;
 import org.springframework.data.jpa.repository.support.JpaRepositoryFactory;
 import org.springframework.data.jpa.repository.support.JpaRepositoryFactoryBean;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
@@ -43,7 +44,9 @@ extends JpaRepositoryFactoryBean<R, T, I> {
 		@Override
 		protected <T, ID extends Serializable> SimpleJpaRepository<?, ?> getTargetRepository(
 				RepositoryInformation information, EntityManager entityManager) {
-			return new BaseEntityRepositoryImpl(information.getDomainType(), entityManager);
+			Class<T> domainClass = (Class<T>) information.getDomainType();
+			JpaMetamodelEntityInformation entityInformation = new JpaMetamodelEntityInformation(domainClass,entityManager.getMetamodel());
+			return new BaseEntityRepositoryImpl(entityInformation, entityManager);
 		}
 		
 		@Override

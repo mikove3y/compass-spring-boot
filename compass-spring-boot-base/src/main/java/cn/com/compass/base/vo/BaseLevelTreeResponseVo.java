@@ -45,7 +45,7 @@ public class BaseLevelTreeResponseVo<V extends BaseLevelTreeResponseVo<V>> imple
 	/**
 	 * 父Id
 	 */
-	private Long parentId;
+	private Serializable parentId;
 	/**
 	 * 子节点
 	 */

@@ -1,7 +1,7 @@
 package cn.com.compass.entity;
 
+import cn.com.compass.data.annotation.EnableLogicDelete;
 import cn.com.compass.data.entity.BaseEntity;
-import lombok.Builder;
 import lombok.Data;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -20,7 +20,7 @@ import java.util.Date;
 @Data
 @DynamicInsert
 @DynamicUpdate
-@Builder
+@EnableLogicDelete // 开启逻辑删除
 public class Demo extends BaseEntity<Long> {
 
     private String name;

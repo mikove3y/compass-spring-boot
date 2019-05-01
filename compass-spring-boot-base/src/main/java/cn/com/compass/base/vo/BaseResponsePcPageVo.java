@@ -4,7 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 
@@ -38,5 +40,5 @@ public class BaseResponsePcPageVo<T> {
 	/**
 	 * 扩展数据信息
 	 */
-	private Object extra;
+	private Map<String,Object> extra = new HashMap<>();
 }

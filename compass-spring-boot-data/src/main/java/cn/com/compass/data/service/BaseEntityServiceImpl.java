@@ -8,12 +8,16 @@ import cn.com.compass.data.entity.BaseEntity;
 import cn.com.compass.data.repository.BaseEntityRepository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * 
@@ -98,23 +102,48 @@ public class BaseEntityServiceImpl<T extends BaseEntity,PK extends Serializable>
 	}
 
 	@Override
-	public T findById(PK id) {
+	public Optional<T> findById(PK id) {
 		return repository.findById(id);
 	}
 
 	@Override
-	public List<T> findByIds(List<PK> ids) {
-		return repository.findByIds(ids);
+	public List<T> findByIds(List<PK> ids,  Sort... sort) {
+		return repository.findByIds(ids,sort);
 	}
 	
 	@Override
-	public T findOneBySpec(Specification<T> spec) {
+	public Optional<T> findOneBySpec(Specification<T> spec) {
 		return repository.findOneBySpec(spec);
 	}
 
 	@Override
-	public List<T> findListBySpec(Specification<T> spec) {
-		return repository.findListBySpec(spec);
+	public List<T> findListBySpec(Specification<T> spec,  Sort... sort) {
+		return repository.findListBySpec(spec,sort);
+	}
+
+	/**
+	 * find one by the domainClass property
+	 *
+	 * @param propertyName
+	 * @param propertyValue
+	 * @return
+	 */
+	@Override
+	public Optional<T> findByProperty(String propertyName, Object propertyValue) {
+		return Optional.empty();
+	}
+
+	/**
+	 * find list by domainClass property ,sort or not
+	 *
+	 * @param propertyName
+	 * @param propertyValue
+	 * @param sort
+	 * @return
+	 */
+	@Override
+	public List<T> findByProperty(String propertyName, Object propertyValue, Sort... sort) {
+		return null;
 	}
 
 	/**
@@ -123,8 +152,17 @@ public class BaseEntityServiceImpl<T extends BaseEntity,PK extends Serializable>
 	 * @return
 	 */
 	@Override
-	public List<T> findAll() {
+	public List<T> findAll(Sort... sort) {
 		return repository.findAll();
+	}
+
+	/**
+	 * @param pageable
+	 * @return
+	 */
+	@Override
+	public Page<T> findAll(Pageable pageable) {
+		return null;
 	}
 
 	@Override

@@ -2,8 +2,8 @@ package cn.com.compass.web.controller;
 
 import cn.com.compass.base.constant.BaseConstant;
 import cn.com.compass.base.exception.BaseException;
+import cn.com.compass.base.util.JacksonUtil;
 import cn.com.compass.base.vo.BaseResponseVo;
-import cn.com.compass.util.JacksonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

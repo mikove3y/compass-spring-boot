@@ -1,8 +1,8 @@
 package cn.com.compass.data.util;
 
+import cn.com.compass.base.util.DataXUtil;
 import cn.com.compass.base.vo.BaseLevelTreeResponseVo;
 import cn.com.compass.data.entity.BaseLevelTreeEntity;
-import cn.com.compass.util.DataXUtil;
 import org.apache.commons.collections.CollectionUtils;
 
 import java.util.ArrayList;
@@ -72,7 +72,7 @@ public class LevelTreeUtil {
 		// node 塞入child
 		List<V> childVList = new ArrayList<>();
 		for (T l : childTList) {
-			V ltrsTemp = (V) DataXUtil.copyProperties(l, treeRsClassz, null);
+			V ltrsTemp = (V) DataXUtil.copyProperties(l, treeRsClassz, null,false);
 			childVList.add(ltrsTemp);
 			push(ltrsTemp, treeRsClassz, isSortAsc, treeList);
 		}

@@ -1,8 +1,9 @@
 /**
  * 
  */
-package cn.com.compass.util;
+package cn.com.compass.base.util;
 
+import cn.com.compass.util.SerializerFeature;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.ser.BeanPropertyWriter;

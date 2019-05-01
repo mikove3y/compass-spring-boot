@@ -14,14 +14,14 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * @author wanmk
  * @git https://gitee.com/milkove
  * @email 524623302@qq.com
- * @todo 逻辑删除枚举
+ * @todo 逻辑删除枚举，作用在EnableLogicDelete注解实体的字段上
  * @date 2018年11月1日 上午9:46:03
  *
  */
 @Documented
 @Retention(RUNTIME)
 @Target(FIELD)
-public @interface LogicDelete {
+public @interface LogicDeleteColumn {
 
 	/**
 	 * 删除值，默认1

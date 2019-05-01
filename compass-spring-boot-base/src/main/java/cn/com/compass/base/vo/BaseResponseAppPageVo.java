@@ -4,7 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 
@@ -22,7 +25,7 @@ public class BaseResponseAppPageVo<T> {
 	/**
 	 * 当前页码
 	 */
-	private Long dataId = 0L;
+	private Serializable dataId = 0L;
 	/**
 	 * 每页条目数
 	 */
@@ -38,5 +41,5 @@ public class BaseResponseAppPageVo<T> {
 	/**
 	 * 扩展数据信息
 	 */
-	private Object extra;
+	private Map<String,Object> extra = new HashMap<>();
 }

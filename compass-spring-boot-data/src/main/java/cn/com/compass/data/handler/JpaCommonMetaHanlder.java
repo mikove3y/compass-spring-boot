@@ -2,16 +2,14 @@ package cn.com.compass.data.handler;
 
 import cn.com.compass.base.context.BaseSubjectContext;
 import cn.com.compass.base.vo.BaseSubject;
-import cn.com.compass.data.annotation.LogicDelete;
 import cn.com.compass.data.entity.BaseEntity;
+import cn.com.compass.data.util.LogicDeleteUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.CallbackException;
 import org.hibernate.EmptyInterceptor;
 import org.hibernate.type.Type;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.io.Serializable;
-import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.Iterator;
 
@@ -34,10 +32,7 @@ import java.util.Iterator;
 public class JpaCommonMetaHanlder extends EmptyInterceptor {
 
 	private static final long serialVersionUID = -5464568289140494842L;
-	
-	@Value("${spring.jpa.openLogicDelete:false}")
-	private boolean openLogicDelete = false;
-	
+
 	@Override
 	public void onDelete(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
 		super.onDelete(entity, id, state, propertyNames, types);
@@ -48,7 +43,11 @@ public class JpaCommonMetaHanlder extends EmptyInterceptor {
 			String[] propertyNames, Type[] types) {
 		try {
 			if (entity instanceof BaseEntity) {
-				Field df = this.getLogicDeleteField(((BaseEntity)entity).getClass());
+				Class<BaseEntity> domainClass = (Class<BaseEntity>)entity.getClass();
+				// 实体是否开启状态逻辑删除策略
+				boolean statusDeleteStrategy = LogicDeleteUtil.isStatusDeleteStrategy(domainClass);
+				// 每个实体必然有的逻辑删除字段
+				LogicDeleteUtil.LogicDeleteColumnInfo columnInfo = LogicDeleteUtil.logicDeleteColumn(domainClass);
 				BaseSubject sub = BaseSubjectContext.getBaseSubject();
 				for (int i = 0; i < propertyNames.length; i++) {
 					if (sub != null) {
@@ -56,14 +55,12 @@ public class JpaCommonMetaHanlder extends EmptyInterceptor {
 						if (propertyNames[i].equals(BaseEntity.LASTUPDATERID)) {
 							currentState[i] = sub.getUserId();
 						}
-					}
-					// 更新时间
-					if (propertyNames[i].equals(BaseEntity.LASTUPDATETIME)) {
+					}else if (propertyNames[i].equals(BaseEntity.LASTUPDATETIME)) {
+						// 更新时间
 						currentState[i] = new Date();
-					}
-					// 逻辑删除字段
-					if(df!=null&&propertyNames[i].equals(df.getName())&&openLogicDelete) {
-						currentState[i] = df.getAnnotation(LogicDelete.class).deleteValue();
+					}else if(statusDeleteStrategy&&propertyNames[i].equals(columnInfo.getColumnName())){
+						// 逻辑删除
+						currentState[i] = columnInfo.getDeleteValue();
 					}
 				}
 			}
@@ -78,7 +75,11 @@ public class JpaCommonMetaHanlder extends EmptyInterceptor {
 	public boolean onSave(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
 		try {
 			if (entity instanceof BaseEntity) {
-				Field df = this.getLogicDeleteField(((BaseEntity)entity).getClass());
+				Class<BaseEntity> domainClass = (Class<BaseEntity>)entity.getClass();
+				// 实体是否开启状态逻辑删除策略
+				boolean statusDeleteStrategy = LogicDeleteUtil.isStatusDeleteStrategy(domainClass);
+				// 每个实体必然有的逻辑删除字段
+				LogicDeleteUtil.LogicDeleteColumnInfo columnInfo = LogicDeleteUtil.logicDeleteColumn(domainClass);
 				BaseSubject sub = BaseSubjectContext.getBaseSubject();
 				for (int i = 0; i < propertyNames.length; i++) {
 					if (sub != null) {
@@ -92,8 +93,8 @@ public class JpaCommonMetaHanlder extends EmptyInterceptor {
 						state[i] = new Date();
 					}
 					// 逻辑删除字段
-					if(df!=null&&propertyNames[i].equals(df.getName())) {
-						state[i] = df.getAnnotation(LogicDelete.class).notDeleteValue();
+					if(statusDeleteStrategy&&propertyNames[i].equals(columnInfo.getColumnName())) {
+						state[i] = columnInfo.getNotDeleteValue();
 					}
 				}
 			}
@@ -141,19 +142,5 @@ public class JpaCommonMetaHanlder extends EmptyInterceptor {
 		super.preFlush(entities);
 	}
 	
-	/**
-	 * 获取逻辑删除字段
-	 * @param clazz
-	 * @return
-	 */
-	private Field getLogicDeleteField(Class<? extends BaseEntity> clazz) {
-		Field[] fields = clazz.getFields();
-		for(Field f : fields) {
-			f.setAccessible(true);
-			LogicDelete ld = f.getAnnotation(LogicDelete.class);
-			if(ld!=null)return f;
-		}
-		return null;
-	}
 
 }

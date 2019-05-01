@@ -4,30 +4,29 @@ import cn.com.compass.base.vo.BaseRequestAppPageVo;
 import cn.com.compass.base.vo.BaseRequestPcPageVo;
 import cn.com.compass.base.vo.BaseResponseAppPageVo;
 import cn.com.compass.base.vo.BaseResponsePcPageVo;
-import cn.com.compass.data.annotation.LogicDelete;
 import cn.com.compass.data.entity.BaseEntity;
 import cn.com.compass.data.util.PageTransformUtil;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import org.apache.commons.collections.MapUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
+import org.springframework.data.jpa.repository.support.JpaEntityInformation;
+import org.springframework.data.jpa.repository.support.QueryDslJpaRepository;
+import org.springframework.data.querydsl.SimpleEntityPathResolver;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.io.Serializable;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 /**
  * 
@@ -36,11 +35,12 @@ import java.util.Map;
  * @email 524623302@qq.com
  * @todo hibernate jpa use for add、selete、update、simple-select and entity-table auto build </br>
  * 		 mybatis plus use for complex-select actions </br>
+ * 		 since v1.3.0 extra: queryDsl Projections for DTO to Entity </br>
  * @date 2018年6月6日 下午3:54:06
  *
  */
 @Transactional(readOnly = true)
-public class BaseEntityRepositoryImpl<T extends BaseEntity,PK extends Serializable> extends SimpleJpaRepository<T, PK>
+public class BaseEntityRepositoryImpl<T extends BaseEntity,PK extends Serializable> extends QueryDslJpaRepository<T, PK>
 		implements BaseEntityRepository<T,PK> {
 
 	@PersistenceContext
@@ -51,24 +51,24 @@ public class BaseEntityRepositoryImpl<T extends BaseEntity,PK extends Serializab
 
 	private Class<T> entityClass;
 	
-	private boolean isLogicDelete = false;
-	
-	@Value("${spring.jpa.openLogicDelete:false}")
-	private boolean openLogicDelete;
-
-	public BaseEntityRepositoryImpl(Class<T> domainClass, EntityManager entityManager) {
-		super(domainClass, entityManager);
+	/**
+	 * Creates a new {@link QueryDslJpaRepository} from the given domain class and {@link EntityManager}. This will use
+	 * the {@link SimpleEntityPathResolver} to translate the given domain class into an {@link EntityPath}.
+	 *
+	 * @param entityInformation must not be {@literal null}.
+	 * @param entityManager     must not be {@literal null}.
+	 */
+	public BaseEntityRepositoryImpl(JpaEntityInformation<T, PK> entityInformation, EntityManager entityManager) {
+		super(entityInformation, entityManager);
+		this.entityClass = entityInformation.getJavaType();
 		this.entityManager = entityManager;
-		this.entityClass = domainClass;
-		// 判断是否逻辑删除
-		Field[] fields = entityClass.getFields();
-		for(Field f : fields) {
-			f.setAccessible(true);
-			LogicDelete ld = f.getAnnotation(LogicDelete.class);
-			this.isLogicDelete = ld != null;
-			if(this.isLogicDelete)break;
-		}
 	}
+
+//	public BaseEntityRepositoryImpl(Class<T> domainClass, EntityManager entityManager) {
+//		super(domainClass,entityManager);
+//		this.entityManager = entityManager;
+//		this.entityClass = domainClass;
+//	}
 
 
 	/**
@@ -119,11 +119,7 @@ public class BaseEntityRepositoryImpl<T extends BaseEntity,PK extends Serializab
 	@Transactional(rollbackFor = Exception.class)
 	public boolean deleteOne(T entity) {
 		Assert.notNull(entity, "deleteOne->The given entity not be null!");
-		if(this.isLogicDelete&&this.openLogicDelete) {
-			this.updateOne(entity);
-		}else {
-			this.delete(entity);
-		}
+		this.delete(entity);
 		return true;
 	}
 
@@ -136,11 +132,7 @@ public class BaseEntityRepositoryImpl<T extends BaseEntity,PK extends Serializab
 	@Transactional(rollbackFor = Exception.class)
 	public boolean deleteById(PK id) {
 		Assert.notNull(id, "deleteById->The given id not be null!");
-		if(this.isLogicDelete&&this.openLogicDelete) {
-			this.updateOne(this.findById(id));
-		}else {
-			this.delete(id);
-		}
+		this.delete(id);
 		return true;
 	}
 	
@@ -152,12 +144,8 @@ public class BaseEntityRepositoryImpl<T extends BaseEntity,PK extends Serializab
 	@Transactional(rollbackFor = Exception.class)
 	public boolean deleteByIds(List<PK> ids) {
 		Assert.notEmpty(ids, "deleteByIds->The given ids not be empty!");
-		List<T> ts = this.findByIds(ids);
-		if(this.isLogicDelete&&this.openLogicDelete) {
-			this.updateBatch(ts);
-		}else {
-			this.deleteInBatch(ts);
-		}
+		List<T> entities = this.findByIds(ids);
+		this.deleteInBatch(entities);
 		return true;
 	}
 	
@@ -171,11 +159,7 @@ public class BaseEntityRepositoryImpl<T extends BaseEntity,PK extends Serializab
 	public boolean deletBySpec(Specification<T> spec) {
 		Assert.notNull(spec, "deletBySpec->The given spec not be null!");
 		List<T> entities = this.findListBySpec(spec);
-		if(this.isLogicDelete&&this.openLogicDelete) {
-			this.updateBatch(entities);
-		}else {
-			this.deleteBatch(entities);
-		}
+		this.deleteBatch(entities);
 		return true;
 	}
 
@@ -188,11 +172,7 @@ public class BaseEntityRepositoryImpl<T extends BaseEntity,PK extends Serializab
 	@Transactional(rollbackFor = Exception.class)
 	public boolean deleteBatch(List<T> entities) {
 		Assert.notEmpty(entities, "deleteBatch->The given entities not be null!");
-		if(this.isLogicDelete&&this.openLogicDelete) {
-			this.updateBatch(entities);
-		}else {
-			this.delete(entities);
-		}
+		this.delete(entities);
 		return true;
 	}
 
@@ -228,9 +208,9 @@ public class BaseEntityRepositoryImpl<T extends BaseEntity,PK extends Serializab
 	 * @see cn.com.compass.data.service.IBaseEntityService#findById(java.io.Serializable)
 	 */
 	@Override
-	public T findById(PK id) {
+	public Optional<T> findById(PK id) {
 		Assert.notNull(id, "findById->The given id not be null!");
-		return this.findOne(id);
+		return Optional.ofNullable(this.findOne(id));
 	}
 	
 	/*
@@ -238,9 +218,23 @@ public class BaseEntityRepositoryImpl<T extends BaseEntity,PK extends Serializab
 	 * @see cn.com.compass.data.service.IBaseEntityService#findOneByParams(java.util.Map)
 	 */
 	@Override
-	public T findOneBySpec(Specification<T> spec) {
+	public Optional<T> findOneBySpec(Specification<T> spec) {
 		Assert.notNull(spec, "findOneByParams->The given spec not be null!");
-		return this.findOne(spec);
+		return Optional.ofNullable(this.findOne(spec));
+	}
+
+	/**
+	 * find one by the domainClass property
+	 *
+	 * @param propertyName
+	 * @param propertyValue
+	 * @return
+	 */
+	@Override
+	public Optional<T> findByProperty(String propertyName, Object propertyValue) {
+		Assert.notNull(propertyName,"findByProperty->The given propertyName not be null");
+		Assert.notNull(propertyValue,"findByProperty->The given propertyValue not be null");
+		return Optional.empty();
 	}
 
 	/*
@@ -249,7 +243,7 @@ public class BaseEntityRepositoryImpl<T extends BaseEntity,PK extends Serializab
 	 * @see cn.com.compass.data.service.IBaseEntityService#findByIds(java.util.List)
 	 */
 	@Override
-	public List<T> findByIds(List<PK> ids) {
+	public List<T> findByIds(List<PK> ids,Sort... sort) {
 		Assert.notEmpty(ids, "findByIds->The given ids not be empty!");
 		return this.findAll(ids);
 	}
@@ -260,9 +254,35 @@ public class BaseEntityRepositoryImpl<T extends BaseEntity,PK extends Serializab
 	 * @see cn.com.compass.data.service.IBaseEntityService#findListByParams(java.util.Map)
 	 */
 	@Override
-	public List<T> findListBySpec(Specification<T> spec) {
+	public List<T> findListBySpec(Specification<T> spec,Sort... sort) {
 		Assert.notNull(spec, "findListByParams->The given spec not be null!");
 		return this.findAll(spec);
+	}
+
+	/**
+	 * find list by domainClass property ,sort or not
+	 *
+	 * @param propertyName
+	 * @param propertyValue
+	 * @param sort
+	 * @return
+	 */
+	@Override
+	public List<T> findByProperty(String propertyName, Object propertyValue, Sort... sort) {
+		Assert.notNull(propertyName,"findByProperty->The given propertyName not be null");
+		Assert.notNull(propertyValue,"findByProperty->The given propertyValue not be null");
+		return null;
+	}
+
+	/**
+	 * find all
+	 *
+	 * @param sort
+	 * @return
+	 */
+	@Override
+	public List<T> findAll(Sort... sort) {
+		return null;
 	}
 
 	/*
@@ -276,33 +296,34 @@ public class BaseEntityRepositoryImpl<T extends BaseEntity,PK extends Serializab
 		Assert.noNullElements(new Object[] { pageVo, spec }, "findPcPage->The given pageVo & spec not be null!");
 		// do query page
 		Pageable pageRequest = new PageRequest(pageVo.getPageNo() >= 1 ? pageVo.getPageNo() - 1 : 0,
-				pageVo.getPageSize(), this.buildSort(pageVo.orders()));
+				pageVo.getPageSize(), this.buildSort(pageVo.orders(),pageVo.isAsc()));
 		// transform jpa page to frameWork pc-page
 		return PageTransformUtil.transformJpaPage2PcPage(this.findAll(spec, pageRequest));
 	}
 
 	/**
 	 * 构造排序
-	 * @param orderMap
+	 * @param orders
+	 * @param isAsc
 	 * @return
 	 */
-	private Sort buildSort(Map<String,Boolean> orderMap){
-		List<Order> orders = new ArrayList<>();
-		if(MapUtils.isNotEmpty(orderMap)){
-			for(Map.Entry<String,Boolean> en : orderMap.entrySet()){
-				Order order = new Order((en.getValue() ? Direction.ASC : Direction.DESC), en.getKey());
-				orders.add(order);
-			}
+	private Sort buildSort(List<String> orders,boolean isAsc){
+		List<Order> ors = new ArrayList<>();
+		if(CollectionUtils.isNotEmpty(orders)){
+			orders.forEach(o->{
+				Order or = new Order((isAsc ? Direction.ASC : Direction.DESC), o);
+				ors.add(or);
+			});
 		}
 		// build sort
-		return new Sort(orders);
+		return new Sort(ors);
 	}
 	
 	@Override
 	public BaseResponseAppPageVo<T> findAppPage(BaseRequestAppPageVo pageVo, Specification<T> spec) {
 		Assert.noNullElements(new Object[] { pageVo, spec }, "findAppPage->The given pageVo & spec not be null!");
 		// do query page
-		Pageable pageRequest = new PageRequest(0, pageVo.getPageSize(), this.buildSort(pageVo.orders()));
+		Pageable pageRequest = new PageRequest(0, pageVo.getPageSize(), this.buildSort(pageVo.orders(),pageVo.isAsc()));
 		// transform jpa page to frameWork app-page
 		return PageTransformUtil.transformJpaPage2AppPage(this.findAll(spec, pageRequest),pageVo);
 	}

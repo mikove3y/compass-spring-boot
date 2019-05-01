@@ -11,7 +11,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
-import java.util.Objects;
 import java.util.Properties;
 
 /**
@@ -20,6 +19,7 @@ import java.util.Properties;
  * @git https://gitee.com/milkove
  * @email 524623302@qq.com
  * @todo 自定义jpa枚举转换器
+ * @see IBaseBizStatusEnum
  * @date 2018年6月6日 下午8:48:50
  *
  */
@@ -32,7 +32,7 @@ public class JpaDbEnumTypeHandler implements UserType, DynamicParameterizedType 
     public void setParameterValues(Properties parameters) {
         final ParameterType reader = (ParameterType) parameters.get(PARAMETER_TYPE);
         if (reader != null) {
-            enumClass = reader.getReturnedClass().asSubclass(Enum.class);
+            enumClass = reader.getReturnedClass().asSubclass(IBaseBizStatusEnum.class);
         }
     }
 
@@ -71,12 +71,7 @@ public class JpaDbEnumTypeHandler implements UserType, DynamicParameterizedType 
         if (value == null) {
             return null;
         }
-        for (Object object : enumClass.getEnumConstants()) {
-            if (Objects.equals(value, ((IBaseBizStatusEnum) object).getCode())) {
-                return object;
-            }
-        }
-        throw new RuntimeException(String.format("Unknown name value [%s] for enum class [%s]", value, enumClass.getName()));
+        return  IBaseBizStatusEnum.fromCode(enumClass,value);
     }
 
     //保存枚举值
@@ -86,7 +81,7 @@ public class JpaDbEnumTypeHandler implements UserType, DynamicParameterizedType 
             st.setNull(index, SQL_TYPES[0]);
         } else if (value instanceof String) {
             st.setString(index, (String) value);
-        } else {
+        } else if(value instanceof IBaseBizStatusEnum){
             st.setString(index, ((IBaseBizStatusEnum) value).getCode());
         }
     }

@@ -1,4 +1,4 @@
-package cn.com.compass.util;
+package cn.com.compass.base.util;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.type.TypeReference;

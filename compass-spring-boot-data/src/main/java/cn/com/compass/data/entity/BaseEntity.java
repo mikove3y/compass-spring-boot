@@ -1,7 +1,7 @@
 package cn.com.compass.data.entity;
 
 import cn.com.compass.base.constant.BaseBizeStatusEnum;
-import cn.com.compass.data.annotation.LogicDelete;
+import cn.com.compass.data.annotation.LogicDeleteColumn;
 import cn.com.compass.data.interceptor.JpaCrudInterceptor;
 import lombok.Data;
 import org.activejpa.entity.Model;
@@ -101,7 +101,7 @@ public class BaseEntity<PK extends Serializable> extends Model implements Serial
 	/**
 	 * 逻辑删除字段
 	 */
-	@LogicDelete
+	@LogicDeleteColumn
 	@Type(type="cn.com.compass.data.convert.JpaDbEnumTypeHandler")
 	private BaseBizeStatusEnum.YesOrNo enabled;
 

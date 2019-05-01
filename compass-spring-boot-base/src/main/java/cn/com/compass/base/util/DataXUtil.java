@@ -1,5 +1,6 @@
-package cn.com.compass.util;
+package cn.com.compass.base.util;
 
+import org.apache.commons.beanutils.BeanUtilsBean2;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -35,7 +36,7 @@ public class DataXUtil {
 	 *            字段映射关系 k-v key为source字段 value为target字段
 	 * @throws Exception
 	 */
-	public static Object copyProperties(Object source, Class<?> target, Map<String, String> source2targetProperties)
+	public static Object copyProperties(Object source, Class<?> target, Map<String, String> source2targetProperties,boolean ignoreNull)
 			throws Exception {
 		if (source instanceof Collection) {
 			// Collection集合映射
@@ -44,13 +45,13 @@ public class DataXUtil {
 				return null;
 			List<Object> result = new ArrayList<>();
 			for (int i = 0; i < sc.length; i++) {
-				Object temp = xOne(sc[i], target, source2targetProperties);
+				Object temp = xOne(sc[i], target, source2targetProperties,ignoreNull);
 				result.add(temp);
 			}
 			return result;
 		} else {
 			// 单个对象映射
-			return xOne(source, target, source2targetProperties);
+			return xOne(source, target, source2targetProperties,ignoreNull);
 		}
 	}
 	
@@ -61,10 +62,10 @@ public class DataXUtil {
 	 * @param source2targetProperties
 	 * @throws Exception
 	 */
-	private static Object xOne(Object source, Class<?> target, Map<String, String> source2targetProperties) throws Exception {
+	private static Object xOne(Object source, Class<?> target, Map<String, String> source2targetProperties,boolean ignoreNull) throws Exception {
 		// 单个对象映射
 		// mapping source 2 target
-		Map<String, Object> sourceMap = JacksonUtil.obj2MapIgnoreNull(source);
+		Map<String, Object> sourceMap = ignoreNull?JacksonUtil.obj2MapIgnoreNull(source):JacksonUtil.obj2Map(source);
 		if (MapUtils.isNotEmpty(source2targetProperties)) {
 			source2targetProperties.forEach((k, v) -> {
 				// not contain skip
@@ -80,7 +81,6 @@ public class DataXUtil {
 		}
 		// copy source 2 target
 		return JacksonUtil.map2pojo(sourceMap, target);
-//			BeanUtilsBean2.getInstance().copyProperties(target, source);
 	}
 
 	/**
@@ -93,9 +93,23 @@ public class DataXUtil {
 	 *            字段映射关系 k-v key为source字段 value为target字段
 	 * @throws Exception
 	 */
-	public static void copyProperties(Object source, Object target, Map<String, String> source2targetProperties)
+	public static void copyProperties(Object source, Object target, Map<String, String> source2targetProperties,boolean ignoreNull)
 			throws Exception {
-
+		if (source instanceof Collection && target instanceof Collection) {
+			// Collection集合映射
+			Object[] sc = ((Collection<?>) source).toArray(new Object[0]);
+			Object[] tc = ((Collection<?>) target).toArray(new Object[0]);
+			if (sc == null || tc == null || sc.length != tc.length)
+				return;
+			for (int i = 0; i < sc.length; i++) {
+				Object s = sc[i];
+				Object t = tc[i];
+				xOne(s, t, source2targetProperties,ignoreNull);
+			}
+		} else {
+			// 单个对象映射
+			xOne(source, target, source2targetProperties,ignoreNull);
+		}
 	}
 
 	/**
@@ -105,9 +119,29 @@ public class DataXUtil {
 	 * @param source2targetProperties
 	 * @throws Exception
 	 */
-	private static void xOne(Object source, Object target, Map<String, String> source2targetProperties) throws Exception {
-
+	private static void xOne(Object source, Object target, Map<String, String> source2targetProperties,boolean ignoreNull) throws Exception {
+		// 单个对象映射
+		// mapping source 2 target
+		Map<String, Object> sourceMap = ignoreNull?JacksonUtil.obj2MapIgnoreNull(source):JacksonUtil.obj2Map(source);
+		if(MapUtils.isNotEmpty(source2targetProperties)) {
+			Map<String, Object> sourceMapX = new HashMap<>();
+			source2targetProperties.forEach((k,v)->{
+				// not contain skip
+				if (sourceMap.containsKey(k)) {
+					Object sourceValue = sourceMap.get(k);
+					// target k-v
+					String targetKey = source2targetProperties.get(k);
+					sourceMapX.put(targetKey, sourceValue);
+				}
+			});
+			// copy source 2 target
+			BeanUtilsBean2.getInstance().copyProperties(target, sourceMapX);
+		}else {
+			// copy source 2 target
+			BeanUtilsBean2.getInstance().copyProperties(target, sourceMap);
+		}
 	}
+
 	/**
      * <p>
      * 字符串驼峰转下划线格式

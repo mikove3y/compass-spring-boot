@@ -6,11 +6,15 @@ import cn.com.compass.base.vo.BaseResponseAppPageVo;
 import cn.com.compass.base.vo.BaseResponsePcPageVo;
 import cn.com.compass.data.entity.BaseEntity;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.EntityManager;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * 
@@ -111,36 +115,60 @@ public interface IBaseEntityService<T extends BaseEntity,PK extends Serializable
 	 * @param id
 	 * @return
 	 */
-	public T findById(PK id);
+	public Optional<T> findById(PK id);
 	
 	/**
 	 * find one by spec
 	 * @param spec
 	 * @return
 	 */
-	public T findOneBySpec(Specification<T> spec);
+	public Optional<T> findOneBySpec(Specification<T> spec);
 
 	/**
-	 * find list by ids
-	 * 
+	 * find one by the domainClass property
+	 * @param propertyName
+	 * @param propertyValue
+	 * @return
+	 */
+	public Optional<T> findByProperty(String propertyName, Object propertyValue);
+
+	/**
+	 * find list by ids ,sort or not
+	 * @param sort
 	 * @param ids
 	 * @return
 	 */
-	public List<T> findByIds(List<PK> ids);
+	public List<T> findByIds(List<PK> ids,  Sort... sort);
 	
 	/**
-	 * find list by spec
+	 * find list by spec ,sort or not
 	 * 
 	 * @param spec
 	 * @return
 	 */
-	public List<T> findListBySpec(Specification<T> spec);
+	public List<T> findListBySpec(Specification<T> spec, Sort... sort);
+
+	/**
+	 * find list by domainClass property ,sort or not
+	 * @param propertyName
+	 * @param propertyValue
+	 * @param sort
+	 * @return
+	 */
+	public List<T> findByProperty(String propertyName, Object propertyValue,Sort ...sort);
 
 	/**
 	 *  find all
 	 * @return
 	 */
-	public List<T> findAll();
+	public List<T> findAll(Sort... sort);
+
+	/**
+	 *
+	 * @return
+	 */
+	public Page<T> findAll(Pageable pageable);
+
 	/**
 	 * find pc page 按照pageNo pageSize分页
 	 * @param pageVo
@@ -148,6 +176,7 @@ public interface IBaseEntityService<T extends BaseEntity,PK extends Serializable
 	 * @return
 	 */
 	public BaseResponsePcPageVo<T> findPcPage(BaseRequestPcPageVo pageVo, Specification<T> spec);
+
 	/**
 	 * find app page 按照dataId pageSize分页
 	 * @param pageVo
@@ -181,5 +210,4 @@ public interface IBaseEntityService<T extends BaseEntity,PK extends Serializable
 	 */
 	public JPAQueryFactory jpaQueryFactory();
 
-	// 扩展dto查询映射方法
 }

@@ -4,6 +4,7 @@ import cn.com.compass.data.entity.BaseEntity;
 import cn.com.compass.data.service.IBaseEntityService;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.data.repository.NoRepositoryBean;
 
 import java.io.Serializable;
@@ -19,7 +20,7 @@ import java.io.Serializable;
  */
 @NoRepositoryBean
 public interface BaseEntityRepository<T extends BaseEntity,PK extends Serializable> extends JpaRepository<T, PK>,
-		JpaSpecificationExecutor<T>, IBaseEntityService<T,PK> {
+		JpaSpecificationExecutor<T>, IBaseEntityService<T,PK> , QueryDslPredicateExecutor<T> {
 
 
 }

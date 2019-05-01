@@ -1,6 +1,6 @@
 package cn.com.compass.cache.redis.serializer;
 
-import cn.com.compass.util.JacksonUtil;
+import cn.com.compass.base.util.JacksonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.util.Assert;

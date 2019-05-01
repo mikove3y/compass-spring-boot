@@ -1,13 +1,14 @@
 package cn.com.compass.web.config;
 
+import cn.com.compass.base.util.JacksonObjectMapperWrapper;
 import cn.com.compass.web.api.ApiVersionRequestHandlerMapping;
 import cn.com.compass.web.convert.UniversalEnumConverterFactory;
 import cn.com.compass.web.interceptor.BaseHandlerInterceptor;
-import cn.com.compass.web.util.HttpMessageConverterUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.filter.HttpPutFormContentFilter;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
@@ -42,7 +43,7 @@ public class BaseMvcConfig extends WebMvcConfigurationSupport {
 	@Override
 	protected void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
 		super.configureMessageConverters(converters);
-		converters.add(HttpMessageConverterUtil.jackson2MessageConverter());
+		converters.add(new MappingJackson2HttpMessageConverter(JacksonObjectMapperWrapper.getInstance()));
 	}
 	
 	/**

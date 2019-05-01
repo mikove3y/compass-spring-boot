@@ -31,7 +31,7 @@ public class BaseBizStatusEnumSerializer extends StdSerializer<IBaseBizStatusEnu
 	public void serialize(IBaseBizStatusEnum value, JsonGenerator gen, SerializerProvider provider) throws IOException {
 		gen.writeStartObject();
         gen.writeFieldName(IBaseBizStatusEnum.CODE);
-        gen.writeNumber(value.getCode());
+        gen.writeString(value.getCode());
         gen.writeFieldName(IBaseBizStatusEnum.DES);
         gen.writeString(value.getDes());
         gen.writeEndObject();

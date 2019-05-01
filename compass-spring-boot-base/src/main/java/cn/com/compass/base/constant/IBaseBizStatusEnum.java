@@ -3,7 +3,7 @@ package cn.com.compass.base.constant;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-import java.util.Objects;
+import java.util.Arrays;
 
 /**
  * 
@@ -49,12 +49,7 @@ public interface IBaseBizStatusEnum {
 	 * @return
 	 */
 	public static <T extends IBaseBizStatusEnum> T fromCode(Class<T> enumType, String code) {
-        for (T object : enums(enumType)) {
-            if (Objects.equals(code, object.getCode())) {
-                return object;
-            }
-        }
-        return null;
+		return Arrays.stream(enums(enumType)).filter(en->en.getCode().equals(code)).findAny().orElse(null);
     }
 	
 	/**
@@ -64,12 +59,7 @@ public interface IBaseBizStatusEnum {
 	 * @return
 	 */
 	public static <T extends IBaseBizStatusEnum> T fromDes(Class<T> enumType, String des) {
-        for (T object : enums(enumType)) {
-            if (Objects.equals(des, object.getDes())) {
-                return object;
-            }
-        }
-        return null;
+		return Arrays.stream(enums(enumType)).filter(en->en.getDes().equals(des)).findAny().orElse(null);
     }
 
 }

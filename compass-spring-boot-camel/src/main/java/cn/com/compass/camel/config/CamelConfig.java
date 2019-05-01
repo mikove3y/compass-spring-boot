@@ -3,7 +3,7 @@ package cn.com.compass.camel.config;
 import cn.com.compass.base.constant.BaseBizStatusEnumDeserializer;
 import cn.com.compass.base.constant.BaseBizStatusEnumSerializer;
 import cn.com.compass.base.constant.IBaseBizStatusEnum;
-import cn.com.compass.util.JacksonObjectMapperWrapper;
+import cn.com.compass.base.util.JacksonObjectMapperWrapper;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
@@ -49,15 +49,7 @@ public class CamelConfig implements CamelContextConfiguration {
     @Bean(name = "json-jackson")
     @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
     public JacksonDataFormat jacksonDataFormat() {
-        JacksonObjectMapperWrapper wrapper = JacksonObjectMapperWrapper.getInstance();
-        // 注册IBaseBizStatusEnum序列化和反序列化
-        SimpleModule simpleModule = new SimpleModule();
-        JsonDeserializer<IBaseBizStatusEnum> deserialize = new BaseBizStatusEnumDeserializer();
-        simpleModule.addDeserializer(IBaseBizStatusEnum.class, deserialize);
-        StdSerializer<IBaseBizStatusEnum> serialize = new BaseBizStatusEnumSerializer();
-        simpleModule.addSerializer(IBaseBizStatusEnum.class, serialize);
-        wrapper.registerModule(simpleModule);
-        return new JacksonDataFormat(wrapper, HashMap.class);
+        return new JacksonDataFormat(JacksonObjectMapperWrapper.getInstance(), HashMap.class);
     }
 
     /**

@@ -24,7 +24,7 @@ public class BaseVueTreeVo implements Serializable{
 	/**
 	 * 节点Id
 	 */
-	private Long id;
+	private Serializable id;
 	/**
 	 * 节点label
 	 */

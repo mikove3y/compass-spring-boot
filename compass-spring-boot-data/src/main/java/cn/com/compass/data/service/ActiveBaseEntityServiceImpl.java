@@ -10,7 +10,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.activejpa.entity.Condition;
 import org.activejpa.entity.Filter;
 import org.activejpa.jpa.JPA;
-import org.apache.commons.collections.MapUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -29,7 +29,7 @@ import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -210,6 +210,7 @@ public class ActiveBaseEntityServiceImpl<T extends BaseEntity,PK extends Seriali
     @Override
     @Transactional(rollbackFor = Exception.class)
     public T updateOne(T entity) {
+        Assert.notNull(entity,"");
         entity.merge();
         return entity;
     }
@@ -237,8 +238,8 @@ public class ActiveBaseEntityServiceImpl<T extends BaseEntity,PK extends Seriali
      * @return
      */
     @Override
-    public T findById(PK id) {
-        return T.findById(id);
+    public Optional<T> findById(PK id) {
+        return Optional.ofNullable(T.findById(id));
     }
 
     /**
@@ -248,9 +249,21 @@ public class ActiveBaseEntityServiceImpl<T extends BaseEntity,PK extends Seriali
      * @return
      */
     @Override
-    public T findOneBySpec(Specification<T> spec) {
+    public Optional<T> findOneBySpec(Specification<T> spec) {
         TypedQuery<T> typedQuery = this.entityManager().createQuery(this.getQuery(spec));
-        return typedQuery.getSingleResult();
+        return Optional.ofNullable(typedQuery.getSingleResult());
+    }
+
+    /**
+     * find one by the domainClass property
+     *
+     * @param propertyName
+     * @param propertyValue
+     * @return
+     */
+    @Override
+    public Optional<T> findByProperty(String propertyName, Object propertyValue) {
+        return Optional.empty();
     }
 
     /**
@@ -260,7 +273,7 @@ public class ActiveBaseEntityServiceImpl<T extends BaseEntity,PK extends Seriali
      * @return
      */
     @Override
-    public List<T> findByIds(List<PK> ids) {
+    public List<T> findByIds(List<PK> ids,Sort...sort) {
         Assert.notEmpty(ids, "findByIds->The given ids not be empty!");
         Filter filter = new Filter();
         filter.addCondition(BaseEntity.ID, Condition.Operator.in,ids);
@@ -274,9 +287,22 @@ public class ActiveBaseEntityServiceImpl<T extends BaseEntity,PK extends Seriali
      * @return
      */
     @Override
-    public List<T> findListBySpec(Specification<T> spec) {
+    public List<T> findListBySpec(Specification<T> spec,Sort... sort) {
         TypedQuery<T> typedQuery = this.entityManager().createQuery(this.getQuery(spec));
         return typedQuery.getResultList();
+    }
+
+    /**
+     * find list by domainClass property ,sort or not
+     *
+     * @param propertyName
+     * @param propertyValue
+     * @param sort
+     * @return
+     */
+    @Override
+    public List<T> findByProperty(String propertyName, Object propertyValue, Sort... sort) {
+        return null;
     }
 
     /**
@@ -285,8 +311,17 @@ public class ActiveBaseEntityServiceImpl<T extends BaseEntity,PK extends Seriali
      * @return
      */
     @Override
-    public List<T> findAll() {
+    public List<T> findAll(Sort... sort) {
         return T.where();
+    }
+
+    /**
+     * @param pageable
+     * @return
+     */
+    @Override
+    public Page<T> findAll(Pageable pageable) {
+        return null;
     }
 
     /**
@@ -299,7 +334,7 @@ public class ActiveBaseEntityServiceImpl<T extends BaseEntity,PK extends Seriali
     @Override
     public BaseResponsePcPageVo<T> findPcPage(BaseRequestPcPageVo pageVo, Specification<T> spec) {
         TypedQuery<T> typedQuery = this.entityManager().createQuery(this.getQuery(spec));
-        Pageable pageRequest = new PageRequest(pageVo.getPageNo() >= 1 ? pageVo.getPageNo() - 1 : 0, pageVo.getPageSize(), this.buildSort(pageVo.orders()));
+        Pageable pageRequest = new PageRequest(pageVo.getPageNo() >= 1 ? pageVo.getPageNo() - 1 : 0, pageVo.getPageSize(), this.buildSort(pageVo.orders(),pageVo.isAsc()));
         return PageTransformUtil.transformJpaPage2PcPage(this.readPage(typedQuery,pageRequest,spec));
     }
 
@@ -313,7 +348,7 @@ public class ActiveBaseEntityServiceImpl<T extends BaseEntity,PK extends Seriali
     @Override
     public BaseResponseAppPageVo<T> findAppPage(BaseRequestAppPageVo pageVo, Specification<T> spec) {
         TypedQuery<T> typedQuery = this.entityManager().createQuery(this.getQuery(spec));
-        Pageable pageRequest = new PageRequest(0, pageVo.getPageSize(), this.buildSort(pageVo.orders()));
+        Pageable pageRequest = new PageRequest(0, pageVo.getPageSize(), this.buildSort(pageVo.orders(),pageVo.isAsc()));
         return PageTransformUtil.transformJpaPage2AppPage(this.readPage(typedQuery,pageRequest,spec),pageVo);
     }
 
@@ -375,20 +410,21 @@ public class ActiveBaseEntityServiceImpl<T extends BaseEntity,PK extends Seriali
     }
 
     /**
-     * 构造sort
-     * @param orderMap
+     * 构造排序
+     * @param orders
+     * @param isAsc
      * @return
      */
-    private Sort buildSort(Map<String,Boolean> orderMap){
-        List<Sort.Order> orders = new ArrayList<>();
-        if(MapUtils.isNotEmpty(orderMap)){
-            for(Map.Entry<String,Boolean> en : orderMap.entrySet()){
-                Sort.Order order = new Sort.Order((en.getValue() ? Sort.Direction.ASC : Sort.Direction.DESC), en.getKey());
-                orders.add(order);
-            }
+    private Sort buildSort(List<String> orders,boolean isAsc){
+        List<Sort.Order> ors = new ArrayList<>();
+        if(CollectionUtils.isNotEmpty(orders)){
+            orders.forEach(o->{
+                Sort.Order or = new Sort.Order((isAsc ? Sort.Direction.ASC : Sort.Direction.DESC), o);
+                ors.add(or);
+            });
         }
         // build sort
-        return new Sort(orders);
+        return new Sort(ors);
     }
 
     /**

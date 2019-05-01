@@ -3,9 +3,6 @@ package cn.com.compass.vo;
 import cn.com.compass.base.vo.BaseRequestPcPageVo;
 import lombok.Data;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 /**
  * @author wanmk
  * @git https://gitee.com/milkove
@@ -29,7 +26,7 @@ public class PcPageDemoRequestVo extends BaseRequestPcPageVo {
      */
     @Override
     public void addOrder() {
-        this.addOrder("id",true);;
+        this.addOrder("id");;
     }
 
     /**

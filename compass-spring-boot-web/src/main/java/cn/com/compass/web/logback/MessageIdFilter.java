@@ -1,7 +1,6 @@
 package cn.com.compass.web.logback;
 
 import cn.com.compass.base.constant.BaseConstant;
-import cn.com.compass.base.context.BaseSubjectContext;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.Ordered;
@@ -92,7 +91,6 @@ public class MessageIdFilter implements Filter, Ordered {
             chain.doFilter(request, response);
         }finally {
             MDC.remove(BaseConstant.MESSAGE_ID);
-            BaseSubjectContext.clearBaseSubject();
         }
     }
 

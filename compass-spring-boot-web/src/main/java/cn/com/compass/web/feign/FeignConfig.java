@@ -1,7 +1,7 @@
 package cn.com.compass.web.feign;
 
+import cn.com.compass.base.util.JacksonObjectMapperWrapper;
 import cn.com.compass.web.convert.UniversalEnumConverterFactory;
-import cn.com.compass.web.util.HttpMessageConverterUtil;
 import com.netflix.hystrix.HystrixCommand;
 import feign.Contract;
 import feign.Feign;
@@ -30,6 +30,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 import org.springframework.format.support.DefaultFormattingConversionService;
 import org.springframework.format.support.FormattingConversionService;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +57,7 @@ public class FeignConfig {
 		ObjectFactory<HttpMessageConverters> factory = new ObjectFactory<HttpMessageConverters>() {
 			@Override
 			public HttpMessageConverters getObject() throws BeansException {
-				return new HttpMessageConverters(HttpMessageConverterUtil.jackson2MessageConverter());
+				return new HttpMessageConverters(new MappingJackson2HttpMessageConverter(JacksonObjectMapperWrapper.getInstance()));
 			}
 		};
         return factory;

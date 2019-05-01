@@ -1,9 +1,13 @@
 package cn.com.compass.base.vo;
 
+import cn.com.compass.base.util.DataXUtil;
+import cn.com.compass.base.util.JacksonUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.apache.commons.collections.MapUtils;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -24,7 +28,7 @@ public class BaseDataX {
 	}
 
 	/**
-	 * 字段转换映射Map
+	 * 字段转换映射Map,需要转换的A/B class属性必须保持一致
 	 * k 来源字段
 	 * v 目标字段
 	 */
@@ -32,12 +36,10 @@ public class BaseDataX {
 	private static final Map<String,String> source2TargetProperties = new HashMap<>();
 
 	/**
-	 * 排序字段Map
-	 * k 排序字段
-	 * v 是否升序
+	 * 排序字段list
 	 */
 	@JsonIgnore
-	private static final Map<String,Boolean> orders = new LinkedHashMap<>();
+	private static final List<String> orders = new LinkedList<>();
 
 	// -----------------------------转换----------------------------
 	/**
@@ -62,8 +64,9 @@ public class BaseDataX {
 	 * @param value
 	 */
 	@JsonIgnore
-	public void addSource2TargetProperties(String key,String value){
+	public BaseDataX addSource2TargetProperties(String key,String value){
 		this.source2TargetProperties().put(key,value);
+		return this;
 	}
 
 	/**
@@ -71,8 +74,9 @@ public class BaseDataX {
 	 * @param map
 	 */
 	@JsonIgnore
-	public void addSource2TargetProperties(Map<String,String> map){
+	public BaseDataX addSource2TargetProperties(Map<String,String> map){
 		this.source2TargetProperties().putAll(map);
+		return this;
 	}
 
 
@@ -82,7 +86,7 @@ public class BaseDataX {
 	 * @return
 	 */
 	@JsonIgnore
-	public  Map<String,Boolean> orders(){
+	public  List<String> orders(){
 		return orders;
 	}
 
@@ -97,20 +101,30 @@ public class BaseDataX {
 	/**
 	 * 添加排序字段
 	 * @param key
-	 * @param value
 	 */
 	@JsonIgnore
-	public void addOrder(String key,Boolean value){
-		this.orders().put(key,value);
+	public BaseDataX addOrder(String key){
+		this.orders().add(key);
+		return this;
 	}
 
 	/**
 	 * 添加排序字段
-	 * @param map
+	 * @param keys
 	 */
 	@JsonIgnore
-	public void addOrder(Map<String,Boolean> map){
-		this.orders().putAll(map);
+	public BaseDataX addOrder(LinkedList<String> keys){
+		this.orders().addAll(keys);
+		return this;
+	}
+
+	/**
+	 * 是否升序，默认升序
+	 * @return
+	 */
+	@JsonIgnore
+	public boolean isAsc(){
+		return true;
 	}
 
 	/**
@@ -120,6 +134,24 @@ public class BaseDataX {
 	@JsonIgnore
 	public boolean camel2Underline(){
 		return false;
+	}
+
+	/**
+	 * 获取查询参数
+	 * @return
+	 */
+	public Map<String,Object> params(){
+		Map<String,Object> params = MapUtils.EMPTY_MAP;
+		params = JacksonUtil.obj2pojo(this,Map.class);
+		if(this.camel2Underline()&&MapUtils.isNotEmpty(params)){
+			Map<String,Object> target = new HashMap<>();
+			// 将所有的key转换为 underline
+			params.forEach((k,v)->{
+				target.put(DataXUtil.camelToUnderline(k),v);
+			});
+			return target;
+		}
+		return params;
 	}
 
 }

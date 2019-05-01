@@ -1,5 +1,9 @@
 package cn.com.compass.base.constant;
 
+import cn.com.compass.base.util.JacksonUtil;
+import lombok.Builder;
+import lombok.Data;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -151,5 +155,9 @@ public class BaseBizeStatusEnum {
 
 	}
 	
+	@Data
+	public static class tv {
+		private FileType[] types;
+	}
 
 }

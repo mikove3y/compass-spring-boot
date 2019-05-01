@@ -1,8 +1,8 @@
 package cn.com.compass.dto;
 
+import cn.com.compass.data.dto.BaseDTO;
 import lombok.Data;
 
-import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -13,9 +13,9 @@ import java.util.Date;
  * @date 2019/4/15 17:56
  */
 @Data
-public class DemoDTO implements Serializable {
+public class DemoDTO extends BaseDTO {
 
-    private Long xid;
+    private Long id;
 
     private String name;
 

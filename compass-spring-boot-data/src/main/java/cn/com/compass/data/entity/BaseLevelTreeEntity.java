@@ -1,7 +1,6 @@
 package cn.com.compass.data.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
@@ -15,8 +14,7 @@ import java.io.Serializable;
  * @date 2018年7月19日 下午12:26:37
  *
  */
-@Getter
-@Setter
+@Data
 @MappedSuperclass
 public class BaseLevelTreeEntity<PK extends Serializable> extends BaseEntity<PK> {
 

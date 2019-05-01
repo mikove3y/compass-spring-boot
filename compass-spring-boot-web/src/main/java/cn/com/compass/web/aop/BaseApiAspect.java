@@ -1,8 +1,8 @@
 package cn.com.compass.web.aop;
 
+import cn.com.compass.base.util.JacksonUtil;
 import cn.com.compass.base.vo.BaseLogVo;
 import cn.com.compass.util.DateUtil;
-import cn.com.compass.util.JacksonUtil;
 import cn.com.compass.web.annotation.BaseApi;
 import cn.com.compass.web.context.AppContext;
 import cn.com.compass.web.context.GlobalContext;
