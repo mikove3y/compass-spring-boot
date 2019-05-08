@@ -1,7 +1,7 @@
-package cn.com.compass.data.active;
+package cn.com.compass.data.enhancer;
 
 import com.sun.tools.attach.VirtualMachine;
-import org.activejpa.enhancer.ActiveJpaAgent;
+import lombok.extern.slf4j.Slf4j;
 import org.activejpa.jpa.JPA;
 
 import javax.annotation.Resource;
@@ -21,16 +21,17 @@ import java.security.CodeSource;
  * @date 2019/4/17 9:50
  */
 @WebListener
-public class ActiveJPAContextListener implements ServletContextListener {
+@Slf4j
+public class JPAContextListener implements ServletContextListener {
 
     @Resource
     private EntityManagerFactory entityManagerFactory;
 
-    public ActiveJPAContextListener(EntityManagerFactory entityManagerFactory) {
+    public JPAContextListener(EntityManagerFactory entityManagerFactory) {
         this.entityManagerFactory = entityManagerFactory;
     }
 
-    public ActiveJPAContextListener() {
+    public JPAContextListener() {
 
     }
 
@@ -64,14 +65,15 @@ public class ActiveJPAContextListener implements ServletContextListener {
             int p = nameOfRunningVM.indexOf('@');
             String pid = nameOfRunningVM.substring(0, p);
             VirtualMachine vm = VirtualMachine.attach(pid);
-            CodeSource codeSource = ActiveJpaAgent.class.getProtectionDomain().getCodeSource();
+            CodeSource codeSource = CustomJpaAgent.class.getProtectionDomain().getCodeSource();
             String path = codeSource.getLocation().toURI().getPath();
             // 截取真实路径
             File file = new File(path);
             vm.loadAgent(file.getAbsolutePath(), "");
             vm.detach();
-            JPA.instance.addPersistenceUnit("default", entityManagerFactory, true);
+//            JPA.instance.addPersistenceUnit("default", entityManagerFactory, true);
         } catch (Exception e) {
+            log.error("contextInitialized error : {}" , e);
             throw new RuntimeException(e);
         }
     }

@@ -1,7 +1,7 @@
 # 应用名
 spring:
   application:
-    name: workflow-service-provider
+    name: sample-service-provider
   profiles:
     active:
     - dev

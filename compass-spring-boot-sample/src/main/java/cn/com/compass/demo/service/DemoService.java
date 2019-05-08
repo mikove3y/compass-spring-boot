@@ -1,23 +1,24 @@
-package cn.com.compass.service;
+package cn.com.compass.demo.service;
 
 import cn.com.compass.base.util.DataXUtil;
 import cn.com.compass.base.vo.BaseResponseAppPageVo;
 import cn.com.compass.base.vo.BaseResponsePcPageVo;
 import cn.com.compass.base.vo.BaseResponseVo;
-import cn.com.compass.client.DemoClient;
 import cn.com.compass.data.repository.BaseEntityRepository;
 import cn.com.compass.data.util.PageTransformUtil;
-import cn.com.compass.dto.DemoDTO;
-import cn.com.compass.entity.Demo;
-import cn.com.compass.entity.QDemo;
-import cn.com.compass.mapper.DemoMapper;
-import cn.com.compass.vo.AppPageDemoRequestVo;
-import cn.com.compass.vo.NewDemoRequestVo;
-import cn.com.compass.vo.PcPageDemoRequestVo;
-import cn.com.compass.vo.UpdateDemoRequestVo;
+import cn.com.compass.demo.client.DemoClient;
+import cn.com.compass.demo.dto.DemoDTO;
+import cn.com.compass.demo.entity.Demo;
+import cn.com.compass.demo.entity.QDemo;
+import cn.com.compass.demo.mapper.DemoMapper;
+import cn.com.compass.demo.vo.AppPageDemoRequestVo;
+import cn.com.compass.demo.vo.NewDemoRequestVo;
+import cn.com.compass.demo.vo.PcPageDemoRequestVo;
+import cn.com.compass.demo.vo.UpdateDemoRequestVo;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import org.hibernate.annotations.SQLDelete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,6 +46,7 @@ public class DemoService implements DemoClient {
     public BaseResponseVo<DemoDTO> newDemo(NewDemoRequestVo vo) throws Exception {
         Demo demo = (Demo) DataXUtil.copyProperties(vo, Demo.class, vo.source2TargetProperties(), true);
         repository.save(demo);
+        SQLDelete sqlDelete = Demo.class.getAnnotation(SQLDelete.class);
         return BaseResponseVo.success().setData((DemoDTO) DataXUtil.copyProperties(demo, DemoDTO.class, null, true));
     }
 

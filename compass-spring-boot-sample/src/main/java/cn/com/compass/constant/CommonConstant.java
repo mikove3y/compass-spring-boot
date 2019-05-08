@@ -7,5 +7,10 @@ package cn.com.compass.constant;
  * @todo
  * @date 2019/4/15 17:33
  */
-public class DemoConstant {
+public class CommonConstant {
+    /**
+     * 服务ID
+     */
+    public static final String SERVER_ID = "sample-service-provider";
+
 }

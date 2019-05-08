@@ -1,4 +1,4 @@
-package cn.com.compass.mapper;
+package cn.com.compass.demo.mapper;
 
 /**
  * @author wanmk

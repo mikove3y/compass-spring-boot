@@ -1,4 +1,4 @@
-package cn.com.compass.dto;
+package cn.com.compass.demo.dto;
 
 import cn.com.compass.data.dto.BaseDTO;
 import lombok.Data;
@@ -13,7 +13,7 @@ import java.util.Date;
  * @date 2019/4/15 17:56
  */
 @Data
-public class DemoDTO extends BaseDTO {
+public class DemoDTO extends BaseDTO<Long> {
 
     private String name;
 

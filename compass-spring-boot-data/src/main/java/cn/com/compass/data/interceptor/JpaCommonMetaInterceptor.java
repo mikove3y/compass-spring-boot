@@ -1,9 +1,8 @@
-package cn.com.compass.data.handler;
+package cn.com.compass.data.interceptor;
 
 import cn.com.compass.base.context.BaseSubjectContext;
 import cn.com.compass.base.vo.BaseSubject;
 import cn.com.compass.data.entity.BaseEntity;
-import cn.com.compass.data.util.LogicDeleteUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.CallbackException;
 import org.hibernate.EmptyInterceptor;
@@ -29,7 +28,7 @@ import java.util.Iterator;
  *
  */
 @Slf4j
-public class JpaCommonMetaHanlder extends EmptyInterceptor {
+public class JpaCommonMetaInterceptor extends EmptyInterceptor {
 
 	private static final long serialVersionUID = -5464568289140494842L;
 
@@ -44,10 +43,6 @@ public class JpaCommonMetaHanlder extends EmptyInterceptor {
 		try {
 			if (entity instanceof BaseEntity) {
 				Class<BaseEntity> domainClass = (Class<BaseEntity>)entity.getClass();
-				// 实体是否开启状态逻辑删除策略
-				boolean statusDeleteStrategy = LogicDeleteUtil.isStatusDeleteStrategy(domainClass);
-				// 每个实体必然有的逻辑删除字段
-				LogicDeleteUtil.LogicDeleteColumnInfo columnInfo = LogicDeleteUtil.logicDeleteColumn(domainClass);
 				BaseSubject sub = BaseSubjectContext.getBaseSubject();
 				for (int i = 0; i < propertyNames.length; i++) {
 					if (sub != null) {
@@ -58,9 +53,6 @@ public class JpaCommonMetaHanlder extends EmptyInterceptor {
 					}else if (propertyNames[i].equals(BaseEntity.LASTUPDATETIME)) {
 						// 更新时间
 						currentState[i] = new Date();
-					}else if(statusDeleteStrategy&&propertyNames[i].equals(columnInfo.getColumnName())){
-						// 逻辑删除
-						currentState[i] = columnInfo.getDeleteValue();
 					}
 				}
 			}
@@ -75,11 +67,6 @@ public class JpaCommonMetaHanlder extends EmptyInterceptor {
 	public boolean onSave(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
 		try {
 			if (entity instanceof BaseEntity) {
-				Class<BaseEntity> domainClass = (Class<BaseEntity>)entity.getClass();
-				// 实体是否开启状态逻辑删除策略
-				boolean statusDeleteStrategy = LogicDeleteUtil.isStatusDeleteStrategy(domainClass);
-				// 每个实体必然有的逻辑删除字段
-				LogicDeleteUtil.LogicDeleteColumnInfo columnInfo = LogicDeleteUtil.logicDeleteColumn(domainClass);
 				BaseSubject sub = BaseSubjectContext.getBaseSubject();
 				for (int i = 0; i < propertyNames.length; i++) {
 					if (sub != null) {
@@ -91,10 +78,6 @@ public class JpaCommonMetaHanlder extends EmptyInterceptor {
 					// 创建时间
 					if (propertyNames[i].equals(BaseEntity.CREATETIME)) {
 						state[i] = new Date();
-					}
-					// 逻辑删除字段
-					if(statusDeleteStrategy&&propertyNames[i].equals(columnInfo.getColumnName())) {
-						state[i] = columnInfo.getNotDeleteValue();
 					}
 				}
 			}

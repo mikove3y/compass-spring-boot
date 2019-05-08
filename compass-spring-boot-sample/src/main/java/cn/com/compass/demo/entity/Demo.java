@@ -1,4 +1,4 @@
-package cn.com.compass.entity;
+package cn.com.compass.demo.entity;
 
 import cn.com.compass.data.annotation.EnableLogicDelete;
 import cn.com.compass.data.entity.BaseEntity;

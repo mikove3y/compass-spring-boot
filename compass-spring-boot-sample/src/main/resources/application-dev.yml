@@ -59,7 +59,7 @@ spring:
     generate-ddl: true
     # 配置jpa sql拦截器
     properties:
-      hibernate.ejb.interceptor: cn.com.compass.data.handler.JpaCommonMetaHanlder
+      hibernate.ejb.interceptor: cn.com.compass.data.interceptor.JpaCommonMetaInterceptor
       hibernate.id.new_generator_mappings: true #hibernate默认的jpa实现中，initialValue参数是被忽略的，需设置该参数
     # 建表时使用InnoDB引擎  
     # cn.com.compass.data.dialect.MySQL5InnoDBDialectWithoutFK org.hibernate.dialect.MySQL5InnoDBDialect

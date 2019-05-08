@@ -154,10 +154,5 @@ public class BaseBizeStatusEnum {
 		}
 
 	}
-	
-	@Data
-	public static class tv {
-		private FileType[] types;
-	}
 
 }

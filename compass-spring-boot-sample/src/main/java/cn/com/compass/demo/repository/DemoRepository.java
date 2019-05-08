@@ -1,7 +1,7 @@
-package cn.com.compass.repository;
+package cn.com.compass.demo.repository;
 
 import cn.com.compass.data.repository.BaseEntityRepository;
-import cn.com.compass.entity.Demo;
+import cn.com.compass.demo.entity.Demo;
 
 /**
  * @author wanmk

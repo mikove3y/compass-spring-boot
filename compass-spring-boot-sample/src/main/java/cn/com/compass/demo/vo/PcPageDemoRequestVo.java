@@ -1,4 +1,4 @@
-package cn.com.compass.vo;
+package cn.com.compass.demo.vo;
 
 import cn.com.compass.base.vo.BaseRequestPcPageVo;
 import lombok.Data;

@@ -1,15 +1,15 @@
-package cn.com.compass.controller;
+package cn.com.compass.demo.controller;
 
 import cn.com.compass.base.vo.BaseResponseAppPageVo;
 import cn.com.compass.base.vo.BaseResponsePcPageVo;
 import cn.com.compass.base.vo.BaseResponseVo;
-import cn.com.compass.client.DemoClient;
-import cn.com.compass.dto.DemoDTO;
-import cn.com.compass.service.DemoService;
-import cn.com.compass.vo.AppPageDemoRequestVo;
-import cn.com.compass.vo.NewDemoRequestVo;
-import cn.com.compass.vo.PcPageDemoRequestVo;
-import cn.com.compass.vo.UpdateDemoRequestVo;
+import cn.com.compass.demo.client.DemoClient;
+import cn.com.compass.demo.dto.DemoDTO;
+import cn.com.compass.demo.service.DemoService;
+import cn.com.compass.demo.vo.AppPageDemoRequestVo;
+import cn.com.compass.demo.vo.NewDemoRequestVo;
+import cn.com.compass.demo.vo.PcPageDemoRequestVo;
+import cn.com.compass.demo.vo.UpdateDemoRequestVo;
 import cn.com.compass.web.controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
